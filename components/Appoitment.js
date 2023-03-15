@@ -2,9 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native'
 
-const Group = ({user, diagnosis, active, time}) => {
+const Group = ({user, active, time}) => {
 return (
-      <GroupItem>
+      <GroupItem >
          <Avatar source={{
             uri: user.avatar
             }}>
@@ -36,7 +36,7 @@ const GroupDate = styled.Text`
   width: 70px;
   height: 32px;
   text-align: center;
-  line-height: 28px;
+  line-height: 30px;
   margin-left: auto;
   
 `;
