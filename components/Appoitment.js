@@ -2,26 +2,22 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native'
 
-const Group = ({title, items}) => {
+const Group = ({user, diagnosis, active, time}) => {
 return (
-   <GroupContainer>
-         <GroupTitle>
-            {title}
-         </GroupTitle>
-         {items.map(item => <GroupItem>
-            <Avatar source={{
-               uri: item.user.avatar
-               }}>
-            </Avatar>
-            <View style= {{style: 'flex: 1'}}>
-               <FullName>{item.user.fullname}</FullName>
-               <GrayText>{item.user.diagnosis}</GrayText>
-            </View>
-            <GroupDate active = {item.active}>
-               {item.time}
-            </GroupDate>
-         </GroupItem>)}
-      </GroupContainer>
+      <GroupItem>
+         <Avatar source={{
+            uri: user.avatar
+            }}>
+         </Avatar>
+         <View style= {{style: 'flex: 1'}}>
+            <FullName>{user.fullname}</FullName>
+            <GrayText>{user.diagnosis}</GrayText>
+         </View>
+         <GroupDate active = {active}>
+            {time}
+         </GroupDate>
+      </GroupItem>
+   
    );
    
 }
@@ -58,7 +54,7 @@ const FullName = styled.Text`
 const GroupItem = styled.TouchableOpacity`
   align-items: center;
   flex-direction: row;
-  padding: 20px 0;
+  padding: 20px 20px;
   borderBottomWidth: 1px;
   borderBottomColor: #f3f3f3;
 `;
@@ -70,19 +66,5 @@ const Avatar = styled.Image`
   margin-right: 15px;
 
   `;
-
-const GroupTitle = styled.Text`
-  font-weight: 800;
-  font-size: 22px;
-  color: #000
-`;
-
-
-
-const GroupContainer = styled.View`
-  padding: 0 20px;
-  margin-bottom: 20px;
-`;
-
 
 export default Group
