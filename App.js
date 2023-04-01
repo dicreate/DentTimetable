@@ -24,7 +24,18 @@ export default function App() {
             }
           }}
           />
-        <Stack.Screen name="Patient" component={ PatientScreen } />
+        <Stack.Screen 
+          name="Patient" 
+          component={ PatientScreen } 
+          options={{
+            title: 'Карта пациента',
+            headerTintColor: '#2A86FF',
+            headerStyle: {
+              evelation: 0.8,
+              shadowOpacity: 0.8, 
+            }
+          }}
+          />
       </Stack.Navigator>
     </NavigationContainer>
   );
