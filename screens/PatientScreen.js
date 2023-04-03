@@ -35,8 +35,8 @@ function PatientScreen ({ route }) {
             <AppoitmentCardRow 
             style = {{ marginTop: 15, justifyContent: 'space-between' }}
             >
-              <Badge style = {{ width: 175 }} active>20.03.2023 - 18:50</Badge>
-              <Badge color='green'>250р.</Badge>    
+              <Badge style = {{ width: 155 }} active>20.03.2023 - 18:50</Badge>
+              <Badge color='green'>250р</Badge>    
             </AppoitmentCardRow>   
           </AppoitmentCard>
         </Container>

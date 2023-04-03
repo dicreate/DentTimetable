@@ -16,7 +16,7 @@ return (
             <FullName>{user.fullname}</FullName>
             <GrayText>{user.diagnosis}</GrayText>
          </View>
-         <Badge active = {active}>
+         <Badge style = {{ marginLeft: 'auto '}} active = {active}>
             {time}
          </Badge>
       </AppoitmentItem>
