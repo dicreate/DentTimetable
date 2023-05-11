@@ -35,7 +35,7 @@ function PatientScreen ({ route }) {
             <AppoitmentCardRow 
             style = {{ marginTop: 15, justifyContent: 'space-between' }}
             >
-              <Badge style = {{ width: 155 }} active>20.03.2023 - 18:50</Badge>
+              <Badge style = {{ width: 155, marginLeft: 0 }} active>20.03.2023 - 18:50</Badge>
               <Badge color='green'>250р</Badge>    
             </AppoitmentCardRow>   
           </AppoitmentCard>
@@ -62,14 +62,13 @@ const AppoitmentCard = styled.View`
   elevation: 1;
   shadow-color: black;
   shadow-radius: 10px;
-  shadow-offset: {
-    height: 2px;
-  }
   padding: 20px 25px;
   border-radius: 10px;
   background: white;
 `;
-
+/* shadow-offset: {
+  height: 2px;
+} */
 const Container = styled.View`
   padding: 25px;
 
