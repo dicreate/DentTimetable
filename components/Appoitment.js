@@ -1,7 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
 import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
-import { GrayText, Badge } from './';
+import { default as GrayText } from './GrayText'
+import { default as Badge } from './Badge'
 
 const Appoitment = ({item, navigate}) => {
    const {user, active, time} = item;
