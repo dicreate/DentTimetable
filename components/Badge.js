@@ -28,6 +28,7 @@ const getColor = ({active, color}) => {
 }
 
 export default styled.Text`
+margin-left: auto;
 background: ${props => getColor(props).background};
 color: ${props => getColor(props).color};
 border-radius: 18px;
