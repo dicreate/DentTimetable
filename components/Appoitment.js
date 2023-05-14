@@ -2,14 +2,21 @@ import { Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { default as GrayText } from './GrayText'
 import { default as Badge } from './Badge'
+import getAvatarColor from '../utils/getAvatarColor';
 
 const Appoitment = ({item, navigate}) => {
    const { patient, active, time } = item;
 
+   const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase())
+
 return (
       <AppoitmentItem onPress = { navigate.bind(this, 'Patient', {item}) }>
-         <Avatar>
-            <Letter>
+         <Avatar style = {{
+            backgroundColor: avatarColors.background,
+         }}>
+            <Letter style = {{
+               color: avatarColors.color,
+            }} > 
                { patient.fullname[0].toUpperCase() }
             </Letter>
          </Avatar>
@@ -35,7 +42,6 @@ const Letter = styled.Text`
    color: white;
    font-size: 20px;
    font-weight: bold;
-   color: #816CFF;
    margin-bottom: 5px;
 `;
 const FullName = styled.Text`
@@ -58,7 +64,6 @@ const Avatar = styled.View`
    width: 40px;
    height: 40px;
    margin-right: 15px;
-   background-color: #DAD5F8;
   `;
 
 export default Appoitment

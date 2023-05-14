@@ -105,12 +105,13 @@ const HomeScreen = ({navigation}) => {
    <SectionList
     sections={DATA}
     keyExtractor={(item, index) => index}
+    refreshing = {true}
     renderItem={({item}) => <Appoitment item = {item} navigate = {navigation.navigate}/>}
     renderSectionHeader={({section: {title}}) => (
       <SectionTitle> {title}</SectionTitle>
     )}
   />
-  <PlusButton>
+  <PlusButton onPress = {navigation.navigate.bind(this,'AddPatient')}>
     <Ionicons name="ios-add" size={36} color="white" />
   </PlusButton>
  </Container>
