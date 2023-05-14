@@ -12,8 +12,8 @@ function PatientScreen ({ route }) {
   return (
     <View style = {{flex: 1}}>
         <PatientDetails>
-          <PatientFullName>{item.user.fullname}</PatientFullName>
-          <GrayText>{item.user.phone}</GrayText>
+          <PatientFullName>{item.patient.fullname}</PatientFullName>
+          <GrayText>{item.patient.phone}</GrayText>
           <PattientButtons>
             <FormulaButtonView><FormulaButton>Формула зубов</FormulaButton></FormulaButtonView>
             <PhoneButtonView><PhoneButton color="#84D269"><Foundation name="telephone" size={22} color="white" />
@@ -30,7 +30,7 @@ function PatientScreen ({ route }) {
             </AppoitmentCardRow>
             <AppoitmentCardRow>
               <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
-              <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {item.user.diagnosis}</Text></AppoitmentCardLabel>
+              <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {item.patient.diagnosis}</Text></AppoitmentCardLabel>
             </AppoitmentCardRow> 
             <AppoitmentCardRow 
             style = {{ marginTop: 15, justifyContent: 'space-between' }}

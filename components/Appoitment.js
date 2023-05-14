@@ -4,17 +4,18 @@ import { default as GrayText } from './GrayText'
 import { default as Badge } from './Badge'
 
 const Appoitment = ({item, navigate}) => {
-   const {user, active, time} = item;
+   const { patient, active, time } = item;
 
 return (
-      <AppoitmentItem onPress = {navigate.bind(this, 'Patient', {item})}>
-         <Avatar source={{
-            uri: user.avatar
-            }}>
+      <AppoitmentItem onPress = { navigate.bind(this, 'Patient', {item}) }>
+         <Avatar>
+            <Letter>
+               { patient.fullname[0].toUpperCase() }
+            </Letter>
          </Avatar>
          <View style= {{style: 'flex: 1'}}>
-            <FullName>{user.fullname}</FullName>
-            <GrayText>{user.diagnosis}</GrayText>
+            <FullName>{patient.fullname}</FullName>
+            <GrayText>{patient.diagnosis}</GrayText>
          </View>
          <Badge active = {active}>
             {time}
@@ -30,6 +31,13 @@ Appoitment.defaultProps = {
    items: []
 }
 
+const Letter = styled.Text`
+   color: white;
+   font-size: 20px;
+   font-weight: bold;
+   color: #816CFF;
+   margin-bottom: 5px;
+`;
 const FullName = styled.Text`
   font-weight: 600;
   font-size: 16px;
@@ -43,12 +51,14 @@ const AppoitmentItem = styled.TouchableOpacity`
   borderBottomColor: #f3f3f3;
 `;
 
-const Avatar = styled.Image`
-  border-radius: 50px;
-  width: 40px;
-  height: 40px;
-  margin-right: 15px;
-
+const Avatar = styled.View`
+   align-items: center;
+   justify-content: center;
+   border-radius: 50px;
+   width: 40px;
+   height: 40px;
+   margin-right: 15px;
+   background-color: #DAD5F8;
   `;
 
 export default Appoitment
