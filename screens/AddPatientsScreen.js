@@ -35,6 +35,7 @@ function AddPatientsScreen () {
         <Input 
           value = {values.phone} 
           dataDetectorTypes = {"phoneNumber"} 
+          onChange = {hangeChange.bind(this, 'phone')}
           inputMode = {"tel"}
           variant="underlined" 
           size="md" 

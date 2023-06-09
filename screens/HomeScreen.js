@@ -3,8 +3,17 @@ import { SectionList } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle } from '../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useEffect, useState } from 'react';
+import { appoitmentsApi, patientsApi } from '../utils/api'
 
 const HomeScreen = ({navigation}) => {
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    appoitmentsApi.get().then(({data}) => {
+      setData(data.data);
+    }).catch((e) => console.log(e))}, [])
 
    const DATA = [
       {
@@ -99,6 +108,8 @@ const HomeScreen = ({navigation}) => {
         }],
       },
     ];
+
+
     
   return (
    <Container>
