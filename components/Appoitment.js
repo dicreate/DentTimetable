@@ -28,7 +28,6 @@ return (
             {time}
          </Badge>
       </AppoitmentItem>
-   
    );
    
 }
