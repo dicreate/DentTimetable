@@ -211,27 +211,40 @@ const HomeScreen = ({navigation}) => {
 ]
 
 
-  const [appointmentsData, setAppointmentsData] = useState({});
+  const [appointmentsData, setAppointmentsData] = useState(null);
 
   useEffect(() => {
-    appoitmentsApi.get().then((dataArray) => {
-      setAppointmentsData(dataArray.data.data);
-    }).catch((e) => console.log(e))}, [])
+    const fetchData = async () => {
+      const response = await appoitmentsApi.get()
+
+      setAppointmentsData(response.data.data)
+    }
+    fetchData();
+  }, [])
+
     
   return (
    <Container>
-   <SectionList
-    sections={appointmentsData}
-    keyExtractor={(item, index) => index}
-    refreshing = {true}
-    renderItem={({item}) => <Appoitment item = {item} navigate = {navigation.navigate}/>}
-    renderSectionHeader={({section: {title}}) => (
-      <SectionTitle> {title}</SectionTitle>
+    {
+      appointmentsData 
+      ? <>
+         <SectionList
+            sections={appointmentsData }
+            keyExtractor={(item, index) => index}
+            refreshing = {true}
+            renderItem={({item}) => <Appoitment item = {item} navigate = {navigation.navigate}/>}
+            renderSectionHeader={({section: {title}}) => (
+              <SectionTitle> {title}</SectionTitle>
     )}
-  />
-  <PlusButton onPress = {navigation.navigate.bind(this,'AddPatient')}>
-    <Ionicons name="ios-add" size={36} color="white" />
-  </PlusButton>
+        />
+         <PlusButton onPress = {navigation.navigate.bind(this,'AddPatient')}>
+        <Ionicons name="ios-add" size={36} color="white" />
+        </PlusButton>
+      </>
+      : null
+    }
+  
+ 
  </Container>
   )
 }
