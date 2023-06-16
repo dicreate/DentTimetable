@@ -4,8 +4,9 @@ import { LogBox } from 'react-native';
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
+import { patientsApi } from '../utils/api';
 
-function AddPatientsScreen () {
+function AddPatientsScreen ({navigation}) {
 
   const [values, setValues] = useState({});
 
@@ -17,6 +18,13 @@ function AddPatientsScreen () {
       ...values, 
       [name]: text
     });
+  }
+
+  const onSumbit = () => {
+    patientsApi.add(values).then(() => {
+      navigation.navigate('Home');
+      console.log('okay')
+    }).catch((e) => console.log(e));
   }
 
   return (
@@ -45,7 +53,7 @@ function AddPatientsScreen () {
         
         <ButtonView>
           <Button
-          onPress={() => console.log("hello world")} 
+          onPress={() => onSumbit()} 
           size="md"
           w="100%" 
           borderRadius={'20px'} 
