@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native';
+import { Text, View, TouchableWithoutFeedback } from 'react-native';
 import styled from 'styled-components/native';
 import { default as GrayText } from './GrayText'
 import { default as Badge } from './Badge'
@@ -10,7 +10,7 @@ const Appoitment = ({item, navigate}) => {
    const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase())
 
 return (
-      <AppoitmentItem onPress = { navigate.bind(this, 'Patient', {item}) }>
+      <AppoitmentItem onLongPress={() => console.log('long-long press')} onPress = { navigate.bind(this, 'Patient', {item}) }>
          <Avatar style = {{
             backgroundColor: avatarColors.background,
          }}>
@@ -29,7 +29,6 @@ return (
          </Badge>
       </AppoitmentItem>
    );
-   
 }
 
 Appoitment.defaultProps = {

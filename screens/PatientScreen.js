@@ -31,7 +31,7 @@ const PatientScreen = ({ route }) => {
           <GrayText>{item.patient.phone}</GrayText>
           <PattientButtons>
             <FormulaButtonView><FormulaButton>Формула зубов</FormulaButton></FormulaButtonView>
-            <PhoneButtonView><PhoneButton color="#84D269"><Foundation onPress = {() => Linking.openURL('tel:' + item.patient.phone)} name="telephone" size={22} color="white" />
+            <PhoneButtonView ><PhoneButton onPress = {() => Linking.openURL('tel:' + item.patient.phone)} color="#84D269"><Foundation name="telephone" size={22} color="white" />
             </PhoneButton></PhoneButtonView>
           </PattientButtons>  
       </PatientDetails>
