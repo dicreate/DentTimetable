@@ -1,13 +1,23 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import { Text,  View } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons';
+import { patientsApi } from '../utils/api';
 
-function PatientScreen ({ route }) {
+const PatientScreen = ({ route }) => {
 
   const { item } = route.params;
+
+  const [ appointments, setAppointments] = useState([]);
+
+  useEffect(() => {
+    const id = item.patient._id;
+    patientsApi.show(id).then(({data}) => {
+      setAppointments(data.data.appoitments)
+    })
+  }, [])
 
   return (
     <View style = {{flex: 1}}>
@@ -23,22 +33,24 @@ function PatientScreen ({ route }) {
 
       <PatientAppoitments>
         <Container>
-          <AppoitmentCard>
-            <AppoitmentCardRow>
-              <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
-              <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> 12</Text></AppoitmentCardLabel>
-            </AppoitmentCardRow>
-            <AppoitmentCardRow>
-              <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
-              <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {item.patient.diagnosis}</Text></AppoitmentCardLabel>
-            </AppoitmentCardRow> 
-            <AppoitmentCardRow 
-            style = {{ marginTop: 15, justifyContent: 'space-between' }}
-            >
-              <Badge style = {{ width: 155, marginLeft: 0 }} active>20.03.2023 - 18:50</Badge>
-              <Badge color='green'>250р</Badge>    
-            </AppoitmentCardRow>   
-          </AppoitmentCard>
+          {appointments.map((appointment) => 
+            <AppoitmentCard key = {appointment._id}>
+             <AppoitmentCardRow>
+               <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
+               <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.dentNumber}</Text></AppoitmentCardLabel>
+             </AppoitmentCardRow>
+             <AppoitmentCardRow>
+               <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
+               <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis}</Text></AppoitmentCardLabel>
+             </AppoitmentCardRow> 
+             <AppoitmentCardRow 
+             style = {{ marginTop: 15, justifyContent: 'space-between' }}
+             >
+               <Badge style = {{ width: 155, marginLeft: 0 }} active>{appointment.date} - {appointment.time}</Badge>
+               <Badge color='green'>{appointment.price}</Badge>    
+             </AppoitmentCardRow>   
+           </AppoitmentCard>
+         )}
         </Container>
       </PatientAppoitments>
       </View>
