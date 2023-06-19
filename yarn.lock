@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@alessiocancian/react-native-actionsheet@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@alessiocancian/react-native-actionsheet/-/react-native-actionsheet-3.2.0.tgz#9f59d8a1905dab62944a4a55fa40e02b8249a272"
+  integrity sha512-k6AZRpzyqf9LGRX+STeGoHuTKPAxX+DfOQWzLOFNCkXO2YAH+o9RYYU0B0z80eKBvGp+TuRzliMjOG6AHYD66A==
+  dependencies:
+    "@react-native-community/blur" "^4.2.0"
+
 "@ampproject/remapping@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
@@ -2143,6 +2150,11 @@
   dependencies:
     "@react-aria/ssr" "^3.0.1"
     "@react-aria/utils" "^3.3.0"
+
+"@react-native-community/blur@^4.2.0":
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/@react-native-community/blur/-/blur-4.3.2.tgz#185a2c7dd03ba168cc95069bc4742e9505fd6c6c"
+  integrity sha512-0ID+pyZKdC4RdgC7HePxUQ6JmsbNrgz03u+6SgqYpmBoK/rE+7JffqIw7IEsfoKitLEcRNLGekIBsfwCqiEkew==
 
 "@react-native-community/cli-clean@^10.1.1":
   version "10.1.1"

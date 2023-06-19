@@ -1,24 +1,23 @@
 import React, { useRef } from 'react'
-import { Text, View, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, LogBox, Button } from 'react-native';
 import styled from 'styled-components/native';
 import { default as GrayText } from './GrayText'
 import { default as Badge } from './Badge'
 import getAvatarColor from '../utils/getAvatarColor';
-import ActionSheet from 'react-native-actionsheet';
+import ActionSheet from '@alessiocancian/react-native-actionsheet';
 
 const Appoitment = ({item, navigate}) => {
    const { patient, active, time } = item;
 
    const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase())
 
-   let actionSheet = useRef();
-   let optionArray = [
-      'Option 1', 'Option 2', 'Cancel'
+   const actionSheet = useRef();
+   const optionArray = [
+      'Редактировать', 'Удалить', 'Отмена'
    ];
  
    const showActionSheet = () => {
       actionSheet.current.show();
-      useNativeDriver: true
    }
 
 return (
@@ -43,13 +42,10 @@ return (
          </AppoitmentItem>
          <ActionSheet 
             ref = {actionSheet}
-            title = {'title'}
+            title = {patient.fullname + ' - ' + time}
             options = {optionArray}
             cancelButtonIndex = {2}
-            destructiveButtonIndex={0}
-            onPress={(index) => {
-               alert(optionArray[index]);
-            }}
+            destructiveButtonIndex={1}
          />
       </>
       
@@ -90,3 +86,5 @@ const Avatar = styled.View`
   `;
 
 export default Appoitment
+
+/* https://blog.logrocket.com/build-custom-react-native-action-sheet/ */
