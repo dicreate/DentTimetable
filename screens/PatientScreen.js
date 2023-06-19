@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { Text,  View, ActivityIndicator } from 'react-native'
+import { Text,  View, ActivityIndicator, Linking } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -31,7 +31,7 @@ const PatientScreen = ({ route }) => {
           <GrayText>{item.patient.phone}</GrayText>
           <PattientButtons>
             <FormulaButtonView><FormulaButton>Формула зубов</FormulaButton></FormulaButtonView>
-            <PhoneButtonView><PhoneButton color="#84D269"><Foundation name="telephone" size={22} color="white" />
+            <PhoneButtonView><PhoneButton color="#84D269"><Foundation onPress = {() => Linking.openURL('tel:' + item.patient.phone)} name="telephone" size={22} color="white" />
             </PhoneButton></PhoneButtonView>
           </PattientButtons>  
       </PatientDetails>
