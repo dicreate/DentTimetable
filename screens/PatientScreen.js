@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { Text,  View } from 'react-native'
+import { Text,  View, ActivityIndicator } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -11,11 +11,16 @@ const PatientScreen = ({ route }) => {
   const { item } = route.params;
 
   const [ appointments, setAppointments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const id = item.patient._id;
     patientsApi.show(id).then(({data}) => {
-      setAppointments(data.data.appoitments)
+      setAppointments(data.data.appoitments);
+      setIsLoading(false);
+    }).catch((e) => {
+      console.log(e);
+      setIsLoading(false);
     })
   }, [])
 
@@ -33,7 +38,9 @@ const PatientScreen = ({ route }) => {
 
       <PatientAppoitments>
         <Container>
-          {appointments.map((appointment) => 
+          {isLoading 
+          ? <ActivityIndicator size="large" color="#2A86FF"/> 
+          : appointments.map((appointment) => 
             <AppoitmentCard key = {appointment._id}>
              <AppoitmentCardRow>
                <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
@@ -77,6 +84,7 @@ const AppoitmentCard = styled.View`
   padding: 20px 25px;
   border-radius: 10px;
   background: white;
+  margin-bottom: 20px;
 `;
 /* shadow-offset: {
   height: 2px;
