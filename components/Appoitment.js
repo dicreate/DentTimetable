@@ -4,59 +4,14 @@ import styled from 'styled-components/native';
 import { default as GrayText } from './GrayText'
 import { default as Badge } from './Badge'
 import getAvatarColor from '../utils/getAvatarColor';
-import Icon from "react-native-vector-icons/FontAwesome"
-import { ActionSheetProvider, useActionSheet  } from "@expo/react-native-action-sheet";
 
-const Appoitment = ({item, navigate}) => {
+const Appoitment = ({onLongPress, item, navigate}) => {
    const { patient, active, time } = item;
 
    const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase())
 
-   const { showActionSheetWithOptions } = useActionSheet();
-
-   const openSheet = () => {
-      const options = ["Изменить", "Удалить", "Отмена"];
-      const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
-      const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
-      const title = patient.fullname + ' - ' + time;
-
-      const icons = [
-         <Icon name="exchange" size={20} />,
-         <Icon name="trash" size={20} />,
-         <Icon name="remove" size={20} />,
-      ];
-    
-      showActionSheetWithOptions(
-        {
-          options,
-          title,
-          cancelButtonIndex, 
-          destructiveButtonIndex, 
-          icons
-        },
-        (buttonIndex) => {
-            switch (buttonIndex) {
-               case 0:
-                  console.log('Изменить')
-                  return;
-
-               case 1:
-                  console.log('Удалить')
-                  return;
-
-               case 2:
-                  console.log('Отмена')
-                  return;
-               
-               default: 
-                  console.log('Обработчик не добавлен')
-            }         
-        }
-      )};
-    
-
 return (
-       <AppoitmentItem onLongPress={() => openSheet()} onPress = { navigate.bind(this, 'Patient', {item}) }>
+       <AppoitmentItem onLongPress={() => onLongPress(item)} onPress = { navigate.bind(this, 'Patient', {item}) }>
             <Avatar style = {{
                backgroundColor: avatarColors.background,
             }}>

@@ -5,6 +5,8 @@ import { Appoitment, SectionTitle } from '../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { appoitmentsApi, patientsApi } from '../utils/api'
+import Icon from "react-native-vector-icons/FontAwesome"
+import { useActionSheet  } from "@expo/react-native-action-sheet";
 
 const HomeScreen = ({navigation}) => {
 
@@ -22,6 +24,58 @@ const HomeScreen = ({navigation}) => {
     fetchAppointments();
   }, [])
 
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  const openSheet = (item) => {
+
+    const options = ["Изменить", "Удалить", "Отмена"];
+    const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
+    const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
+    const title = item.patient.fullname + ' - ' + item.time;
+    const itemId = item._id;
+
+    const icons = [
+      <Icon name="exchange" size={20} />,
+      <Icon name="trash" size={20} />,
+      <Icon name="remove" size={20} />,
+    ];
+   
+     showActionSheetWithOptions(
+       {
+         options,
+         title,
+         cancelButtonIndex, 
+         destructiveButtonIndex, 
+         icons
+       },
+       (buttonIndex) => {
+           switch (buttonIndex) {
+              case 0:
+                console.log('Изменить')
+                return;
+
+              case 1:
+                removeAppointment(itemId);
+                return;
+
+              case 2:
+                console.log('Отмена')
+                return;
+              
+              default: 
+                console.log('Обработчик не добавлен')
+           }         
+       }
+     )};
+   
+  const removeAppointment = id => {
+    const result = appointmentsData.map(group => {
+      group.data = group.data.filter(item => item._id !== id)
+      return group;
+    })
+    setAppointmentsData(result); 
+    /* appoitmentsApi.remove(id); */
+ }
     
   return (
    <Container>
@@ -33,7 +87,7 @@ const HomeScreen = ({navigation}) => {
             keyExtractor={(item, index) => index}
             onRefresh={fetchAppointments}
             refreshing = {isLoading}
-            renderItem={({item}) => <Appoitment item = {item} navigate = {navigation.navigate}/>}
+            renderItem={({item}) => <Appoitment onLongPress = {(itemInfo) => openSheet(itemInfo)} item = {item} navigate = {navigation.navigate}/>}
             renderSectionHeader={({section: {title}}) => (
               <SectionTitle> {title}</SectionTitle>
     )}
