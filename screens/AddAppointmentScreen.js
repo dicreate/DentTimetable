@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
 
-function AddPatientsScreen ({navigation}) {
+function AddAppointmentScreen ({navigation}) {
 
   const [values, setValues] = useState({});
 
@@ -33,21 +33,32 @@ function AddPatientsScreen ({navigation}) {
       <Stack space={5} w="75%" maxW="300px" mx="auto">
         <Input 
           value = {values.fullname} 
-          onChange = {hangeChange.bind(this, 'fullname')}
+          onChange = {hangeChange.bind(this, 'dentNumber')}
           autoFocus 
+          inputMode = {"numeric"}
           variant="underlined" 
           size="md" 
-          placeholder="Имя и фамилия" w="100%" 
+          placeholder="Номер зуба" w="100%" 
         />
 
         <Input 
           value = {values.phone} 
           dataDetectorTypes = {"phoneNumber"} 
-          onChange = {hangeChange.bind(this, 'phone')}
-          inputMode = {"tel"}
+          onChange = {hangeChange.bind(this, 'diagnosis')}
           variant="underlined" 
           size="md" 
-          placeholder="Номер телефона" 
+          placeholder="Диагноз" 
+          w="100%" 
+        />
+
+        <Input 
+          value = {values.phone} 
+          dataDetectorTypes = {"phoneNumber"} 
+          onChange = {hangeChange.bind(this, 'price')}
+          variant="underlined" 
+          inputMode = {"numeric"}
+          size="md" 
+          placeholder="Цена" 
           w="100%" 
         />
         
@@ -80,4 +91,4 @@ const ButtonText = styled.Text`
   font-size: 16px;
 `
 
-export default AddPatientsScreen
+export default AddAppointmentScreen

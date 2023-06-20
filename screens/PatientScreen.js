@@ -5,10 +5,8 @@ import { GrayText, Button, Badge, PlusButton } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons';
 import { patientsApi } from '../utils/api';
-import Ionicons from '@expo/vector-icons/Ionicons';
 
-
-const PatientScreen = ({ route }) => {
+const PatientScreen = ({ navigation, route }) => {
 
   const { item } = route.params;
 
@@ -62,7 +60,7 @@ const PatientScreen = ({ route }) => {
          )}
         </Container>
       </PatientAppoitments>
-      <PlusButton />
+      <PlusButton onPress = {() => navigation.navigate('AddAppointment')}/>
       </View>
   )
 }
