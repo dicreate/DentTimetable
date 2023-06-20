@@ -1,10 +1,12 @@
 import React, { useState, useEffect} from 'react'
 import { Text,  View, ActivityIndicator, Linking } from 'react-native'
 import styled from 'styled-components'
-import { GrayText, Button, Badge } from '../components'
+import { GrayText, Button, Badge, PlusButton } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons';
 import { patientsApi } from '../utils/api';
+import Ionicons from '@expo/vector-icons/Ionicons';
+
 
 const PatientScreen = ({ route }) => {
 
@@ -60,6 +62,7 @@ const PatientScreen = ({ route }) => {
          )}
         </Container>
       </PatientAppoitments>
+      <PlusButton />
       </View>
   )
 }

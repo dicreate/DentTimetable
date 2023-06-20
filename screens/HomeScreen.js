@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionList, Alert } from 'react-native';
 import styled from 'styled-components/native'
-import { Appoitment, SectionTitle } from '../components';
+import { Appoitment, SectionTitle, PlusButton } from '../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { appoitmentsApi, patientsApi } from '../utils/api'
@@ -113,9 +113,7 @@ const HomeScreen = ({navigation}) => {
               <SectionTitle> {title}</SectionTitle>
     )}
         />
-         <PlusButton onPress = {navigation.navigate.bind(this,'AddPatient')}>
-        <Ionicons name="ios-add" size={36} color="white" />
-        </PlusButton>
+         <PlusButton onPress = {navigation.navigate.bind(this,'AddPatient')} />
       </>
       : null
     }
@@ -124,22 +122,6 @@ const HomeScreen = ({navigation}) => {
  </Container>
   )
 }
-
-const PlusButton = styled.TouchableOpacity`
-  border-radius: 50px;
-  align-items: center;
-  justify-content: center;
-  height: 64px;
-  width: 64px;
-  background: #2a86ff;
-  position: absolute; 
-  right: 25px;
-  bottom: 25px;
-  shadow-opacity: 0.7;
-  elevation: 4;
-  shadow-color: "#2A86FF";
-  shadow-radius: 3.5px;
-`;
 
 const Container = styled.View`
   flex: 1;
