@@ -1,5 +1,5 @@
 import React from 'react'
-import { SectionList } from 'react-native';
+import { SectionList, Alert } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle } from '../components';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -69,11 +69,32 @@ const HomeScreen = ({navigation}) => {
      )};
    
   const removeAppointment = id => {
-    const result = appointmentsData.map(group => {
+    Alert.alert(
+      'удаление приёма',
+      'Вы действительно хотите удалить приём ?',
+      [
+        {
+          text: 'Отмена',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text:'Удалить', onPress: () => {
+          appoitmentsApi.remove(id).then(() => {
+            fetchAppointments();
+          }).catch((e) => {
+            console.log(e);
+            setIsLoading(false);
+          } )
+        }}
+      ],
+      {cancelable: false},
+    );
+   
+   /*  const result = appointmentsData.map(group => {
       group.data = group.data.filter(item => item._id !== id)
       return group;
     })
-    setAppointmentsData(result); 
+    setAppointmentsData(result);  */
     /* appoitmentsApi.remove(id); */
  }
     
