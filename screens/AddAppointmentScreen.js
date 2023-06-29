@@ -5,9 +5,12 @@ import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
+import DatePicker from 'react-native-modern-datepicker';
 
 function AddAppointmentScreen ({navigation}) {
 
+  const [selectedDate, setSelectedDate] = useState('');
+ 
   const [values, setValues] = useState({});
 
   const hangeChange = (name, e) => {
@@ -61,7 +64,11 @@ function AddAppointmentScreen ({navigation}) {
           placeholder="Цена" 
           w="100%" 
         />
-        
+         <DatePicker
+          style={{ borderRadius: 10 }}
+          onSelectedChange={date => setSelectedDate(date)}
+        />
+
         <ButtonView>
           <Button
           onPress={() => onSumbit()} 
