@@ -4,7 +4,7 @@ import { LogBox } from 'react-native';
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
-import { patientsApi } from '../utils/api';
+import { appoitmentsApi } from '../utils/api';
 import DatePicker from 'react-native-modern-datepicker';
 
 function AddAppointmentScreen ({navigation}) {
@@ -13,7 +13,7 @@ function AddAppointmentScreen ({navigation}) {
  
   const [values, setValues] = useState({});
 
-  const hangeChange = (name, e) => {
+  const handleChange = (name, e) => {
     
     const text = e.nativeEvent.text;
 
@@ -24,7 +24,7 @@ function AddAppointmentScreen ({navigation}) {
   }
 
   const onSumbit = () => {
-    patientsApi.add(values).then(() => {
+    appoitmentsApi.add(values).then(() => {
       navigation.navigate('Home');
       console.log('okay')
     }).catch((e) => console.log(e));
@@ -35,8 +35,8 @@ function AddAppointmentScreen ({navigation}) {
       
       <Stack space={5} w="75%" maxW="300px" mx="auto">
         <Input 
-          value = {values.fullname} 
-          onChange = {hangeChange.bind(this, 'dentNumber')}
+          value = {values.dentNumber} 
+          onChange = {handleChange.bind(this, 'dentNumber')}
           autoFocus 
           inputMode = {"numeric"}
           variant="underlined" 
@@ -45,9 +45,8 @@ function AddAppointmentScreen ({navigation}) {
         />
 
         <Input 
-          value = {values.phone} 
-          dataDetectorTypes = {"phoneNumber"} 
-          onChange = {hangeChange.bind(this, 'diagnosis')}
+          value = {values.diagnosis} 
+          onChange = {handleChange.bind(this, 'diagnosis')}
           variant="underlined" 
           size="md" 
           placeholder="Диагноз" 
@@ -55,9 +54,8 @@ function AddAppointmentScreen ({navigation}) {
         />
 
         <Input 
-          value = {values.phone} 
-          dataDetectorTypes = {"phoneNumber"} 
-          onChange = {hangeChange.bind(this, 'price')}
+          value = {values.price} 
+          onChange = {handleChange.bind(this, 'price')}
           variant="underlined" 
           inputMode = {"numeric"}
           size="md" 
