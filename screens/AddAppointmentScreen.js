@@ -13,17 +13,25 @@ function AddAppointmentScreen ({navigation}) {
  
   const [values, setValues] = useState({});
 
-  const handleChange = (name, e) => {
-    
-    const text = e.nativeEvent.text;
-
+  const setFieldValue = (name, value) => {
     setValues({
-      ...values, 
-      [name]: text
-    });
+      ...values,
+      [name]: value
+    })
+  }
+
+  const handleInputChange = (name, e) => { 
+    const text = e.nativeEvent.text;
+    setFieldValue(name, text);
+  }
+
+  const handleDateChange = (dateTime) => {
+    console.log(dateTime)
   }
 
   const onSumbit = () => {
+
+    /* alert(JSON.stringify(values)); */
     appoitmentsApi.add(values).then(() => {
       navigation.navigate('Home');
       console.log('okay')
@@ -32,11 +40,10 @@ function AddAppointmentScreen ({navigation}) {
 
   return (
    <View style = {{flex: 1, marginTop: 50, }}>
-      
       <Stack space={5} w="75%" maxW="300px" mx="auto">
         <Input 
           value = {values.dentNumber} 
-          onChange = {handleChange.bind(this, 'dentNumber')}
+          onChange = {handleInputChange.bind(this, 'dentNumber')}
           autoFocus 
           inputMode = {"numeric"}
           variant="underlined" 
@@ -46,7 +53,7 @@ function AddAppointmentScreen ({navigation}) {
 
         <Input 
           value = {values.diagnosis} 
-          onChange = {handleChange.bind(this, 'diagnosis')}
+          onChange = {handleInputChange.bind(this, 'diagnosis')}
           variant="underlined" 
           size="md" 
           placeholder="Диагноз" 
@@ -55,7 +62,7 @@ function AddAppointmentScreen ({navigation}) {
 
         <Input 
           value = {values.price} 
-          onChange = {handleChange.bind(this, 'price')}
+          onChange = {handleInputChange.bind(this, 'price')}
           variant="underlined" 
           inputMode = {"numeric"}
           size="md" 
@@ -64,7 +71,8 @@ function AddAppointmentScreen ({navigation}) {
         />
          <DatePicker
           style={{ borderRadius: 10 }}
-          onSelectedChange={date => setSelectedDate(date)}
+          onTimeChange = {time =>  setFieldValue('time', time)}
+          onDateChange = {date =>  setFieldValue('date', date)}
         />
 
         <ButtonView>
