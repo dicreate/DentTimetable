@@ -7,11 +7,15 @@ import styled from 'styled-components'
 import { appoitmentsApi } from '../utils/api';
 import DatePicker from 'react-native-modern-datepicker';
 
-function AddAppointmentScreen ({navigation}) {
+function AddAppointmentScreen ({navigation, route}) {
+
+  const { patientId } = route.params;
 
   const [selectedDate, setSelectedDate] = useState('');
  
-  const [values, setValues] = useState({});
+  const [values, setValues] = useState({
+    'patient': patientId,
+  });
 
   const setFieldValue = (name, value) => {
     setValues({
@@ -30,7 +34,7 @@ function AddAppointmentScreen ({navigation}) {
   }
 
   const onSumbit = () => {
-
+    console.log(values)
     /* alert(JSON.stringify(values)); */
     appoitmentsApi.add(values).then(() => {
       navigation.navigate('Home');
