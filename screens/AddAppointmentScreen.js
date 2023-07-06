@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { Text,  View, SafeAreaView, TextInput, StyleSheet} from 'react-native'
-import { LogBox } from 'react-native';
+import React, { useState, useEffect } from 'react'
+import { View, LogBox } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
@@ -41,9 +40,10 @@ function AddAppointmentScreen ({navigation, route}) {
   }
 
   const onSumbit = () => {
-    appoitmentsApi.add(values).then(() => {
-      navigation.navigate('Home');
-      console.log('okay')
+    appoitmentsApi
+    .add(values)
+    .then(() => {
+      navigation.navigate('Home', { lastUpdate: new Date() });
     }).catch((e) => {
         if (e.response.data && e.response.data.errors) {
           e.response.data.errors.forEach(err => {
@@ -121,5 +121,9 @@ const ButtonText = styled.Text`
   color: white;
   font-size: 16px;
 `
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state. Check:',
+]);
 
 export default AddAppointmentScreen

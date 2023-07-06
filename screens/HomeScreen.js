@@ -1,22 +1,20 @@
 import React from 'react'
-import { SectionList, Alert } from 'react-native';
+import { SectionList, Alert, LogBox } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle, PlusButton } from '../components';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { useEffect, useState } from 'react';
 import { appoitmentsApi, patientsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 
+
 const HomeScreen = ({navigation}) => {
 
   const [appointmentsData, setAppointmentsData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [lastUpdateTime, setLastUpdateTime] = useState(null);
 
   const fetchAppointments = async () => {
     setIsLoading(true);
-    setLastUpdateTime(new Date())
     const response = await appoitmentsApi.get()
     setAppointmentsData(response.data.data)
     setIsLoading(false);
@@ -25,6 +23,10 @@ const HomeScreen = ({navigation}) => {
   useEffect(() => { 
     fetchAppointments();
   }, [])
+
+  useEffect(() => {
+    fetchAppointments();
+  },[navigation.getState().routes[0].params])
 
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -129,5 +131,9 @@ const Container = styled.View`
   flex: 1;
   background: white;
 `;
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state. Check:',
+]);
 
 export default HomeScreen
