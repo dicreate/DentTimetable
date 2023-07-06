@@ -10,12 +10,23 @@ import DatePicker from 'react-native-modern-datepicker';
 function AddAppointmentScreen ({navigation, route}) {
 
   const { patientId } = route.params;
-
-  const [selectedDate, setSelectedDate] = useState('');
  
   const [values, setValues] = useState({
+    'diagnosis': '',
+    'dentNumber': '',
+    'price': '',
+    'date': null,
+    'time': '00:00',
     'patient': patientId,
   });
+
+  const fieldsName = {
+    'diagnosis': 'Диагноз',
+    'dentNumber': 'Номер зуба',
+    'price': 'Цена',
+    'date': 'Дата',
+    'time': 'Время',
+  }
 
   const setFieldValue = (name, value) => {
     setValues({
@@ -29,17 +40,20 @@ function AddAppointmentScreen ({navigation, route}) {
     setFieldValue(name, text);
   }
 
-  const handleDateChange = (dateTime) => {
-    console.log(dateTime)
-  }
-
   const onSumbit = () => {
-    console.log(values)
-    /* alert(JSON.stringify(values)); */
     appoitmentsApi.add(values).then(() => {
       navigation.navigate('Home');
       console.log('okay')
-    }).catch((e) => console.log(e));
+    }).catch((e) => {
+        if (e.response.data && e.response.data.errors) {
+          e.response.data.errors.forEach(err => {
+            const fieldName = err.path;
+            alert(
+              `Ошибка! Поле "${fieldsName[fieldName]}" указано неверно.`
+            )
+        })
+      }
+    });
   }
 
   return (

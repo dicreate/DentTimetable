@@ -12,9 +12,11 @@ const HomeScreen = ({navigation}) => {
 
   const [appointmentsData, setAppointmentsData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [lastUpdateTime, setLastUpdateTime] = useState(null);
 
   const fetchAppointments = async () => {
     setIsLoading(true);
+    setLastUpdateTime(new Date())
     const response = await appoitmentsApi.get()
     setAppointmentsData(response.data.data)
     setIsLoading(false);
