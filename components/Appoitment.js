@@ -6,10 +6,9 @@ import { default as Badge } from './Badge'
 import getAvatarColor from '../utils/getAvatarColor';
 
 const Appoitment = ({onLongPress, item, navigate}) => {
-   const { patient, active, time } = item;
+   const { patient, active, time, diagnosis } = item;
 
    const avatarColors = getAvatarColor(patient.fullname[0].toUpperCase())
-
 return (
        <AppoitmentItem onLongPress={() => onLongPress(item)} onPress = { navigate.bind(this, 'Patient', {item}) }>
             <Avatar style = {{
@@ -23,11 +22,9 @@ return (
             </Avatar>
             <View style= {{style: 'flex: 1'}}>
                <FullName>{patient.fullname}</FullName>
-               <GrayText>{patient.diagnosis}</GrayText>
+               <GrayText>{diagnosis}</GrayText>
             </View>
-            <Badge active = {active}>
-               {time}
-            </Badge>
+            { time && <Badge active = {active}>{time}</Badge> }
          </AppoitmentItem>
    );
 } 

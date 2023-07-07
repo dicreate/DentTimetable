@@ -1,31 +1,31 @@
 import React from 'react'
-import { SectionList, Alert, LogBox } from 'react-native';
+import { FlatList, Alert, LogBox } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle, PlusButton } from '../components';
 import { useEffect, useState } from 'react';
-import { appoitmentsApi } from '../utils/api'
+import { patientsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 
 
-const HomeScreen = ({navigation}) => {
+const PatientsScreen = ({navigation}) => {
 
-  const [appointmentsData, setAppointmentsData] = useState(null);
+  const [patientsData, setPatientsData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchAppointments = async () => {
+  const fetchPatients = async () => {
     setIsLoading(true);
-    const response = await appoitmentsApi.get()
-    setAppointmentsData(response.data.data)
+    const response = await patientsApi.get()
+    setPatientsData(response.data.data)
     setIsLoading(false);
   }
   
   useEffect(() => { 
-    fetchAppointments();
+    fetchPatients();
   }, [])
 
   useEffect(() => {
-    fetchAppointments();
+    fetchPatients();
   },[navigation.getState().routes[0].params])
 
   const { showActionSheetWithOptions } = useActionSheet();
@@ -59,7 +59,7 @@ const HomeScreen = ({navigation}) => {
                 return;
 
               case 1:
-                removeAppointment(itemId);
+                removePatient(itemId);
                 return;
 
               case 2:
@@ -71,7 +71,7 @@ const HomeScreen = ({navigation}) => {
        }
      )};
    
-  const removeAppointment = id => {
+  const removePatient = id => {
     Alert.alert(
       'удаление приёма',
       'Вы действительно хотите удалить приём ?',
@@ -82,8 +82,8 @@ const HomeScreen = ({navigation}) => {
           style: 'cancel',
         },
         {text:'Удалить', onPress: () => {
-          appoitmentsApi.remove(id).then(() => {
-            fetchAppointments();
+          patientsApi.remove(id).then(() => {
+            fetchPatients();
           }).catch((e) => {
             console.log(e);
             setIsLoading(false);
@@ -97,14 +97,20 @@ const HomeScreen = ({navigation}) => {
   return (
    <Container>
     {
-      appointmentsData 
+      patientsData 
       ? <>
-         <SectionList
-            sections={appointmentsData }
+         <FlatList
+            data = {patientsData}
             keyExtractor={(item, index) => index}
-            onRefresh={fetchAppointments}
+            onRefresh={fetchPatients}
             refreshing = {isLoading}
-            renderItem={({item}) => <Appoitment onLongPress = {(itemInfo) => openSheet(itemInfo)} item = {item} navigate = {navigation.navigate}/>}
+            renderItem={({item}) => <Appoitment 
+              onLongPress = {(itemInfo) => openSheet(itemInfo)}
+              item = {{
+                patient: item,
+                diagnosis: item.phone
+              }} 
+              navigate = {navigation.navigate}/>}
             renderSectionHeader={({section: {title}}) => (
               <SectionTitle> {title}</SectionTitle>
     )}
@@ -128,4 +134,4 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state. Check:',
 ]);
 
-export default HomeScreen
+export default PatientsScreen

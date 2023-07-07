@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen } from "./screens";
+import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen, PatientsScreen } from "./screens";
 import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 
@@ -13,12 +13,12 @@ export default function App() {
     <ActionSheetProvider>
       <NativeBaseProvider>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator initialRouteName="Patients">
             <Stack.Screen 
               name="Home" 
               component={ HomeScreen }
               options={{ 
-                title: 'Пациенты', 
+                title: 'Журнал приёмов', 
                 headerTintColor: '#2A86FF',
                 headerStyle: {
                   evelation: 0.8,
@@ -38,6 +38,18 @@ export default function App() {
                 }
               }}
               />
+            <Stack.Screen 
+              name="Patients" 
+              component={ PatientsScreen } 
+              options={{
+                title: 'Список пациентов',
+                headerTintColor: '#2A86FF',
+                headerStyle: {
+                  evelation: 0.8,
+                  shadowOpacity: 0.8, 
+                }
+              }}
+            />
               <Stack.Screen 
               name="AddPatient" 
               component={ AddPatientsScreen } 
