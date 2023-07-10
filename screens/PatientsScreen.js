@@ -1,16 +1,18 @@
 import React from 'react'
-import { FlatList, Alert, LogBox } from 'react-native';
+import { FlatList, Alert, LogBox, View } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle, PlusButton } from '../components';
 import { useEffect, useState } from 'react';
 import { patientsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
+import { Input } from 'native-base';
 
 
 const PatientsScreen = ({navigation}) => {
 
   const [patientsData, setPatientsData] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchPatients = async () => {
@@ -27,6 +29,10 @@ const PatientsScreen = ({navigation}) => {
   useEffect(() => {
     fetchPatients();
   },[navigation.getState().routes[0].params])
+
+  const searchPatients = e => {
+    setSearchValue(e.nativeEvent.text);
+  }
 
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -99,8 +105,22 @@ const PatientsScreen = ({navigation}) => {
     {
       patientsData 
       ? <>
-         <FlatList
-            data = {patientsData}
+          <SearchView>
+            <Input style={{
+              paddingLeft: 15,
+              }} 
+              placeholder='Поиск...' 
+              variant="rounded"
+              onChange={searchPatients}
+            />
+          </SearchView>
+          <FlatList
+            data = {patientsData.filter(
+              item => 
+                item.fullname
+                .toLowerCase()
+                .indexOf(searchValue.toLowerCase()) >= 0
+                )}
             keyExtractor={(item, index) => index}
             onRefresh={fetchPatients}
             refreshing = {isLoading}
@@ -124,6 +144,10 @@ const PatientsScreen = ({navigation}) => {
  </Container>
   )
 }
+
+const SearchView = styled.View`
+  padding: 20px;
+`;
 
 const Container = styled.View`
   flex: 1;
