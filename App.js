@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen, PatientsScreen } from "./screens";
 import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { TouchableOpacity } from 'react-native';
 
 export default function App() {
 
@@ -13,18 +15,28 @@ export default function App() {
     <ActionSheetProvider>
       <NativeBaseProvider>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Patients">
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen 
               name="Home" 
               component={ HomeScreen }
-              options={{ 
+              options={({ navigation }) => ({ 
                 title: 'Журнал приёмов', 
                 headerTintColor: '#2A86FF',
                 headerStyle: {
                   evelation: 0.8,
                   shadowOpacity: 0.8, 
-                }
-              }}
+                },
+                headerRight: () => (
+                  <TouchableOpacity
+                    style = {{
+                      marginRight: 20
+                    }}
+                    onPress={() => navigation.navigate('Patients')}
+                  >
+                    <Ionicons name='md-people' size={32}></Ionicons>
+                  </TouchableOpacity>
+                ),
+              })}
               />
             <Stack.Screen 
               name="Patient" 

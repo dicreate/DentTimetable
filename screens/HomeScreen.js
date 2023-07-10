@@ -7,7 +7,6 @@ import { appoitmentsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 
-
 const HomeScreen = ({navigation}) => {
 
   const [appointmentsData, setAppointmentsData] = useState(null);
