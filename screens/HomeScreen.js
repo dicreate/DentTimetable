@@ -35,7 +35,6 @@ const HomeScreen = ({navigation}) => {
     const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
     const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
     const title = item.patient.fullname + ' - ' + item.time;
-    const itemId = item._id;
 
     const icons = [
       <Icon name="exchange" size={20} />,
@@ -54,11 +53,11 @@ const HomeScreen = ({navigation}) => {
        (buttonIndex) => {
            switch (buttonIndex) {
               case 0:
-                console.log('Изменить')
+                moveToChangeAppointmentScreen(item);
                 return;
 
               case 1:
-                removeAppointment(itemId);
+                removeAppointment(item._id);
                 return;
 
               case 2:
@@ -69,6 +68,12 @@ const HomeScreen = ({navigation}) => {
            }         
        }
      )};
+  
+  const moveToChangeAppointmentScreen = (item) => {
+    navigation.navigate('ChangeAppointment', {
+      item,
+    })
+  }
    
   const removeAppointment = id => {
     Alert.alert(
@@ -77,7 +82,6 @@ const HomeScreen = ({navigation}) => {
       [
         {
           text: 'Отмена',
-          onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
         {text:'Удалить', onPress: () => {
