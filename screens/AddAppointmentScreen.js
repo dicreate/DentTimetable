@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, LogBox } from 'react-native'
+import { View, LogBox, Pressable, Modal, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
@@ -9,13 +9,16 @@ import DatePicker from 'react-native-modern-datepicker';
 function AddAppointmentScreen ({navigation, route}) {
 
   const { patientId } = route.params;
- 
+  
+  const [openDate, setOpenDate] = useState(false);
+  const [openTime, setOpenTime] = useState(false);
+
   const [values, setValues] = useState({
     'diagnosis': '',
     'dentNumber': '',
     'price': '',
     'date': null,
-    'time': '00:00',
+    'time': '',
     'patient': patientId,
   });
 
@@ -69,15 +72,15 @@ function AddAppointmentScreen ({navigation, route}) {
           placeholder="Номер зуба" w="100%" 
         />
 
-        <Input 
+        <Input
           value = {values.diagnosis} 
           onChange = {handleInputChange.bind(this, 'diagnosis')}
           variant="underlined" 
           size="md" 
           placeholder="Диагноз" 
-          w="100%" 
+          w="100%"
         />
-
+        
         <Input 
           value = {values.price} 
           onChange = {handleInputChange.bind(this, 'price')}
@@ -87,11 +90,31 @@ function AddAppointmentScreen ({navigation, route}) {
           placeholder="Цена" 
           w="100%" 
         />
-         <DatePicker
-          style={{ borderRadius: 10 }}
-          onTimeChange = {time =>  setFieldValue('time', time)}
-          onDateChange = {date =>  setFieldValue('date', date)}
-        />
+
+        <Pressable onPress={() => setOpenDate(!openDate)}>
+          <View pointerEvents="none" >
+            <Input
+              value = {values.date} 
+              variant="underlined" 
+              size="md" 
+              placeholder="Дата" 
+              w="100%"
+            />
+          </View>         
+        </Pressable>
+
+        
+        <Pressable onPress={() => setOpenTime(!openDate)}>
+          <View pointerEvents="none" >
+            <Input
+              value = {values.time} 
+              variant="underlined" 
+              size="md" 
+              placeholder="Время" 
+              w="100%"
+            />
+          </View>         
+        </Pressable>
 
         <ButtonView>
           <Button
@@ -108,9 +131,75 @@ function AddAppointmentScreen ({navigation, route}) {
           </Button>
         </ButtonView>
       </Stack>
+      <Modal
+          animationType='slide'
+          transparent={true}
+          visible={openDate}
+        >
+         <View style = {styles.centeredView}>
+            <View style = {styles.modalView}>
+                <DatePicker
+                  mode='calendar'
+                  style={{ borderRadius: 10}}
+                  onDateChange = {date =>  setFieldValue('date', date)}
+                />
+                <TouchableOpacity onPress={() => setOpenDate(!openDate)}>
+                  <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+         </View>
+        </Modal>
+
+        <Modal
+          animationType='slide'
+          transparent={true}
+          visible={openTime}
+        >
+         <View style = {styles.centeredView}>
+            <View style = {styles.modalView}>
+                <DatePicker
+                  mode='time'
+                  style={{ borderRadius: 10}}
+                  onTimeChange = {time =>  {
+                    setFieldValue('time', time)
+                    setOpenTime(!openTime)
+                  }}
+                />
+                <TouchableOpacity onPress={() => setOpenTime(!openTime)}>
+                  <Text>Close</Text>
+              </TouchableOpacity>
+            </View>
+         </View>
+        </Modal>
    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  centeredView: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 100,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    width: '80%',
+    maxWidth: 400,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25, 
+    shadowRadius: 4,
+    elevation: 5,
+  }
+})
+
 
 const ButtonView = styled.View`
   margin-top: 30px;
