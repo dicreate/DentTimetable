@@ -60,7 +60,7 @@ function AddAppointmentScreen ({navigation, route}) {
   }
 
   return (
-   <View style = {{flex: 1, marginTop: 50, }}>
+   <View style = {styles.container}>
       <Stack space={5} w="75%" maxW="300px" mx="auto">
         <Input 
           value = {values.dentNumber} 
@@ -176,6 +176,11 @@ function AddAppointmentScreen ({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    marginTop: 50,
+  },
+
   centeredView: {
     alignItems: 'center',
     justifyContent: 'center',
