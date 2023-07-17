@@ -28,7 +28,7 @@ const PatientsScreen = ({navigation}) => {
 
   useEffect(() => {
     fetchPatients();
-  },[navigation.getState().routes[0].params])
+  },[navigation.getState().routes[1].params])
 
   const searchPatients = e => {
     setSearchValue(e.nativeEvent.text);
@@ -61,6 +61,7 @@ const PatientsScreen = ({navigation}) => {
        (buttonIndex) => {
            switch (buttonIndex) {
               case 0:
+                navigation.navigate("ChangePatient", {item})
                 return;
 
               case 1:
@@ -75,7 +76,7 @@ const PatientsScreen = ({navigation}) => {
            }         
        }
      )};
-
+  
   const RemoveAppointments = async(id) => {
     const Appointments = await GetAppointments(id)
     Appointments.map((appointment) => {

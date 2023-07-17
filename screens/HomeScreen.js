@@ -53,7 +53,9 @@ const HomeScreen = ({navigation}) => {
        (buttonIndex) => {
            switch (buttonIndex) {
               case 0:
-                moveToChangeAppointmentScreen(item);
+                navigation.navigate('ChangeAppointment', {
+                  item,
+                });
                 return;
 
               case 1:
@@ -68,12 +70,6 @@ const HomeScreen = ({navigation}) => {
            }         
        }
      )};
-  
-  const moveToChangeAppointmentScreen = (item) => {
-    navigation.navigate('ChangeAppointment', {
-      item,
-    })
-  }
    
   const removeAppointment = id => {
     Alert.alert(

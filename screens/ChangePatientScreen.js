@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { Text,  View, SafeAreaView, TextInput, StyleSheet} from 'react-native'
-import { LogBox } from 'react-native';
+import { View } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
 
-function AddPatientsScreen ({navigation}) {
+function AddPatientsScreen ({navigation, route}) {
+
+  const { item } = route.params;
 
   const [values, setValues] = useState({
-    'fullname': '',
-    'phone': ''
+    'fullname': item.patient.fullname,
+    'phone': item.patient.phone
   });
 
   const hangeChange = (name, e) => {
@@ -24,9 +25,11 @@ function AddPatientsScreen ({navigation}) {
   }
 
   const onSumbit = () => {
-    patientsApi.add(values).then(() => {
-      navigation.navigate('Patients');
-    }).catch(() => alert("Минимальное количество символов для полей 4"));
+    patientsApi.change(item.patient._id, values)
+    .then(() => {
+      navigation.navigate('Patients', { lastUpdatePatient: new Date() });
+    })
+    .catch(() => alert("Минимальное количество символов для полей 4"));
   }
 
   return (
@@ -63,7 +66,7 @@ function AddPatientsScreen ({navigation}) {
           >
             <ButtonText>
               <Ionicons name="ios-add" size={20} color="white" />
-              Добавить
+              Изменить
             </ButtonText>  
           </Button>
         </ButtonView>

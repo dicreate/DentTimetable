@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen, PatientsScreen, ChangeAppointmentScreen } from "./screens";
+import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen, PatientsScreen, ChangeAppointmentScreen, ChangePatientScreen } from "./screens";
 import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -53,14 +53,24 @@ export default function App() {
             <Stack.Screen 
               name="Patients" 
               component={ PatientsScreen } 
-              options={{
+              options={({navigation}) => ({
                 title: 'Список пациентов',
                 headerTintColor: '#2A86FF',
                 headerStyle: {
                   evelation: 0.8,
                   shadowOpacity: 0.8, 
-                }
-              }}
+                },
+                headerRight: () => (
+                  <TouchableOpacity
+                    style = {{
+                      marginRight: 20
+                    }}
+                    onPress={() => navigation.navigate('Home')}
+                  >
+                    <Ionicons name='md-people' size={32}></Ionicons>
+                  </TouchableOpacity>
+                ),
+              })}
             />
               <Stack.Screen 
               name="AddPatient" 
@@ -89,6 +99,18 @@ export default function App() {
               <Stack.Screen 
               name="ChangeAppointment" 
               component={ ChangeAppointmentScreen } 
+              options={{
+              title: 'Изменение приёма',
+              headerTintColor: '#2A86FF',
+              headerStyle: {
+                evelation: 0.8,
+                shadowOpacity: 0.8, 
+              }
+            }}
+            />
+              <Stack.Screen 
+              name="ChangePatient" 
+              component={ ChangePatientScreen } 
               options={{
               title: 'Изменение приёма',
               headerTintColor: '#2A86FF',
