@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { Text, View, LogBox, Button } from 'react-native';
+import React from 'react'
+import { View } from 'react-native';
 import styled from 'styled-components/native';
 import { default as GrayText } from './GrayText'
 import { default as Badge } from './Badge'
@@ -21,8 +21,8 @@ return (
                </Letter>
             </Avatar>
             <View style= {{style: 'flex: 1'}}>
-               <FullName>{patient.fullname}</FullName>
-               <GrayText>{diagnosis}</GrayText>
+               <FullName>{ patient.fullname }</FullName>
+               <GrayText>{ diagnosis }</GrayText>
             </View>
             { time && <Badge active = {active}>{time}</Badge> }
          </AppoitmentItem>
