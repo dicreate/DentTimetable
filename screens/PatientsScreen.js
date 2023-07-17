@@ -107,7 +107,10 @@ const PatientsScreen = ({navigation}) => {
           style: 'cancel',
         },
         {text:'Удалить', onPress: async () => {
-          isAppointments && RemoveAppointments(id) && navigation.navigate('Home', { lastUpdate: new Date() });
+          if (isAppointments) {
+            await RemoveAppointments(id)
+            await navigation.navigate('Home', { lastUpdate: new Date() });
+          }   
           await patientsApi.remove(id).catch(e => alert(e))
           fetchPatients();
           setIsLoading(false);

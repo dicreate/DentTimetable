@@ -22,9 +22,8 @@ function AddPatientsScreen ({navigation}) {
 
   const onSumbit = () => {
     patientsApi.add(values).then(() => {
-      navigation.navigate('Home');
-      console.log('okay')
-    }).catch((e) => console.log(e));
+      navigation.navigate('Patients');
+    }).catch(() => alert("Минимальное количество символов для полей 4"));
   }
 
   return (
