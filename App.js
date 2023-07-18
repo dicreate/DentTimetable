@@ -67,7 +67,7 @@ export default function App() {
                     }}
                     onPress={() => navigation.navigate('Home')}
                   >
-                    <Ionicons name='md-people' size={32}></Ionicons>
+                    <Ionicons name="clipboard-outline" size={32}></Ionicons>
                   </TouchableOpacity>
                 ),
               })}

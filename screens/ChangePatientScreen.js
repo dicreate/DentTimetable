@@ -4,6 +4,7 @@ import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
+import { CommonActions } from '@react-navigation/native';
 
 function AddPatientsScreen ({navigation, route}) {
 
@@ -27,6 +28,10 @@ function AddPatientsScreen ({navigation, route}) {
   const onSumbit = () => {
     patientsApi.change(item.patient._id, values)
     .then(() => {
+      navigation.dispatch({
+        ...CommonActions.setParams({ lastUpdatePatient: new Date() }),
+        source: navigation.getState().routes[0].key,
+      });
       navigation.navigate('Patients', { lastUpdatePatient: new Date() });
     })
     .catch(() => alert("Минимальное количество символов для полей 4"));
