@@ -124,8 +124,8 @@ function AddAppointmentScreen ({navigation, route}) {
           colorScheme="green" 
           >
             <ButtonText>
-              <Ionicons name="ios-add" size={20} color="white" />
-              Изменить
+              <Ionicons name="pencil-outline" size={20} color="white" />
+              <Text style={{color: 'white'}}>Изменить</Text>
             </ButtonText>  
           </Button>
         </ButtonView>
@@ -208,10 +208,11 @@ const ButtonView = styled.View`
   margin-top: 30px;
 `
 
-const ButtonText = styled.Text`
+const ButtonText = styled.View`
   flex-direction: row;
   color: white;
   font-size: 16px;
+  gap: 10px;
 `
 
 LogBox.ignoreLogs([

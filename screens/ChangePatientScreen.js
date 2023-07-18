@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
@@ -68,10 +68,10 @@ function AddPatientsScreen ({navigation, route}) {
           w="100%" 
           borderRadius={'20px'} 
           colorScheme="green" 
-          >
+          > 
             <ButtonText>
-              <Ionicons name="ios-add" size={20} color="white" />
-              Изменить
+              <Ionicons name="pencil-outline" size={20} color="white" />
+              <Text style={{color: 'white'}}>Изменить</Text>
             </ButtonText>  
           </Button>
         </ButtonView>
@@ -84,10 +84,11 @@ const ButtonView = styled.View`
   margin-top: 30px;
 `
 
-const ButtonText = styled.Text`
+const ButtonText = styled.View`
   flex-direction: row;
   color: white;
   font-size: 16px;
+  gap: 10px;
 `
 
 export default AddPatientsScreen
