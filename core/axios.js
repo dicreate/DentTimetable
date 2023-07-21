@@ -9,10 +9,8 @@ import axios from "axios";
 .concat(`:6666`)
 : `api.example.com`; */
 
-const ipPC = '10.0.2.2:6666'
+const dataURL = 'tan-wandering-blackbuck.cyclic.app'
 
-axios.defaults.baseURL = 'http://'+ipPC;
-
-console.log(axios.defaults.baseURL)
+axios.defaults.baseURL = 'https://' + dataURL;
 
 export default axios;
