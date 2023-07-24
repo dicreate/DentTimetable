@@ -7,7 +7,7 @@ import { patientsApi, appoitmentsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Input } from 'native-base';
-
+import { Spinner, Heading, HStack } from "native-base";
 
 const PatientsScreen = ({navigation}) => {
 
@@ -17,18 +17,16 @@ const PatientsScreen = ({navigation}) => {
 
   const fetchPatients = async () => {
     setIsLoading(true);
-    const response = await patientsApi.get()
+    const response = await patientsApi.get().catch(() => {
+      alert('Error connection. Please, connect to internet and restart app')
+    })
     setPatientsData(response.data.data)
     setIsLoading(false);
   }
   
   useEffect(() => { 
     fetchPatients();
-  }, [])
-
-  useEffect(() => {
-    fetchPatients();
-  },[navigation.getState().routes[1].params])
+  }, [navigation.getState().routes[1].params])
 
   const searchPatients = e => {
     setSearchValue(e.nativeEvent.text);
@@ -158,7 +156,12 @@ const PatientsScreen = ({navigation}) => {
         />
          <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
       </>
-      : null
+      : <HStack space={2} justifyContent="center" marginTop = {150}>
+          <Spinner accessibilityLabel="Loading posts" />
+          <Heading color="primary.500" fontSize="md">
+            Loading
+          </Heading>
+      </HStack>
     }
   
  

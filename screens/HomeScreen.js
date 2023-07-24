@@ -1,31 +1,30 @@
 import React from 'react'
-import { SectionList, Alert, LogBox } from 'react-native';
+import { SectionList, Alert, LogBox, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle, PlusButton } from '../components';
 import { useEffect, useState } from 'react';
 import { appoitmentsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
+import { Spinner, Heading, HStack } from "native-base";
 
 const HomeScreen = ({navigation}) => {
 
-  const [appointmentsData, setAppointmentsData] = useState(null);
+  const [appointmentsData, setAppointmentsData] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchAppointments = async () => {
     setIsLoading(true);
-    const response = await appoitmentsApi.get()
+    const response = await appoitmentsApi.get().catch(() => {
+      alert('Error connection. Please, connect to internet and restart app')
+    })
     setAppointmentsData(response.data.data)
     setIsLoading(false);
   }
   
   useEffect(() => { 
     fetchAppointments();
-  }, [])
-
-  useEffect(() => {
-    fetchAppointments();
-  },[navigation.getState().routes[0].params])
+  }, [navigation.getState().routes[0].params])
 
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -110,7 +109,12 @@ const HomeScreen = ({navigation}) => {
         />
          <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
       </>
-      : null
+      : <HStack space={2} justifyContent="center" marginTop = {150}>
+          <Spinner accessibilityLabel="Loading posts" />
+          <Heading color="primary.500" fontSize="md">
+            Loading
+          </Heading>
+      </HStack>
     }
   
  
