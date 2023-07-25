@@ -26,7 +26,7 @@ function AddPatientsScreen ({navigation}) {
   const onSumbit = () => {
     patientsApi.add(values).then(() => {
       navigation.navigate('Patients', { lastUpdatePatient: new Date() } );
-    }).catch(() => alert("Минимальное количество символов для полей 4"));
+    }).catch(() => alert("Заполните все поля"));
   }
 
   return (

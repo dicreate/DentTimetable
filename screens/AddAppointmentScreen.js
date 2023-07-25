@@ -4,7 +4,8 @@ import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { appoitmentsApi } from '../utils/api';
-import DatePicker from 'react-native-modern-datepicker';
+import DatePicker, { getToday } from 'react-native-modern-datepicker';
+import moment from 'moment/moment';
 
 function AddAppointmentScreen ({navigation, route}) {
 
@@ -61,6 +62,7 @@ function AddAppointmentScreen ({navigation, route}) {
 
   return (
    <View style = {styles.container}>
+    {console.log(moment(values.date, 'YYYY/MM/DD').format('DD.MM.YYYY'))}
       <Stack space={5} w="75%" maxW="300px" mx="auto">
         <Input 
           value = {values.dentNumber} 
@@ -142,6 +144,8 @@ function AddAppointmentScreen ({navigation, route}) {
                   mode='calendar'
                   style={{ borderRadius: 10}}
                   onDateChange = {date =>  setFieldValue('date', date)}
+                  selected = {getToday()}
+                  locale= {moment.locale('fr')}
                 />
                 <TouchableOpacity onPress={() => setOpenDate(!openDate)}>
                   <Text>Close</Text>

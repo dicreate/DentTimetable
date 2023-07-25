@@ -141,6 +141,7 @@ function AddAppointmentScreen ({navigation, route}) {
                   mode='calendar'
                   style={{ borderRadius: 10}}
                   onDateChange = {date =>  setFieldValue('date', date)}
+                  selected= {values.date}
                 />
                 <TouchableOpacity onPress={() => setOpenDate(!openDate)}>
                   <Text>Close</Text>

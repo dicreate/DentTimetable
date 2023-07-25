@@ -7,6 +7,7 @@ import { appoitmentsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Spinner, Heading, HStack } from "native-base";
+import moment from 'moment/moment';
 
 const HomeScreen = ({navigation}) => {
 
@@ -104,7 +105,7 @@ const HomeScreen = ({navigation}) => {
             refreshing = {isLoading}
             renderItem={({item}) => <Appoitment onLongPress = {(itemInfo) => openSheet(itemInfo)} item = {item} navigate = {navigation.navigate}/>}
             renderSectionHeader={({section: {title}}) => (
-              <SectionTitle> {title}</SectionTitle>
+              <SectionTitle> {moment(title, 'YYYY/MM/DD').format('DD.MM.YYYY')}</SectionTitle>
     )}
         />
          <PlusButton onPress = {() => navigation.navigate('AddPatient')} />

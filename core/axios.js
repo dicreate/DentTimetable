@@ -9,8 +9,10 @@ import axios from "axios";
 .concat(`:6666`)
 : `api.example.com`; */
 
-const dataURL = 'tan-wandering-blackbuck.cyclic.app'
+const dataURL = 'https://tan-wandering-blackbuck.cyclic.app'
 
-axios.defaults.baseURL = 'https://' + dataURL;
+/* const dataURL = 'http://10.0.2.2:6666' */
+
+axios.defaults.baseURL = dataURL;
 
 export default axios;
