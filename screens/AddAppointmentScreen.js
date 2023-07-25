@@ -62,7 +62,6 @@ function AddAppointmentScreen ({navigation, route}) {
 
   return (
    <View style = {styles.container}>
-    {console.log(moment(values.date, 'YYYY/MM/DD').format('DD.MM.YYYY'))}
       <Stack space={5} w="75%" maxW="300px" mx="auto">
         <Input 
           value = {values.dentNumber} 
