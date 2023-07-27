@@ -6,13 +6,18 @@ import styled from 'styled-components'
 import { appoitmentsApi } from '../utils/api';
 import DatePicker, { getToday } from 'react-native-modern-datepicker';
 import moment from 'moment/moment';
+import {Calendar, LocaleConfig} from 'react-native-calendars';
+import LocaleCalendar from '../utils/LocaleCalendar';
 
 function AddAppointmentScreen ({navigation, route}) {
 
+  LocaleConfig.locales['ru'] = LocaleCalendar.ru
+  LocaleConfig.defaultLocale = 'ru';
+
   const { patientId } = route.params;
-  
   const [openDate, setOpenDate] = useState(false);
   const [openTime, setOpenTime] = useState(false);
+  const [selected, setSelected] = useState('');
 
   const [values, setValues] = useState({
     'diagnosis': '',
@@ -44,6 +49,7 @@ function AddAppointmentScreen ({navigation, route}) {
   }
 
   const onSumbit = () => {
+    console.log(values)
     appoitmentsApi
     .add(values)
     .then(() => {
@@ -139,14 +145,19 @@ function AddAppointmentScreen ({navigation, route}) {
         >
          <View style = {styles.centeredView}>
             <View style = {styles.modalView}>
-                <DatePicker
-                  mode='calendar'
-                  style={{ borderRadius: 10}}
-                  onDateChange = {date =>  setFieldValue('date', date)}
-                  selected = {getToday()}
-                  locale= {moment.locale('fr')}
-                />
-                <TouchableOpacity onPress={() => setOpenDate(!openDate)}>
+              <Calendar
+                firstDay = {1}
+                onDayPress={date => {
+                  setSelected(date.dateString);
+                }}
+                markedDates={{
+                  [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'}
+                }}
+              />
+                <TouchableOpacity onPress={() => {
+                  setFieldValue('date', selected)
+                  setOpenDate(!openDate)    
+                }}>
                   <Text>Close</Text>
               </TouchableOpacity>
             </View>
