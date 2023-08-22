@@ -1,10 +1,12 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text,  View, ActivityIndicator, Linking } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge, PlusButton } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons';
 import { patientsApi } from '../utils/api';
+import moment from 'moment/moment';
+import 'moment/locale/ru';
 
 const PatientScreen = ({ navigation, route }) => {
 
@@ -53,7 +55,7 @@ const PatientScreen = ({ navigation, route }) => {
              <AppoitmentCardRow 
              style = {{ marginTop: 15, justifyContent: 'space-between' }}
              >
-               <Badge style = {{ width: 155, marginLeft: 0 }} active>{appointment.date} - {appointment.time}</Badge>
+               <Badge style = {{ width: 155, marginLeft: 0 }} active>{moment(appointment.date).locale('ru').format('DD.MM.YYYY')} - {appointment.time}</Badge>
                <Badge color='green'>{appointment.price}</Badge>    
              </AppoitmentCardRow>   
            </AppoitmentCard>

@@ -106,7 +106,7 @@ const HomeScreen = ({navigation}) => {
             refreshing = {isLoading}
             renderItem={({item}) => <Appoitment onLongPress = {(itemInfo) => openSheet(itemInfo)} item = {item} navigate = {navigation.navigate}/>}
             renderSectionHeader={({section: {title}}) => (
-              <SectionTitle> {moment(title).locale('ru').format('dddd DD.MM.YY')}</SectionTitle>
+              <SectionTitle> {moment(title).locale('ru').format('dddd DD.MM.YYYY')}</SectionTitle>
     )}
         />
          <PlusButton onPress = {() => navigation.navigate('AddPatient')} />

@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { View, LogBox, Pressable, Modal, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { appoitmentsApi } from '../utils/api';
-import DatePicker, { getToday } from 'react-native-modern-datepicker';
-import moment from 'moment/moment';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
+import DatePicker from 'react-native-modern-datepicker';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import LocaleCalendar from '../utils/LocaleCalendar';
 
 function AddAppointmentScreen ({navigation, route}) {
@@ -158,7 +157,7 @@ function AddAppointmentScreen ({navigation, route}) {
                   setFieldValue('date', selected)
                   setOpenDate(!openDate)    
                 }}>
-                  <Text>Close</Text>
+                  <Text>Закрыть</Text>
               </TouchableOpacity>
             </View>
          </View>
@@ -180,7 +179,7 @@ function AddAppointmentScreen ({navigation, route}) {
                   }}
                 />
                 <TouchableOpacity onPress={() => setOpenTime(!openTime)}>
-                  <Text>Close</Text>
+                  <Text>Закрыть</Text>
               </TouchableOpacity>
             </View>
          </View>
