@@ -7,6 +7,8 @@ import { appoitmentsApi } from '../utils/api';
 import DatePicker from 'react-native-modern-datepicker';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import LocaleCalendar from '../utils/LocaleCalendar';
+import moment from 'moment/moment';
+import 'moment/locale/ru';
 
 function AddAppointmentScreen ({navigation, route}) {
 
@@ -22,7 +24,7 @@ function AddAppointmentScreen ({navigation, route}) {
     'diagnosis': '',
     'dentNumber': '',
     'price': '',
-    'date': null,
+    'date': '',
     'time': '',
     'patient': patientId,
   });
@@ -48,7 +50,6 @@ function AddAppointmentScreen ({navigation, route}) {
   }
 
   const onSumbit = () => {
-    console.log(values)
     appoitmentsApi
     .add(values)
     .then(() => {
@@ -67,7 +68,7 @@ function AddAppointmentScreen ({navigation, route}) {
 
   return (
    <View style = {styles.container}>
-      <Stack space={5} w="75%" maxW="300px" mx="auto">
+      <Stack marginTop = '50px' space={5} w="75%" maxW="300px" mx="auto">
         <Input 
           value = {values.dentNumber} 
           onChange = {handleInputChange.bind(this, 'dentNumber')}
@@ -100,7 +101,7 @@ function AddAppointmentScreen ({navigation, route}) {
         <Pressable onPress={() => setOpenDate(!openDate)}>
           <View pointerEvents="none" >
             <Input
-              value = {values.date} 
+              value = {moment(values.date).locale('ru').format('DD.MM.YYYY') == 'Invalid date' ? values.date : moment(values.date).locale('ru').format('DD.MM.YYYY')} 
               variant="underlined" 
               size="md" 
               placeholder="Дата" 
@@ -157,7 +158,7 @@ function AddAppointmentScreen ({navigation, route}) {
                   setFieldValue('date', selected)
                   setOpenDate(!openDate)    
                 }}>
-                  <Text>Закрыть</Text>
+                  <Text>Выбрать</Text>
               </TouchableOpacity>
             </View>
          </View>
@@ -191,7 +192,7 @@ function AddAppointmentScreen ({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    marginTop: 50,
+    backgroundColor: 'white',
   },
 
   centeredView: {

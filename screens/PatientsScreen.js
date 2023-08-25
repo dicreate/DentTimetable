@@ -18,7 +18,7 @@ const PatientsScreen = ({navigation}) => {
   const fetchPatients = async () => {
     setIsLoading(true);
     const response = await patientsApi.get().catch(() => {
-      alert('Error connection. Please, connect to internet and restart app')
+      alert('Ошибка подключения. Пожалуйста, включите интернет и перезагрузите приложение')
     })
     setPatientsData(response.data.data)
     setIsLoading(false);
@@ -159,7 +159,7 @@ const PatientsScreen = ({navigation}) => {
       : <HStack space={2} justifyContent="center" marginTop = {150}>
           <Spinner accessibilityLabel="Loading posts" />
           <Heading color="primary.500" fontSize="md">
-            Loading
+            Загрузка
           </Heading>
       </HStack>
     }

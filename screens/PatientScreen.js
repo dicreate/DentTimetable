@@ -46,11 +46,11 @@ const PatientScreen = ({ navigation, route }) => {
             <AppoitmentCard key = {appointment._id}>
              <AppoitmentCardRow>
                <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
-               <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.dentNumber}</Text></AppoitmentCardLabel>
+               <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.dentNumber ? appointment.dentNumber : 'не указан'}</Text></AppoitmentCardLabel>
              </AppoitmentCardRow>
              <AppoitmentCardRow>
                <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
-               <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis}</Text></AppoitmentCardLabel>
+               <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis ? appointment.diagnosis : 'не указан'}</Text></AppoitmentCardLabel>
              </AppoitmentCardRow> 
              <AppoitmentCardRow 
              style = {{ marginTop: 15, justifyContent: 'space-between' }}

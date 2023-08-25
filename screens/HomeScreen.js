@@ -18,7 +18,7 @@ const HomeScreen = ({navigation}) => {
   const fetchAppointments = async () => {
     setIsLoading(true);
     const response = await appoitmentsApi.get().catch(() => {
-      alert('Error connection. Please, connect to internet and restart app')
+      alert('Ошибка подключения. Пожалуйста, включите интернет и перезагрузите приложение')
     })
     setAppointmentsData(response.data.data)
     setIsLoading(false);
@@ -114,7 +114,7 @@ const HomeScreen = ({navigation}) => {
       : <HStack space={2} justifyContent="center" marginTop = {150}>
           <Spinner accessibilityLabel="Loading posts" />
           <Heading color="primary.500" fontSize="md">
-            Loading
+            Загрузка
           </Heading>
       </HStack>
     }

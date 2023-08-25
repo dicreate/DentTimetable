@@ -5,13 +5,21 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { appoitmentsApi } from '../utils/api';
 import DatePicker from 'react-native-modern-datepicker';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+import LocaleCalendar from '../utils/LocaleCalendar';
+import moment from 'moment/moment';
+import 'moment/locale/ru';
 
-function AddAppointmentScreen ({navigation, route}) {
+function ChangeAppointmentScreen ({navigation, route}) {
+
+  LocaleConfig.locales['ru'] = LocaleCalendar.ru
+  LocaleConfig.defaultLocale = 'ru';
 
   const { item } = route.params;
 
   const [openDate, setOpenDate] = useState(false);
   const [openTime, setOpenTime] = useState(false);
+  const [selected, setSelected] = useState(item.date);
   
   const [values, setValues] = useState({
     'diagnosis': item.diagnosis,
@@ -61,9 +69,9 @@ function AddAppointmentScreen ({navigation, route}) {
 
   return (
    <View style = {styles.container}>
-      <Stack space={5} w="75%" maxW="300px" mx="auto">
+      <Stack marginTop = '50px' space={5} w="75%" maxW="300px" mx="auto">
         <Input 
-          value = {values.dentNumber} 
+          value = {values.dentNumber == 'null' ? '' : values.dentNumber} 
           onChange = {handleInputChange.bind(this, 'dentNumber')}
           inputMode = {"numeric"}
           variant="underlined" 
@@ -93,7 +101,7 @@ function AddAppointmentScreen ({navigation, route}) {
         <Pressable onPress={() => setOpenDate(!openDate)}>
           <View pointerEvents="none" >
             <Input
-              value = {values.date} 
+              value = {moment(values.date).locale('ru').format('DD.MM.YYYY') == 'Invalid date' ? values.date : moment(values.date).locale('ru').format('DD.MM.YYYY')}  
               variant="underlined" 
               size="md" 
               placeholder="Дата" 
@@ -130,6 +138,7 @@ function AddAppointmentScreen ({navigation, route}) {
           </Button>
         </ButtonView>
       </Stack>
+
       <Modal
           animationType='slide'
           transparent={true}
@@ -137,14 +146,20 @@ function AddAppointmentScreen ({navigation, route}) {
         >
          <View style = {styles.centeredView}>
             <View style = {styles.modalView}>
-                <DatePicker
-                  mode='calendar'
-                  style={{ borderRadius: 10}}
-                  onDateChange = {date =>  setFieldValue('date', date)}
-                  selected= {values.date}
-                />
-                <TouchableOpacity onPress={() => setOpenDate(!openDate)}>
-                  <Text>Close</Text>
+              <Calendar
+                firstDay = {1}
+                onDayPress={date => {
+                  setSelected(date.dateString);
+                }}
+                markedDates={{
+                  [selected]: {selected: true, disableTouchEvent: true, selectedDotColor: 'orange'},
+                }}
+              />
+                <TouchableOpacity onPress={() => {
+                  setFieldValue('date', selected)
+                  setOpenDate(!openDate)    
+                }}>
+                  <Text>Выбрать</Text>
               </TouchableOpacity>
             </View>
          </View>
@@ -178,7 +193,7 @@ function AddAppointmentScreen ({navigation, route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    marginTop: 50,
+    backgroundColor: 'white',
   },
 
   centeredView: {
@@ -220,4 +235,4 @@ LogBox.ignoreLogs([
   'Non-serializable values were found in the navigation state. Check:',
 ]);
 
-export default AddAppointmentScreen
+export default ChangeAppointmentScreen
