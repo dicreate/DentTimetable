@@ -9,6 +9,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import LocaleCalendar from '../utils/LocaleCalendar';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
+import CustomInput from '../components/CustomInput';
 
 function AddAppointmentScreen ({navigation, route}) {
 
@@ -68,44 +69,37 @@ function AddAppointmentScreen ({navigation, route}) {
 
   return (
    <View style = {styles.container}>
-      <Stack marginTop = '50px' space={5} w="75%" maxW="300px" mx="auto">
-        <Input 
+      <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
+        <CustomInput 
+          title = {'Номер зуба'}
           value = {values.dentNumber} 
           onChange = {handleInputChange.bind(this, 'dentNumber')}
           autoFocus 
           inputMode = {"numeric"}
-          variant="underlined" 
-          size="md" 
-          placeholder="Номер зуба" w="100%" 
+          placeholder="Номер зуба"
         />
 
-        <Input
+        <CustomInput 
+          title = {'Диагноз'}
           value = {values.diagnosis} 
           onChange = {handleInputChange.bind(this, 'diagnosis')}
-          variant="underlined" 
-          size="md" 
           placeholder="Диагноз" 
-          w="100%"
         />
-        
-        <Input 
+
+        <CustomInput
+          title = {"Цена"} 
           value = {values.price} 
           onChange = {handleInputChange.bind(this, 'price')}
-          variant="underlined" 
           inputMode = {"numeric"}
-          size="md" 
           placeholder="Цена" 
-          w="100%" 
         />
 
         <Pressable onPress={() => setOpenDate(!openDate)}>
           <View pointerEvents="none" >
-            <Input
+            <CustomInput
+              title = {"Дата"} 
               value = {moment(values.date).locale('ru').format('DD.MM.YYYY') == 'Invalid date' ? values.date : moment(values.date).locale('ru').format('DD.MM.YYYY')} 
-              variant="underlined" 
-              size="md" 
               placeholder="Дата" 
-              w="100%"
             />
           </View>         
         </Pressable>
@@ -113,12 +107,10 @@ function AddAppointmentScreen ({navigation, route}) {
         
         <Pressable onPress={() => setOpenTime(!openDate)}>
           <View pointerEvents="none" >
-            <Input
+          <CustomInput
+              title = {"Время"} 
               value = {values.time} 
-              variant="underlined" 
-              size="md" 
               placeholder="Время" 
-              w="100%"
             />
           </View>         
         </Pressable>
