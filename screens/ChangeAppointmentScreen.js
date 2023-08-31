@@ -9,6 +9,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import LocaleCalendar from '../utils/LocaleCalendar';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
+import CustomInput from '../components/CustomInput';
 
 function ChangeAppointmentScreen ({navigation, route}) {
 
@@ -68,57 +69,49 @@ function ChangeAppointmentScreen ({navigation, route}) {
   }
 
   return (
-   <View style = {styles.container}>
-      <Stack marginTop = '50px' space={5} w="75%" maxW="300px" mx="auto">
-        <Input 
-          value = {values.dentNumber == 'null' ? '' : values.dentNumber} 
-          onChange = {handleInputChange.bind(this, 'dentNumber')}
-          inputMode = {"numeric"}
-          variant="underlined" 
-          size="md" 
-          placeholder="Номер зуба" w="100%" 
-        />
+    <View style = {{flex: 1, backgroundColor: openDate || openTime ? 'rgba(0, 0, 0, 0.25)' : '#fff'}}>
+      <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
+      <CustomInput
+        title = {'Номер зуба'}  
+        value = {values.dentNumber == 'null' ? '' : values.dentNumber}
+        onChange = {handleInputChange.bind(this, 'dentNumber')}
+        autoFocus 
+        inputMode = {"numeric"}
+        placeholder="Номер зуба" 
+      />
 
-        <Input 
-          value = {values.diagnosis} 
-          onChange = {handleInputChange.bind(this, 'diagnosis')}
-          variant="underlined" 
-          size="md" 
-          placeholder="Диагноз" 
-          w="100%" 
-        />
+      <CustomInput 
+        title = {'Диагноз'}
+        value = {values.diagnosis} 
+        onChange = {handleInputChange.bind(this, 'diagnosis')}
+        placeholder="Диагноз" 
+      />
 
-        <Input 
-          value = {values.price} 
-          onChange = {handleInputChange.bind(this, 'price')}
-          variant="underlined" 
-          inputMode = {"numeric"}
-          size="md" 
-          placeholder="Цена" 
-          w="100%" 
-        />
+      <CustomInput
+        title = {"Цена"} 
+        value = {values.price} 
+        onChange = {handleInputChange.bind(this, 'price')}
+        inputMode = {"numeric"}
+        placeholder="Цена" 
+      />
 
         <Pressable onPress={() => setOpenDate(!openDate)}>
           <View pointerEvents="none" >
-            <Input
-              value = {moment(values.date).locale('ru').format('DD.MM.YYYY') == 'Invalid date' ? values.date : moment(values.date).locale('ru').format('DD.MM.YYYY')}  
-              variant="underlined" 
-              size="md" 
-              placeholder="Дата" 
-              w="100%"
-            />
+            <CustomInput
+                title = {"Дата"} 
+                value = {moment(values.date).locale('ru').format('DD.MM.YYYY') == 'Invalid date' ? values.date : moment(values.date).locale('ru').format('DD.MM.YYYY')} 
+                placeholder="Дата" 
+              />
           </View>         
         </Pressable>
 
         
         <Pressable onPress={() => setOpenTime(!openDate)}>
           <View pointerEvents="none" >
-            <Input
-              value = {values.time} 
-              variant="underlined" 
-              size="md" 
-              placeholder="Время" 
-              w="100%"
+            <CustomInput
+                title = {"Время"} 
+                value = {values.time} 
+                placeholder="Время" 
             />
           </View>         
         </Pressable>
@@ -181,7 +174,7 @@ function ChangeAppointmentScreen ({navigation, route}) {
                   }}
                 />
                 <TouchableOpacity onPress={() => setOpenTime(!openTime)}>
-                  <Text>Close</Text>
+                  <Text>Закрыть</Text>
               </TouchableOpacity>
             </View>
          </View>
@@ -191,15 +184,10 @@ function ChangeAppointmentScreen ({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    backgroundColor: 'white',
-  },
-
   centeredView: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 100,
+    height: '100%'
   },
   modalView: {
     margin: 20,

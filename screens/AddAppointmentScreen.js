@@ -68,7 +68,7 @@ function AddAppointmentScreen ({navigation, route}) {
   }
 
   return (
-   <View style = {styles.container}>
+   <View style = {{flex: 1, backgroundColor: openDate || openTime ? 'rgba(0, 0, 0, 0.25)' : '#fff'}}>
       <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
         <CustomInput 
           title = {'Номер зуба'}
@@ -107,11 +107,11 @@ function AddAppointmentScreen ({navigation, route}) {
         
         <Pressable onPress={() => setOpenTime(!openDate)}>
           <View pointerEvents="none" >
-          <CustomInput
-              title = {"Время"} 
-              value = {values.time} 
-              placeholder="Время" 
-            />
+            <CustomInput
+                title = {"Время"} 
+                value = {values.time} 
+                placeholder="Время" 
+              />
           </View>         
         </Pressable>
 
@@ -165,6 +165,7 @@ function AddAppointmentScreen ({navigation, route}) {
             <View style = {styles.modalView}>
                 <DatePicker
                   mode='time'
+                  minuteInterval = {1}
                   style={{ borderRadius: 10}}
                   onTimeChange = {time =>  {
                     setFieldValue('time', time)
@@ -182,18 +183,12 @@ function AddAppointmentScreen ({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1, 
-    backgroundColor: 'white',
-  },
-
-  centeredView: {
+   centeredView: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 100,
+    height: '100%'
   },
   modalView: {
-    margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
     width: '80%',
@@ -210,7 +205,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   }
 })
-
 
 const ButtonView = styled.View`
   margin-top: 30px;

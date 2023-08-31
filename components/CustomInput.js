@@ -25,7 +25,7 @@ const CustomInput = ({title, value, onChange, inputMode, variant="underlined" , 
 
   const InputTitle = styled.Text`
   margin-top: 5px;
-  color: blue;
+  color: #2A86FF;
   font-weight: 500;
   font-style: italic;
 `;
