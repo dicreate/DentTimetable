@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@alessiocancian/react-native-actionsheet": "^3.2.0",
@@ -22,12 +23,13 @@
     "expo-status-bar": "~1.4.4",
     "moment": "^2.29.4",
     "native-base": "^3.4.28",
+    "patch-package": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "18.2.0",
     "react-native": "0.71.3",
     "react-native-calendars": "^1.1300.0",
-    "react-native-modal-datetime-picker": "^17.1.0",
     "react-native-modern-datepicker": "^1.0.0-beta.91",
     "react-native-reanimated": "^3.3.0",
     "react-native-safe-area-context": "3.3.2",

@@ -1,0 +1,19 @@
+diff --git a/node_modules/react-native-modern-datepicker/src/utils.js b/node_modules/react-native-modern-datepicker/src/utils.js
+index c9f0cce..cb134bd 100644
+--- a/node_modules/react-native-modern-datepicker/src/utils.js
++++ b/node_modules/react-native-modern-datepicker/src/utils.js
+@@ -50,10 +50,10 @@ const gregorianConfigs = {
+   dateFormat: 'YYYY/MM/DD',
+   monthYearFormat: 'YYYY MM',
+   timeFormat: 'HH:mm',
+-  hour: 'Hour',
+-  minute: 'Minute',
+-  timeSelect: 'Select',
+-  timeClose: 'Close',
++  hour: 'Часы',
++  minute: 'Минуты',
++  timeSelect: 'Выбрать',
++  timeClose: 'Закрыть',
+ };
+ 
+ class utils {

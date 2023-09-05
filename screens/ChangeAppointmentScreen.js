@@ -168,6 +168,7 @@ function ChangeAppointmentScreen ({navigation, route}) {
                 <DatePicker
                   mode='time'
                   style={{ borderRadius: 10}}
+                  minuteInterval = {1}
                   onTimeChange = {time =>  {
                     setFieldValue('time', time)
                     setOpenTime(!openTime)

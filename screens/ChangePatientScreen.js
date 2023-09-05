@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
 import { CommonActions } from '@react-navigation/native';
+import CustomInput from '../components/CustomInput';
 
 function AddPatientsScreen ({navigation, route}) {
 
@@ -38,27 +39,23 @@ function AddPatientsScreen ({navigation, route}) {
   }
 
   return (
-   <View style = {{flex: 1, marginTop: 50, }}>
-      
-      <Stack space={5} w="75%" maxW="300px" mx="auto">
-        <Input 
+   <View style = {{flex: 1}}>
+      <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
+        <CustomInput
+          title = {'Имя и фамилия'}  
           value = {values.fullname} 
           onChange = {hangeChange.bind(this, 'fullname')}
           autoFocus 
-          variant="underlined" 
-          size="md" 
-          placeholder="Имя и фамилия" w="100%" 
+          placeholder="Имя и фамилия" 
         />
 
-        <Input 
+        <CustomInput
+          title = {'Номер телефона'}  
           value = {values.phone} 
           dataDetectorTypes = {"phoneNumber"} 
           onChange = {hangeChange.bind(this, 'phone')}
           inputMode = {"tel"}
-          variant="underlined" 
-          size="md" 
           placeholder="Номер телефона" 
-          w="100%" 
         />
         
         <ButtonView>
