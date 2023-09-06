@@ -112,7 +112,7 @@ export default function App() {
               name="ChangePatient" 
               component={ ChangePatientScreen } 
               options={{
-              title: 'Изменение приёма',
+              title: 'Изменение данных пациента',
               headerTintColor: '#2A86FF',
               headerStyle: {
                 evelation: 0.8,
