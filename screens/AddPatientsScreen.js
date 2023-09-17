@@ -6,11 +6,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
 import { CustomInput, CustomSwitch } from '../components/';
-import { openDatabase } from 'react-native-sqlite-storage';
+/* import { openDatabase } from 'react-native-sqlite-storage';
 
 let db = openDatabase({
   name: 'DentTimetable.db',
-})
+}) */
 
 function AddPatientsScreen ({navigation}) {
 
@@ -22,15 +22,25 @@ function AddPatientsScreen ({navigation}) {
   const [isSmoking, setIsSmoking] = useState(false);
   const [isPregnancy, setIsPregnancy] = useState(false);
 
-  const createTables = () => {
+ /*  const createTables = () => {
     db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), phone VARCHAR(20), smoking BOOL)'
+        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isSmoking IN (0, 1)))',
+        [],
+        () => {
+          console.log('table created successfully')
+        },
+        error => {
+          console.log('error on creating table' + error.message)
+        }
       )
     })
   }
   
-
+  useEffect(() => {
+    createTables();
+  }, [])
+ */
   const hangeChange = (name, e) => {
     
     const text = e.nativeEvent.text;
@@ -42,6 +52,13 @@ function AddPatientsScreen ({navigation}) {
   }
 
   const onSumbit = () => {
+   /*  db.transaction(txn => {
+      txn.executeSql(
+        'INSERT INTO patients (name, phone, isSmoking, isPregnancy) VALUES (?)',
+        []
+      )
+    }) */
+
     patientsApi.add(values).then(() => {
       navigation.navigate('Patients', { lastUpdatePatient: new Date() } );
     }).catch(() => alert("Заполните все поля"));
