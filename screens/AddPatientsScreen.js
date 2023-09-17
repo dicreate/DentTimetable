@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text,  View, StyleSheet, TouchableOpacity, Switch } from 'react-native'
 import { Modal } from 'react-native';
 import { Stack, Button, HStack,} from "native-base";
@@ -6,7 +6,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
 import { CustomInput, CustomSwitch } from '../components/';
+import { openDatabase } from 'react-native-sqlite-storage';
 
+let db = openDatabase({
+  name: 'DentTimetable.db',
+})
 
 function AddPatientsScreen ({navigation}) {
 
@@ -17,7 +21,15 @@ function AddPatientsScreen ({navigation}) {
   const [openInfo, setOpenInfo] = useState(false);
   const [isSmoking, setIsSmoking] = useState(false);
   const [isPregnancy, setIsPregnancy] = useState(false);
- 
+
+  const createTables = () => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), phone VARCHAR(20), smoking BOOL)'
+      )
+    })
+  }
+  
 
   const hangeChange = (name, e) => {
     
