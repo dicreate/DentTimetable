@@ -6,11 +6,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
 import { CustomInput, CustomSwitch } from '../components/';
-/* import { openDatabase } from 'react-native-sqlite-storage';
+import * as SQLite from 'expo-sqlite';
 
-let db = openDatabase({
-  name: 'DentTimetable.db',
-}) */
+/* const db = SQLite.openDatabase({
+  name: "DentTimetable.db",
+});  */
 
 function AddPatientsScreen ({navigation}) {
 
