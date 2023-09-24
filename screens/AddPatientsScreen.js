@@ -8,11 +8,9 @@ import { patientsApi } from '../utils/api';
 import { CustomInput, CustomSwitch } from '../components/';
 import * as SQLite from 'expo-sqlite';
 
-/* const db = SQLite.openDatabase({
-  name: "DentTimetable.db",
-});  */
-
 function AddPatientsScreen ({navigation}) {
+
+  const db = SQLite.openDatabase('DentTimetable.db');
 
   const [values, setValues] = useState({
     'fullname': '',
@@ -21,11 +19,12 @@ function AddPatientsScreen ({navigation}) {
   const [openInfo, setOpenInfo] = useState(false);
   const [isSmoking, setIsSmoking] = useState(false);
   const [isPregnancy, setIsPregnancy] = useState(false);
+  const [patients, setPatients] = useState(undefined)
 
- /*  const createTables = () => {
+  const createTables = () => {
     db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isSmoking IN (0, 1)))',
+        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
         [],
         () => {
           console.log('table created successfully')
@@ -36,11 +35,33 @@ function AddPatientsScreen ({navigation}) {
       )
     })
   }
+
+    addPatientInfo = () => {
+
+      db.transaction(txn => {
+        txn.executeSql(
+          `INSERT INTO patients (name, phone, isSmoking, isPregnancy) VALUES ('${values.fullname}', '${values.phone}', ${isSmoking}, ${isPregnancy})`,
+          [],
+          () => {
+            console.log('info added successfully')
+          },
+          error => {
+            console.log('error on adding info ' + error.message)
+          }
+        )
+      }) 
+    }
   
   useEffect(() => {
     createTables();
+    db.transaction(txn => {
+      txn.executeSql('SELECT * FROM patients', null, 
+      (txnObj, resultSet) => setPatients(resultSet.rows._array),
+      (txnObj, error) => {console.log(error);}
+      )
+    })
   }, [])
- */
+
   const hangeChange = (name, e) => {
     
     const text = e.nativeEvent.text;
@@ -51,21 +72,29 @@ function AddPatientsScreen ({navigation}) {
     });
   }
 
-  const onSumbit = () => {
-   /*  db.transaction(txn => {
+  // Sqlite submit
+  
+ /*    onSumbit = () => {
+        db.transaction(txn => {
       txn.executeSql(
         'INSERT INTO patients (name, phone, isSmoking, isPregnancy) VALUES (?)',
         []
       )
-    }) */
+    }) 
+    } */
+ 
+
+    // Submit для MongoDB
+/*   const onSumbit = () => {
 
     patientsApi.add(values).then(() => {
       navigation.navigate('Patients', { lastUpdatePatient: new Date() } );
     }).catch(() => alert("Заполните все поля"));
-  }
+  } */
 
   return (
-   <View style = {{flex: 1, backgroundColor: openInfo ? 'rgba(0, 0, 0, 0.25)' : '#fff',}}>     
+   <View style = {{flex: 1, backgroundColor: openInfo ? 'rgba(0, 0, 0, 0.25)' : '#fff',}}>  
+   {console.log(patients)}   
       <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
         <CustomInput
           title = {'Имя и фамилия'}  
@@ -97,7 +126,7 @@ function AddPatientsScreen ({navigation}) {
           </ButtonText>  
         </Button>
           <Button
-          onPress={() => onSumbit()} 
+          onPress={() => addPatientInfo()} 
           size="md"
           w="100%" 
           borderRadius={'20px'} 
