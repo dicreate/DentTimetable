@@ -8,12 +8,16 @@ import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Input } from 'native-base';
 import { Spinner, Heading, HStack } from "native-base";
+import * as SQLite from 'expo-sqlite';
 
 const PatientsScreen = ({navigation}) => {
+
+  const db = SQLite.openDatabase('DentTimetable.db');
 
   const [patientsData, setPatientsData] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [patients, setPatients] = useState(undefined)
 
   const fetchPatients = async () => {
     setIsLoading(true);
@@ -23,10 +27,21 @@ const PatientsScreen = ({navigation}) => {
     setPatientsData(response.data.data)
     setIsLoading(false);
   }
+
+  const getPatients = async () => {
+    setIsLoading(true);
+      db.transaction(txn => {
+        txn.executeSql('SELECT * FROM patients', null, 
+        (txnObj, resultSet) => setPatients(resultSet.rows._array),
+        (txnObj, error) => {console.log(error);}
+        )
+      })
+    setIsLoading(false);
+  }
   
   useEffect(() => { 
-    fetchPatients();
-  }, [navigation.getState().routes[1].params])
+   getPatients()
+  }, [/* navigation.getState().routes[1].params*/] )
 
   const searchPatients = e => {
     setSearchValue(e.nativeEvent.text);
@@ -40,7 +55,7 @@ const PatientsScreen = ({navigation}) => {
     const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
     const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
     const title = item.patient.fullname;
-    const patientId = item.patient._id;
+    const patientId = item.patient.id;
 
     const icons = [
       <Icon name="exchange" size={20} />,
@@ -63,9 +78,12 @@ const PatientsScreen = ({navigation}) => {
                 return;
 
               case 1:
-                removePatient(patientId);
+                db.transaction(txn => {
+                  txn.executeSql(`DELETE FROM patients WHERE id=${patientId};`)
+                })
+                getPatients()
                 return;
-
+        
               case 2:
                 return;
               
@@ -87,7 +105,7 @@ const PatientsScreen = ({navigation}) => {
     return response.data.data.appoitments
   }  
 
-  const removePatient = async (id) => {
+/*   const removePatient = async (id) => {
     const Appointments = await GetAppointments(id)
     const isAppointments = Appointments.length > 0 ? true : false
 
@@ -117,12 +135,13 @@ const PatientsScreen = ({navigation}) => {
       ],
       {cancelable: false},
     );
- }
+ } */
     
   return (
    <Container>
+    {console.log(patients)}
     {
-      patientsData 
+      patients
       ? <>
           <SearchView>
             <Input style={{
@@ -134,14 +153,14 @@ const PatientsScreen = ({navigation}) => {
             />
           </SearchView>
           <FlatList
-            data = {patientsData.filter(
+            data = {patients.filter(
               item => 
                 item.fullname
                 .toLowerCase()
                 .indexOf(searchValue.toLowerCase()) >= 0
                 )}
             keyExtractor={(item, index) => index}
-            onRefresh={fetchPatients}
+            onRefresh={getPatients}
             refreshing = {isLoading}
             renderItem={({item}) => <Appoitment 
               onLongPress = {(itemInfo) => openSheet(itemInfo)}
@@ -163,8 +182,6 @@ const PatientsScreen = ({navigation}) => {
           </Heading>
       </HStack>
     }
-  
- 
  </Container>
   )
 }

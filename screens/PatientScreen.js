@@ -15,7 +15,7 @@ const PatientScreen = ({ navigation, route }) => {
   const [ appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+/*   useEffect(() => {
     const id = item.patient._id;
     patientsApi.show(id).then(({data}) => {
       setAppointments(data.data.appoitments);
@@ -24,7 +24,7 @@ const PatientScreen = ({ navigation, route }) => {
       console.log(e);
       setIsLoading(false);
     })
-  }, [])
+  }, []) */
 
   return (
     <View style = {{flex: 1}}>
@@ -38,7 +38,7 @@ const PatientScreen = ({ navigation, route }) => {
           </PattientButtons>  
       </PatientDetails>
 
-      <PatientAppoitments>
+    {/*   <PatientAppoitments>
         <Container>
           {isLoading 
           ? <ActivityIndicator size="large" color="#2A86FF"/> 
@@ -61,9 +61,9 @@ const PatientScreen = ({ navigation, route }) => {
            </AppoitmentCard>
          )}
         </Container>
-      </PatientAppoitments>
+      </PatientAppoitments> */}
       <PlusButton onPress = {() => navigation.navigate('AddAppointment', {
-        patientId: item.patient._id
+        patientId: item.patient.id
       })}/>
       </View>
   )

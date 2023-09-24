@@ -24,7 +24,7 @@ function AddPatientsScreen ({navigation}) {
   const createTables = () => {
     db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
+        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
         [],
         () => {
           console.log('table created successfully')
@@ -39,17 +39,18 @@ function AddPatientsScreen ({navigation}) {
     addPatientInfo = () => {
 
       db.transaction(txn => {
-        txn.executeSql(
-          `INSERT INTO patients (name, phone, isSmoking, isPregnancy) VALUES ('${values.fullname}', '${values.phone}', ${isSmoking}, ${isPregnancy})`,
-          [],
-          () => {
-            console.log('info added successfully')
-          },
-          error => {
-            console.log('error on adding info ' + error.message)
-          }
-        )
+      txn.executeSql(
+        `INSERT INTO patients (fullname, phone, isSmoking, isPregnancy) VALUES ('${values.fullname}', '${values.phone}', ${isSmoking}, ${isPregnancy})`,
+        [],
+        () => {
+          console.log('info added successfully')
+        },
+        error => {
+          console.log('error on adding info ' + error.message)
+        }
+          )
       }) 
+      
     }
   
   useEffect(() => {

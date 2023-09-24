@@ -9,11 +9,26 @@ import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Spinner, Heading, HStack } from "native-base";
 import moment from 'moment/moment';
 import 'moment/locale/ru';
+import * as SQLite from 'expo-sqlite';
 
 const HomeScreen = ({navigation}) => {
 
+  const db = SQLite.openDatabase('DentTimetable.db');
+
   const [appointmentsData, setAppointmentsData] = useState();
+  const [appointments, setAppointments] = useState();
   const [isLoading, setIsLoading] = useState(false);
+
+  const GetAppointments = async () => {
+    setIsLoading(true);
+      db.transaction(txn => {
+        txn.executeSql('SELECT * FROM appointments', null, 
+        (txnObj, resultSet) => setAppointments(resultSet.rows._array),
+        (txnObj, error) => {console.log(error);}
+        )
+      })
+    setIsLoading(false);
+  }
 
   const fetchAppointments = async () => {
     setIsLoading(true);
@@ -22,9 +37,9 @@ const HomeScreen = ({navigation}) => {
     })
     setAppointmentsData(response.data.data)
     setIsLoading(false);
-  }
-  
-  useEffect(() => { 
+  } 
+  useEffect(() => {
+    GetAppointments(); 
     fetchAppointments();
   }, [navigation.getState().routes[0].params])
 
@@ -99,6 +114,7 @@ const HomeScreen = ({navigation}) => {
     {
       appointmentsData 
       ? <>
+      {console.log(appointments)}
          <SectionList
             sections={appointmentsData }
             keyExtractor={(item, index) => index}

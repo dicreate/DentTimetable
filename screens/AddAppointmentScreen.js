@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, LogBox, Pressable, Modal, StyleSheet, TouchableOpacity, Text } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -10,8 +10,11 @@ import LocaleCalendar from '../utils/LocaleCalendar';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import CustomInput from '../components/CustomInput';
+import * as SQLite from 'expo-sqlite';
 
 function AddAppointmentScreen ({navigation, route}) {
+
+  const db = SQLite.openDatabase('DentTimetable.db');
 
   LocaleConfig.locales['ru'] = LocaleCalendar.ru
   LocaleConfig.defaultLocale = 'ru';
@@ -45,12 +48,32 @@ function AddAppointmentScreen ({navigation, route}) {
     })
   }
 
+  const createTables = () => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20), time VARCHAR(20), FOREIGN KEY (patientId) REFERENCES patients(id))',
+        [],
+        () => {
+          console.log('table created successfully')
+        },
+        error => {
+          console.log('error on creating table' + error.message)
+        }
+      )
+    })
+  }
+
+  useEffect(() => {
+    createTables();
+  }, [])
+
+
   const handleInputChange = (name, e) => { 
     const text = e.nativeEvent.text;
     setFieldValue(name, text);
   }
 
-  const onSumbit = () => {
+/*   const onSumbit = () => {
     appoitmentsApi
     .add(values)
     .then(() => {
@@ -65,6 +88,24 @@ function AddAppointmentScreen ({navigation, route}) {
         })
       }
     });
+  }
+ */
+  /* 'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20), time VARCHAR(20), FOREIGN KEY (patientId) REFERENCES patients(id))', */
+  const addAppointments = () => {
+
+    db.transaction(txn => {
+      txn.executeSql(
+        `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time) VALUES (${values.patient}, ${Number(values.dentNumber)}, '${values.diagnosis}', ${Number(values.price)}, '${values.date}', '${values.time}')`,
+        [],
+        () => {
+          console.log('info added successfully')
+        },
+        error => {
+          console.log('error on adding info ' + error.message)
+        }
+          )
+      }) 
+      
   }
 
   return (
@@ -117,7 +158,7 @@ function AddAppointmentScreen ({navigation, route}) {
 
         <ButtonView>
           <Button
-          onPress={() => onSumbit()} 
+          onPress={() => addAppointments()} 
           size="md"
           w="100%" 
           borderRadius={'20px'} 
