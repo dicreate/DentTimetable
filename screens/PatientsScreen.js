@@ -28,7 +28,7 @@ const PatientsScreen = ({navigation}) => {
     setIsLoading(false);
   }
 
-  const getPatients = async () => {
+  const getPatients = () => {
     setIsLoading(true);
       db.transaction(txn => {
         txn.executeSql('SELECT * FROM patients', null, 
@@ -160,15 +160,15 @@ const PatientsScreen = ({navigation}) => {
                 .indexOf(searchValue.toLowerCase()) >= 0
                 )}
             keyExtractor={(item, index) => index}
-            onRefresh={getPatients}
-            refreshing = {isLoading}
-            renderItem={({item}) => <Appoitment 
+            onRefresh = { getPatients }
+            refreshing = { isLoading }
+            renderItem={({ item }) => <Appoitment 
               onLongPress = {(itemInfo) => openSheet(itemInfo)}
               item = {{
-                patient: item,
+                fullname: item.fullname,
                 diagnosis: item.phone,
               }} 
-              navigate = {navigation.navigate}/>}
+              navigate = { navigation.navigate }/>}
             renderSectionHeader={({section: {title}}) => (
               <SectionTitle> {title}</SectionTitle>
     )}

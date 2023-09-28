@@ -25,15 +25,15 @@ const PatientScreen = ({ navigation, route }) => {
       setIsLoading(false);
     })
   }, []) */
-
+  console.log(item)
   return (
     <View style = {{flex: 1}}>
         <PatientDetails>
-          <PatientFullName>{item.patient.fullname}</PatientFullName>
-          <GrayText>{item.patient.phone}</GrayText>
+          <PatientFullName>{item.fullname}</PatientFullName>
+          <GrayText>{item.diagnosis}</GrayText>
           <PattientButtons>
             <FormulaButtonView><FormulaButton>Формула зубов</FormulaButton></FormulaButtonView>
-            <PhoneButtonView ><PhoneButton onPress = {() => Linking.openURL('tel:' + item.patient.phone)} color="#84D269"><Foundation name="telephone" size={22} color="white" />
+            <PhoneButtonView ><PhoneButton onPress = {() => Linking.openURL('tel:' + item.diagnosis)} color="#84D269"><Foundation name="telephone" size={22} color="white" />
             </PhoneButton></PhoneButtonView>
           </PattientButtons>  
       </PatientDetails>

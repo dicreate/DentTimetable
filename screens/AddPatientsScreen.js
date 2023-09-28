@@ -50,7 +50,7 @@ function AddPatientsScreen ({navigation}) {
         }
           )
       }) 
-      
+      navigation.navigate('Patients');
     }
   
   useEffect(() => {

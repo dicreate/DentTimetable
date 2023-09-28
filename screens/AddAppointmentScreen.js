@@ -105,7 +105,7 @@ function AddAppointmentScreen ({navigation, route}) {
         }
           )
       }) 
-      
+      navigation.navigate('Home');
   }
 
   return (
