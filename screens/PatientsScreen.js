@@ -32,7 +32,7 @@ const PatientsScreen = ({navigation}) => {
     setIsLoading(true);
       db.transaction(txn => {
         txn.executeSql('SELECT * FROM patients', null, 
-        (txnObj, resultSet) => setPatients(resultSet.rows._array),
+        (txnObj, resultSet) => resultSet.rows.length ? setPatients(resultSet.rows._array) : setPatients('no patients'),
         (txnObj, error) => {console.log(error);}
         )
       })
@@ -40,7 +40,7 @@ const PatientsScreen = ({navigation}) => {
   }
   
   useEffect(() => { 
-   getPatients()
+    getPatients()
   }, [/* navigation.getState().routes[1].params*/] )
 
   const searchPatients = e => {
@@ -141,7 +141,7 @@ const PatientsScreen = ({navigation}) => {
    <Container>
     {console.log(patients)}
     {
-      patients
+      patients && patients !== 'no patients'
       ? <>
           <SearchView>
             <Input style={{
@@ -175,12 +175,14 @@ const PatientsScreen = ({navigation}) => {
         />
          <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
       </>
-      : <HStack space={2} justifyContent="center" marginTop = {150}>
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            Загрузка
-          </Heading>
-      </HStack>
+      : patients !== 'no patients' 
+        ? <HStack space={2} justifyContent="center" marginTop = {150}>
+            <Spinner accessibilityLabel="Loading posts" />
+            <Heading color="primary.500" fontSize="md">
+              Загрузка
+            </Heading>
+        </HStack>
+        : null
     }
  </Container>
   )

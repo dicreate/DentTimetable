@@ -95,7 +95,6 @@ function AddPatientsScreen ({navigation}) {
 
   return (
    <View style = {{flex: 1, backgroundColor: openInfo ? 'rgba(0, 0, 0, 0.25)' : '#fff',}}>  
-   {console.log(patients)}   
       <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
         <CustomInput
           title = {'Имя и фамилия'}  

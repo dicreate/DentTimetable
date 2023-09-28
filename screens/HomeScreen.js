@@ -39,7 +39,7 @@ const HomeScreen = ({navigation}) => {
     setIsLoading(false);
   } 
   useEffect(() => {
-    GetAppointments(); 
+    /* GetAppointments();  */
     fetchAppointments();
   }, [navigation.getState().routes[0].params])
 
@@ -114,7 +114,6 @@ const HomeScreen = ({navigation}) => {
     {
       appointmentsData 
       ? <>
-      {console.log(appointments)}
          <SectionList
             sections={appointmentsData }
             keyExtractor={(item, index) => index}
