@@ -6,14 +6,16 @@ import styled from 'styled-components'
 import { patientsApi } from '../utils/api';
 import { CommonActions } from '@react-navigation/native';
 import CustomInput from '../components/CustomInput';
+import * as SQLite from 'expo-sqlite';
 
 function AddPatientsScreen ({navigation, route}) {
 
   const { item } = route.params;
+  const db = SQLite.openDatabase('DentTimetable.db');
 
   const [values, setValues] = useState({
-    'fullname': item.patient.fullname,
-    'phone': item.patient.phone
+    'fullname': item.fullname,
+    'phone': item.phone
   });
 
   const hangeChange = (name, e) => {
@@ -26,16 +28,24 @@ function AddPatientsScreen ({navigation, route}) {
     });
   }
 
+
   const onSumbit = () => {
-    patientsApi.change(item.patient._id, values)
-    .then(() => {
-      navigation.dispatch({
-        ...CommonActions.setParams({ lastUpdatePatient: new Date() }),
-        source: navigation.getState().routes[0].key,
-      });
+    db.transaction(txn => {
+      txn.executeSql(
+        `UPDATE patients 
+        SET fullname = '${values.fullname}', phone = '${values.phone}'
+        WHERE id = ${item.id}
+        `,
+        [],
+        () => {
+          console.log('info added successfully')
+        },
+        error => {
+          console.log('error on adding info ' + error.message)
+        }
+          )
+      }) 
       navigation.navigate('Patients', { lastUpdatePatient: new Date() });
-    })
-    .catch(() => alert("Минимальное количество символов для полей 4"));
   }
 
   return (

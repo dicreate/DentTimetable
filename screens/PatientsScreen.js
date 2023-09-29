@@ -41,7 +41,7 @@ const PatientsScreen = ({navigation}) => {
   
   useEffect(() => { 
     getPatients()
-  }, [/* navigation.getState().routes[1].params*/] )
+  }, [navigation.getState().routes[1].params])
 
   const searchPatients = e => {
     setSearchValue(e.nativeEvent.text);
@@ -54,8 +54,8 @@ const PatientsScreen = ({navigation}) => {
     const options = ["Изменить", "Удалить", "Отмена"];
     const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
     const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
-    const title = item.patient.fullname;
-    const patientId = item.patient.id;
+    const title = item.fullname;
+    const patientId = item.id;
 
     const icons = [
       <Icon name="exchange" size={20} />,
@@ -139,7 +139,7 @@ const PatientsScreen = ({navigation}) => {
     
   return (
    <Container>
-    {console.log(patients)}
+    {/* {console.log(patients)} */}
     {
       patients && patients !== 'no patients'
       ? <>
@@ -165,6 +165,7 @@ const PatientsScreen = ({navigation}) => {
             renderItem={({ item }) => <Appoitment 
               onLongPress = {(itemInfo) => openSheet(itemInfo)}
               item = {{
+                id: item.id,
                 fullname: item.fullname,
                 diagnosis: item.phone,
                 phone: item.phone
