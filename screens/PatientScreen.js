@@ -33,7 +33,7 @@ const PatientScreen = ({ navigation, route }) => {
           <GrayText>{item.diagnosis}</GrayText>
           <PattientButtons>
             <FormulaButtonView><FormulaButton>Формула зубов</FormulaButton></FormulaButtonView>
-            <PhoneButtonView ><PhoneButton onPress = {() => Linking.openURL('tel:' + item.diagnosis)} color="#84D269"><Foundation name="telephone" size={22} color="white" />
+            <PhoneButtonView ><PhoneButton onPress = {() => Linking.openURL('tel:' + item.phone)} color="#84D269"><Foundation name="telephone" size={22} color="white" />
             </PhoneButton></PhoneButtonView>
           </PattientButtons>  
       </PatientDetails>

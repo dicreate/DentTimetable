@@ -167,6 +167,7 @@ const PatientsScreen = ({navigation}) => {
               item = {{
                 fullname: item.fullname,
                 diagnosis: item.phone,
+                phone: item.phone
               }} 
               navigate = { navigation.navigate }/>}
             renderSectionHeader={({section: {title}}) => (

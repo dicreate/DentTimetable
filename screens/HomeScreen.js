@@ -10,6 +10,7 @@ import { Spinner, Heading, HStack } from "native-base";
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import * as SQLite from 'expo-sqlite';
+import { reduce, groupBy } from 'lodash';
 
 const HomeScreen = ({navigation}) => {
 
@@ -69,7 +70,12 @@ const HomeScreen = ({navigation}) => {
     setIsLoading(true);
       db.transaction(txn => {
         txn.executeSql('SELECT * FROM appointments JOIN patients', null, 
-        (txnObj, resultSet) => setAppointments(resultSet.rows._array),
+        (txnObj, resultSet) => setAppointments(
+          reduce(groupBy(resultSet.rows._array, 'date'), (result, value, key) => {
+            result = [...result, {title: key, data: value}];
+            return result;
+         },[])
+          ),
         (txnObj, error) => {console.log(error);}
         )
       })
@@ -158,11 +164,10 @@ const HomeScreen = ({navigation}) => {
   return (
    <Container>
     {
-      DATA
+      appointments
       ? <>
-      {console.log(appointments)}
          <SectionList
-            sections={DATA}
+            sections={appointments}
             keyExtractor={(item, index) => index}
             onRefresh={fetchAppointments}
             refreshing = {isLoading}
