@@ -9,8 +9,11 @@ import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Input } from 'native-base';
 import { Spinner, Heading, HStack } from "native-base";
 import * as SQLite from 'expo-sqlite';
+import { showAppointments, showPatients } from '../sqlite/requests';
 
 const PatientsScreen = ({navigation}) => {
+
+  showAppointments()
 
   const db = SQLite.openDatabase('DentTimetable.db');
 
@@ -78,7 +81,29 @@ const PatientsScreen = ({navigation}) => {
                 return;
 
               case 1:
-                db.transaction(txn => {
+              db.transaction(txn => {
+                  txn.executeSql(`SELECT * FROM appointments WHERE patientId=${patientId};`, null, 
+                  (txnObj, result) => { 
+                    result.rows.length 
+                    ? db.transaction(txn => {
+
+                      txn.executeSql(`DELETE FROM appointments WHERE patientId=${patientId};`,
+                      [],
+                      () => {
+                        console.log('appointments deleted successfully')
+                      },
+                      error => {
+                        console.log('error on deleting patient' + error.message)
+                      })
+                    }) 
+                    : null
+                  },
+                  (txnObj, error) => {console.log(error);}
+                  )
+                }) 
+ 
+                 db.transaction(txn => {
+
                   txn.executeSql(`DELETE FROM patients WHERE id=${patientId};`,
                   [],
                   () => {
@@ -87,7 +112,7 @@ const PatientsScreen = ({navigation}) => {
                   error => {
                     console.log('error on deleting patient' + error.message)
                   })
-                })
+                }) 
                 getPatients()
                 return;
         

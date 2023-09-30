@@ -3,8 +3,7 @@ import * as SQLite from 'expo-sqlite';
 const db = SQLite.openDatabase('DentTimetable.db');
 
 const createTables = () => {
-   
-    
+       
     db.transaction(txn => {
         txn.executeSql(
           'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
@@ -35,10 +34,39 @@ const createTables = () => {
   const showAppointments = () => {
     db.transaction(txn => {
       txn.executeSql('SELECT * FROM appointments', null, 
-      (txnObj, result) => console.log(result),
+      (txnObj, result) => console.log(result.rows),
       (txnObj, error) => {console.log(error);}
       )
     })
   }
 
-  export { createTables, showAppointments }
+  const dropAppointments = () => {
+    db.transaction(txn => {
+      txn.executeSql('DROP TABLE appointments', null, 
+      (txnObj, result) => console.log('table drop successfully'),
+      (txnObj, error) => {console.log(error);}
+      )
+    })
+  }
+  
+  
+  const showPatients = () => {
+    db.transaction(txn => {
+      txn.executeSql('SELECT * FROM patients', null, 
+      (txnObj, result) => console.log(result.rows),
+      (txnObj, error) => {console.log(error);}
+      )
+    })
+  }
+
+  const dropPatients = () => {
+    db.transaction(txn => {
+      txn.executeSql('DROP TABLE patients', null, 
+      (txnObj, result) => console.log('table drop successfully'),
+      (txnObj, error) => {console.log(error);}
+      )
+    })
+  }
+
+
+  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients }

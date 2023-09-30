@@ -70,7 +70,7 @@ const HomeScreen = ({navigation}) => {
   const GetAppointments = async () => {
     setIsLoading(true);
       db.transaction(txn => {
-        txn.executeSql('SELECT * FROM patients JOIN appointments', null, 
+        txn.executeSql('SELECT * FROM patients JOIN appointments WHERE appointments.patientId = patients.id', null, 
         (txnObj, resultSet) => resultSet.rows.length ? setAppointments(
           reduce(groupBy(resultSet.rows._array, 'date'), (result, value, key) => {
             result = [...result, {title: key, data: value}];
@@ -141,7 +141,6 @@ const HomeScreen = ({navigation}) => {
                   })
                 })
                 GetAppointments()
-                showAppointments();
                 return;
 
               case 2:
