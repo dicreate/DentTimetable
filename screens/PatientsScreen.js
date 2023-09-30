@@ -38,7 +38,7 @@ const PatientsScreen = ({navigation}) => {
       })
     setIsLoading(false);
   }
-  
+
   useEffect(() => { 
     getPatients()
   }, [navigation.getState().routes[1].params])
@@ -79,7 +79,14 @@ const PatientsScreen = ({navigation}) => {
 
               case 1:
                 db.transaction(txn => {
-                  txn.executeSql(`DELETE FROM patients WHERE id=${patientId};`)
+                  txn.executeSql(`DELETE FROM patients WHERE id=${patientId};`,
+                  [],
+                  () => {
+                    console.log('patient deleted successfully')
+                  },
+                  error => {
+                    console.log('error on deleting patient' + error.message)
+                  })
                 })
                 getPatients()
                 return;

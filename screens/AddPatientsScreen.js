@@ -21,21 +21,6 @@ function AddPatientsScreen ({navigation}) {
   const [isPregnancy, setIsPregnancy] = useState(false);
   const [patients, setPatients] = useState(undefined)
 
-  const createTables = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
-        [],
-        () => {
-          console.log('table created successfully')
-        },
-        error => {
-          console.log('error on creating table' + error.message)
-        }
-      )
-    })
-  }
-
     addPatientInfo = () => {
 
       db.transaction(txn => {
@@ -50,11 +35,10 @@ function AddPatientsScreen ({navigation}) {
         }
           )
       }) 
-      navigation.navigate('Patients');
+      navigation.navigate('Patients', { lastUpdatePatient: new Date()});
     }
   
   useEffect(() => {
-    createTables();
     db.transaction(txn => {
       txn.executeSql('SELECT * FROM patients', null, 
       (txnObj, resultSet) => setPatients(resultSet.rows._array),

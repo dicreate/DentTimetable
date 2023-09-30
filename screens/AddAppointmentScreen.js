@@ -48,26 +48,6 @@ function AddAppointmentScreen ({navigation, route}) {
     })
   }
 
-  const createTables = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20), time VARCHAR(20), FOREIGN KEY (patientId) REFERENCES patients(id))',
-        [],
-        () => {
-          console.log('table created successfully')
-        },
-        error => {
-          console.log('error on creating table' + error.message)
-        }
-      )
-    })
-  }
-
-  useEffect(() => {
-    createTables();
-  }, [])
-
-
   const handleInputChange = (name, e) => { 
     const text = e.nativeEvent.text;
     setFieldValue(name, text);
@@ -105,7 +85,7 @@ function AddAppointmentScreen ({navigation, route}) {
         }
           )
       }) 
-      navigation.navigate('Home');
+      navigation.navigate('Home', { lastUpdate: new Date() });
   }
 
   return (

@@ -6,9 +6,11 @@ import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
+import {createTables} from "./sqlite/commands";
 
 export default function App() {
 
+  createTables();
   const Stack = createNativeStackNavigator();
   
   return (

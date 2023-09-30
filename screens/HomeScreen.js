@@ -91,6 +91,7 @@ const HomeScreen = ({navigation}) => {
     setAppointmentsData(response.data.data)
     setIsLoading(false);
   } 
+
   useEffect(() => {
     GetAppointments(); 
     /* fetchAppointments(); */
@@ -103,7 +104,7 @@ const HomeScreen = ({navigation}) => {
     const options = ["Изменить", "Удалить", "Отмена"];
     const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
     const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
-    const title = item.patient.fullname + ' - ' + item.time;
+    const title = item.fullname + ' - ' + item.time;
 
     const icons = [
       <Icon name="exchange" size={20} />,
@@ -128,7 +129,17 @@ const HomeScreen = ({navigation}) => {
                 return;
 
               case 1:
-                removeAppointment(item._id);
+                db.transaction(txn => {
+                  txn.executeSql(`DELETE FROM appointments WHERE id=${item.id};`,
+                  [],
+                  () => {
+                    console.log('appointment deleted successfully')
+                  },
+                  error => {
+                    console.log('error on deleting appointment' + error.message)
+                  })
+                })
+                GetAppointments()
                 return;
 
               case 2:
@@ -164,15 +175,13 @@ const HomeScreen = ({navigation}) => {
     
   return (
    <Container>
-    {console.log(appointments)}
     {
-      
       appointments && appointments !== 'no appointments'
       ? <>
          <SectionList
             sections={appointments}
             keyExtractor={(item, index) => index}
-            onRefresh={fetchAppointments}
+            onRefresh={GetAppointments}
             refreshing = {isLoading}
             renderItem={({item}) => <Appoitment onLongPress = {(itemInfo) => openSheet(itemInfo)} item = {item} navigate = {navigation.navigate}/>}
             renderSectionHeader={({section: {title}}) => (

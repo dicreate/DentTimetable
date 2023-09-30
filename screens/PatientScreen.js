@@ -25,7 +25,6 @@ const PatientScreen = ({ navigation, route }) => {
       setIsLoading(false);
     })
   }, []) */
-  console.log(item)
   return (
     <View style = {{flex: 1}}>
         <PatientDetails>
