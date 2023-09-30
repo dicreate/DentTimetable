@@ -1,7 +1,9 @@
 import * as SQLite from 'expo-sqlite';
 
+const db = SQLite.openDatabase('DentTimetable.db');
+
 const createTables = () => {
-    const db = SQLite.openDatabase('DentTimetable.db');
+   
     
     db.transaction(txn => {
         txn.executeSql(
@@ -30,8 +32,13 @@ const createTables = () => {
     })
   }
 
-  const getAppointments = () => {
-
+  const showAppointments = () => {
+    db.transaction(txn => {
+      txn.executeSql('SELECT * FROM appointments', null, 
+      (txnObj, result) => console.log(result),
+      (txnObj, error) => {console.log(error);}
+      )
+    })
   }
 
-  export { createTables, getAppointments }
+  export { createTables, showAppointments }
