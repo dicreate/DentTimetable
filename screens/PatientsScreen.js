@@ -175,7 +175,7 @@ const PatientsScreen = ({navigation}) => {
               <SectionTitle> {title}</SectionTitle>
     )}
         />
-         <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
+         
       </>
       : patients !== 'no patients' 
         ? <HStack space={2} justifyContent="center" marginTop = {150}>
@@ -186,6 +186,7 @@ const PatientsScreen = ({navigation}) => {
         </HStack>
         : null
     }
+    <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
  </Container>
   )
 }

@@ -70,12 +70,13 @@ const HomeScreen = ({navigation}) => {
     setIsLoading(true);
       db.transaction(txn => {
         txn.executeSql('SELECT * FROM appointments JOIN patients', null, 
-        (txnObj, resultSet) => setAppointments(
+        (txnObj, resultSet) => resultSet.rows.length ? setAppointments(
           reduce(groupBy(resultSet.rows._array, 'date'), (result, value, key) => {
             result = [...result, {title: key, data: value}];
             return result;
          },[])
-          ),
+          )
+          : setAppointments('no appointments'),
         (txnObj, error) => {console.log(error);}
         )
       })
@@ -163,8 +164,10 @@ const HomeScreen = ({navigation}) => {
     
   return (
    <Container>
+    {console.log(appointments)}
     {
-      appointments
+      
+      appointments && appointments !== 'no appointments'
       ? <>
          <SectionList
             sections={appointments}
@@ -176,15 +179,17 @@ const HomeScreen = ({navigation}) => {
               <SectionTitle> {moment(title).locale('ru').format('DD.MM.YY, dd')}</SectionTitle>
     )}
         />
-         <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
       </>
-      : <HStack space={2} justifyContent="center" marginTop = {150}>
-          <Spinner accessibilityLabel="Loading posts" />
-          <Heading color="primary.500" fontSize="md">
-            Загрузка
-          </Heading>
-      </HStack>
+      : appointments !== 'no appointments' 
+        ? <HStack space={2} justifyContent="center" marginTop = {150}>
+            <Spinner accessibilityLabel="Loading posts" />
+            <Heading color="primary.500" fontSize="md">
+              Загрузка
+            </Heading>
+        </HStack>
+        : null
     }
+    <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
  </Container>
   )
 }

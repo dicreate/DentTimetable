@@ -63,7 +63,7 @@ const PatientScreen = ({ navigation, route }) => {
         </Container>
       </PatientAppoitments> */}
       <PlusButton onPress = {() => navigation.navigate('AddAppointment', {
-        patientId: item.patient.id
+        patientId: item.id
       })}/>
       </View>
   )
