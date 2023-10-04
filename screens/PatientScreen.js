@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { GrayText, Button, Badge, PlusButton } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons';
-import { patientsApi } from '../utils/api';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 

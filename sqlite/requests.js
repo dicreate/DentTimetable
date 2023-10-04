@@ -140,7 +140,21 @@ const createTables = () => {
     })
   }
 
-  
+  const getAppointmentsWithPatients = () => {
+    return new Promise((res, rej) => {
+      db.transaction(txn => {
+        txn.executeSql('SELECT * FROM patients JOIN appointments WHERE appointments.patientId = patients.id', null, 
+        (txnObj, result) => {
+          res(result)
+        },
+        (txnObj, error) => {
+          console.log(error);
+          rej(error)
+        }
+        )
+      })
+    })
+  }
 
 
-  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients }
+  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients }

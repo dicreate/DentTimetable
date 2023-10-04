@@ -3,46 +3,36 @@ import { SectionList, Alert, LogBox, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle, PlusButton } from '../components';
 import { useEffect, useState } from 'react';
-import { appoitmentsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Spinner, Heading, HStack } from "native-base";
 import moment from 'moment/moment';
 import 'moment/locale/ru';
-import * as SQLite from 'expo-sqlite';
 import { reduce, groupBy } from 'lodash';
-import { showAppointments } from '../sqlite/requests';
+import { getAppointmentsWithPatients } from '../sqlite/requests';
 
 const HomeScreen = ({navigation}) => {
 
-  const db = SQLite.openDatabase('DentTimetable.db');
-
-  const [appointmentsData, setAppointmentsData] = useState();
   const [appointments, setAppointments] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const GetAppointments = async () => {
+  const getAppointments = async () => {
     setIsLoading(true);
-      db.transaction(txn => {
-        txn.executeSql('SELECT * FROM patients JOIN appointments WHERE appointments.patientId = patients.id', null, 
-        (txnObj, resultSet) => resultSet.rows.length ? setAppointments(
-          reduce(groupBy(resultSet.rows._array, 'date'), (result, value, key) => {
-            result = [...result, {title: key, data: value}];
-            return result;
-         },[])
-          )
-          : setAppointments('no appointments'),
-        (txnObj, error) => {console.log(error);}
+    const appointmentsTable = await getAppointmentsWithPatients();
+    appointmentsTable.rows.length 
+      ? setAppointments(
+        reduce(groupBy(appointmentsTable.rows._array, 'date'), (result, value, key) => {
+          result = [...result, {title: key, data: value}];
+          return result;
+      },[])
         )
-      })
-    setIsLoading(false);
-  }
-
+      : setAppointments('no appointments')
+    setIsLoading(false); 
+  } 
+ 
   useEffect(() => {
-    GetAppointments(); 
+    getAppointments(); 
   }, [navigation.getState().routes[0].params])
-
-  console.log(navigation.getState().routes[0].params)
 
   const { showActionSheetWithOptions } = useActionSheet();
 
@@ -86,7 +76,7 @@ const HomeScreen = ({navigation}) => {
                     console.log('error on deleting appointment' + error.message)
                   })
                 })
-                GetAppointments()
+                getAppointments()
                 return;
 
               case 2:
@@ -126,13 +116,17 @@ const HomeScreen = ({navigation}) => {
       appointments && appointments !== 'no appointments'
       ? <>
          <SectionList
-            sections={appointments}
-            keyExtractor={(item, index) => index}
-            onRefresh={GetAppointments}
+            sections = {appointments}
+            keyExtractor = {(item, index) => index}
+            onRefresh = {getAppointments}
             refreshing = {isLoading}
-            renderItem={({item}) => <Appoitment onLongPress = {(itemInfo) => openSheet(itemInfo)} item = {item} navigate = {navigation.navigate}/>}
-            renderSectionHeader={({section: {title}}) => (
-              <SectionTitle> {moment(title).locale('ru').format('DD.MM.YY, dd')}</SectionTitle>
+            renderItem = { ({item}) => <Appoitment 
+              onLongPress = {(itemInfo) => openSheet(itemInfo)} 
+              item = {item} 
+              navigate = {navigation.navigate}
+              /> }
+            renderSectionHeader = {({section: {title}}) => (
+              <SectionTitle> {moment(title).locale('ru').format('DD.MM.YY, dd')} </SectionTitle>
     )}
         />
       </>

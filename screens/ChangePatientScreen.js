@@ -3,7 +3,6 @@ import { View, Text } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
-import { patientsApi } from '../utils/api';
 import { CommonActions } from '@react-navigation/native';
 import CustomInput from '../components/CustomInput';
 import * as SQLite from 'expo-sqlite';

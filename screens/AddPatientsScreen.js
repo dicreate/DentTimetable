@@ -4,7 +4,6 @@ import { Modal } from 'react-native';
 import { Stack, Button, HStack,} from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
-import { patientsApi } from '../utils/api';
 import { CustomInput, CustomSwitch } from '../components/';
 import * as SQLite from 'expo-sqlite';
 

@@ -3,7 +3,6 @@ import { View, LogBox, Pressable, Modal, StyleSheet, TouchableOpacity, Text } fr
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
-import { appoitmentsApi } from '../utils/api';
 import DatePicker from 'react-native-modern-datepicker';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import LocaleCalendar from '../utils/LocaleCalendar';
