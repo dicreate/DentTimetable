@@ -16,7 +16,7 @@
     "production": {}
   },
   "expo": {
-    "name": "DentalApplication",
+    "name": "DentTimetable",
     "slug": "dentalapp",
     "version": "1.0.0",
     "orientation": "portrait",

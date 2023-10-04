@@ -68,5 +68,64 @@ const createTables = () => {
     })
   }
 
+  const isPatientAppointments = async (patientId) => {
+    return new Promise((res, rej) => {
+      db.transaction(txn => {
+        txn.executeSql(`SELECT * FROM appointments WHERE patientId=${patientId};`, null,
+        (txnObj, result) => {
+          const rowCount = result.rows.length;
+          const isNotEmpty = rowCount > 0;
+          res(isNotEmpty)
+        },
+        (txnObj, error) => {
+          console.log(error);
+          rej(error)
+        }
+        )
+      })
+    })
+   
+  }
 
-  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients }
+  const deletePatientAppointments = async (patientId) => {
+
+    db.transaction(txn => {
+      txn.executeSql(`SELECT * FROM appointments WHERE patientId=${patientId};`, null, 
+      (txnObj, result) => { 
+        result.rows.length 
+        ? db.transaction(txn => {
+
+          txn.executeSql(`DELETE FROM appointments WHERE patientId=${patientId};`,
+          [],
+          () => {
+            console.log('appointments deleted successfully')
+          },
+          error => {
+            console.log('error on deleting patient' + error.message)
+          })
+        }) 
+        : null
+      },
+      (txnObj, error) => {console.log(error);}
+      )
+    }) 
+  }
+
+  const deletePatient = (patientId) => {
+    db.transaction(txn => {
+
+      txn.executeSql(`DELETE FROM patients WHERE id=${patientId};`,
+      [],
+      () => {
+        console.log('patient deleted successfully')
+      },
+      error => {
+        console.log('error on deleting patient' + error.message)
+      })
+    })
+  }
+
+  
+
+
+  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient }

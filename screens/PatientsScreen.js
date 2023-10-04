@@ -9,11 +9,9 @@ import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Input } from 'native-base';
 import { Spinner, Heading, HStack } from "native-base";
 import * as SQLite from 'expo-sqlite';
-import { showAppointments, showPatients } from '../sqlite/requests';
+import { showAppointments, showPatients, deletePatientAppointments, isPatientAppointments, deletePatient } from '../sqlite/requests';
 
 const PatientsScreen = ({navigation}) => {
-
-  showAppointments()
 
   const db = SQLite.openDatabase('DentTimetable.db');
 
@@ -81,38 +79,7 @@ const PatientsScreen = ({navigation}) => {
                 return;
 
               case 1:
-              db.transaction(txn => {
-                  txn.executeSql(`SELECT * FROM appointments WHERE patientId=${patientId};`, null, 
-                  (txnObj, result) => { 
-                    result.rows.length 
-                    ? db.transaction(txn => {
-
-                      txn.executeSql(`DELETE FROM appointments WHERE patientId=${patientId};`,
-                      [],
-                      () => {
-                        console.log('appointments deleted successfully')
-                      },
-                      error => {
-                        console.log('error on deleting patient' + error.message)
-                      })
-                    }) 
-                    : null
-                  },
-                  (txnObj, error) => {console.log(error);}
-                  )
-                }) 
- 
-                 db.transaction(txn => {
-
-                  txn.executeSql(`DELETE FROM patients WHERE id=${patientId};`,
-                  [],
-                  () => {
-                    console.log('patient deleted successfully')
-                  },
-                  error => {
-                    console.log('error on deleting patient' + error.message)
-                  })
-                }) 
+                deletePatientHandler(patientId)
                 getPatients()
                 return;
         
@@ -137,7 +104,37 @@ const PatientsScreen = ({navigation}) => {
     return response.data.data.appoitments
   }  
 
-/*   const removePatient = async (id) => {
+  const deletePatientHandler = async (patientId) => {
+
+    const isAppointments = await isPatientAppointments(patientId)
+    const alertText = isAppointments
+    ? 'У данного пациента есть активные приёмы. Вы действительно хотите удалить пациента вместе с приёмами ?' 
+    : 'Вы действительно хотите удалить пациента ?'
+
+    Alert.alert(
+      'удаление пациента',
+      alertText
+      ,
+      [
+        {
+          text: 'Отмена',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {text:'Удалить', onPress: async () => {
+          if (isAppointments) {
+            await deletePatientAppointments(patientId)
+            await navigation.navigate('Home', { lastUpdate: new Date() });
+          }   
+          deletePatient(patientId)
+          setIsLoading(false);
+        }}
+      ],
+      {cancelable: false},
+    );
+  }
+
+  const removePatient = async (id) => {
     const Appointments = await GetAppointments(id)
     const isAppointments = Appointments.length > 0 ? true : false
 
@@ -167,11 +164,10 @@ const PatientsScreen = ({navigation}) => {
       ],
       {cancelable: false},
     );
- } */
+ }
     
   return (
    <Container>
-    {/* {console.log(patients)} */}
     {
       patients && patients !== 'no patients'
       ? <>

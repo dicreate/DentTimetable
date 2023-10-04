@@ -21,52 +21,6 @@ const HomeScreen = ({navigation}) => {
   const [appointments, setAppointments] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const DATA = [
-    {
-      title: '2023-08-22',
-      data: [
-        { 
-        "_id": "64e489aaa397778f44b9330d", 
-        "createdAt": "2023-08-22T10:10:50.868Z", 
-        "date": "2023-08-22", 
-        "dentNumber": 1, 
-        "diagnosis": "Осмотр ",
-        "fullname": "Карина", 
-        "patient": 
-          {"__v": 
-          0, 
-          "_id": "64bada7ffc0bdabc31304708", 
-          "createdAt": "2023-07-21T19:20:31.812Z", 
-          "fullname": "Карина", 
-          "phone": "+375298878221", 
-          "updatedAt": "2023-08-22T10:09:59.961Z"}, 
-          "price": 0, 
-          "time": "14:00", 
-          "updatedAt": "2023-08-26T10:45:23.353Z"
-        }, 
-        {
-          "__v": 0, 
-          "_id": "64e489e0a397778f44b93317", 
-          "createdAt": "2023-08-22T10:11:44.707Z", 
-          "date": "2023-08-22", 
-          "dentNumber": 5, 
-          "diagnosis": "Санация ", 
-          "fullname": "Дима", 
-          "patient": 
-            {"__v": 0, 
-            "_id": "64ba614e0fa3227e485802a8", 
-            "createdAt": "2023-07-21T10:43:26.924Z", 
-            "fullname": "Дима", 
-            "phone": "+375295143602", 
-            "updatedAt": "2023-09-05T13:23:05.451Z"
-          }, 
-          "price": 1500, 
-          "time": "17:00", 
-          "updatedAt": "2023-08-22T10:11:44.707Z"
-        }]
-    }, 
-  ]
-
   const GetAppointments = async () => {
     setIsLoading(true);
       db.transaction(txn => {
@@ -84,19 +38,11 @@ const HomeScreen = ({navigation}) => {
     setIsLoading(false);
   }
 
-  const fetchAppointments = async () => {
-    setIsLoading(true);
-    const response = await appoitmentsApi.get().catch(() => {
-      alert('Ошибка подключения. Пожалуйста, включите интернет и перезагрузите приложение')
-    })
-    setAppointmentsData(response.data.data)
-    setIsLoading(false);
-  } 
-
   useEffect(() => {
     GetAppointments(); 
-    /* fetchAppointments(); */
   }, [navigation.getState().routes[0].params])
+
+  console.log(navigation.getState().routes[0].params)
 
   const { showActionSheetWithOptions } = useActionSheet();
 
