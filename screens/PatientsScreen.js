@@ -3,45 +3,27 @@ import { FlatList, Alert, LogBox, View } from 'react-native';
 import styled from 'styled-components/native'
 import { Appoitment, SectionTitle, PlusButton } from '../components';
 import { useEffect, useState } from 'react';
-import { patientsApi, appoitmentsApi } from '../utils/api'
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
 import { Input } from 'native-base';
 import { Spinner, Heading, HStack } from "native-base";
-import * as SQLite from 'expo-sqlite';
-import { showAppointments, showPatients, deletePatientAppointments, isPatientAppointments, deletePatient } from '../sqlite/requests';
+import { deletePatientAppointments, isPatientAppointments, deletePatient, getPatients } from '../sqlite/requests';
 
 const PatientsScreen = ({navigation}) => {
 
-  const db = SQLite.openDatabase('DentTimetable.db');
-
-  const [patientsData, setPatientsData] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [patients, setPatients] = useState(undefined)
 
-  const fetchPatients = async () => {
+  const getPatientsHandler = async () => {
     setIsLoading(true);
-    const response = await patientsApi.get().catch(() => {
-      alert('Ошибка подключения. Пожалуйста, включите интернет и перезагрузите приложение')
-    })
-    setPatientsData(response.data.data)
-    setIsLoading(false);
-  }
-
-  const getPatients = () => {
-    setIsLoading(true);
-      db.transaction(txn => {
-        txn.executeSql('SELECT * FROM patients', null, 
-        (txnObj, resultSet) => resultSet.rows.length ? setPatients(resultSet.rows._array) : setPatients('no patients'),
-        (txnObj, error) => {console.log(error);}
-        )
-      })
+    const patientsTable = await getPatients();
+    patientsTable.rows.length ? setPatients(patientsTable.rows._array) : setPatients('no patients')
     setIsLoading(false);
   }
 
   useEffect(() => { 
-    getPatients()
+    getPatientsHandler()
   }, [navigation.getState().routes[1].params])
 
   const searchPatients = e => {
@@ -80,7 +62,7 @@ const PatientsScreen = ({navigation}) => {
 
               case 1:
                 deletePatientHandler(patientId)
-                getPatients()
+                getPatientsHandler()
                 return;
         
               case 2:
@@ -92,17 +74,6 @@ const PatientsScreen = ({navigation}) => {
        }
      )};
   
-  const RemoveAppointments = async(id) => {
-    const Appointments = await GetAppointments(id)
-    Appointments.map((appointment) => {
-      appoitmentsApi.remove(appointment._id)
-    })
-  } 
-     
-  const GetAppointments = async(id) => {
-    const response = await patientsApi.show(id)
-    return response.data.data.appoitments
-  }  
 
   const deletePatientHandler = async (patientId) => {
 
@@ -121,50 +92,18 @@ const PatientsScreen = ({navigation}) => {
           onPress: () => {},
           style: 'cancel',
         },
-        {text:'Удалить', onPress: async () => {
-          if (isAppointments) {
-            await deletePatientAppointments(patientId)
-            await navigation.navigate('Home', { lastUpdate: new Date() });
-          }   
+        {text:'Удалить', onPress: async () => {     
           deletePatient(patientId)
+          if (isAppointments) {
+            deletePatientAppointments(patientId);
+            navigation.navigate('Home', { lastUpdate: new Date() });
+          }   
           setIsLoading(false);
         }}
       ],
       {cancelable: false},
     );
   }
-
-  const removePatient = async (id) => {
-    const Appointments = await GetAppointments(id)
-    const isAppointments = Appointments.length > 0 ? true : false
-
-    const alertText = isAppointments
-    ? 'У данного пациента есть активные приёмы. Вы действительно хотите удалить пациента вместе с приёмами ?' 
-    : 'Вы действительно хотите удалить пациента ?'
-
-    Alert.alert(
-      'удаление пациента',
-      alertText
-      ,
-      [
-        {
-          text: 'Отмена',
-          onPress: () => {},
-          style: 'cancel',
-        },
-        {text:'Удалить', onPress: async () => {
-          if (isAppointments) {
-            await RemoveAppointments(id)
-            await navigation.navigate('Home', { lastUpdate: new Date() });
-          }   
-          await patientsApi.remove(id).catch(e => alert(e))
-          fetchPatients();
-          setIsLoading(false);
-        }}
-      ],
-      {cancelable: false},
-    );
- }
     
   return (
    <Container>
@@ -188,7 +127,7 @@ const PatientsScreen = ({navigation}) => {
                 .indexOf(searchValue.toLowerCase()) >= 0
                 )}
             keyExtractor={(item, index) => index}
-            onRefresh = { getPatients }
+            onRefresh = { getPatientsHandler }
             refreshing = { isLoading }
             renderItem={({ item }) => <Appoitment 
               onLongPress = {(itemInfo) => openSheet(itemInfo)}

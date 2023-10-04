@@ -52,25 +52,7 @@ function AddAppointmentScreen ({navigation, route}) {
     const text = e.nativeEvent.text;
     setFieldValue(name, text);
   }
-
-/*   const onSumbit = () => {
-    appoitmentsApi
-    .add(values)
-    .then(() => {
-      navigation.navigate('Home', { lastUpdate: new Date() });
-    }).catch((e) => {
-        if (e.response.data && e.response.data.errors) {
-          e.response.data.errors.forEach(err => {
-            const fieldName = err.path;
-            alert(
-              `Ошибка! Поле "${fieldsName[fieldName]}" указано неверно.`
-            )
-        })
-      }
-    });
-  }
- */
-  /* 'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20), time VARCHAR(20), FOREIGN KEY (patientId) REFERENCES patients(id))', */
+  
   const addAppointments = () => {
 
     db.transaction(txn => {
