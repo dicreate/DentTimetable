@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
+import { getPatientAppointments } from '../sqlite/requests';
 
 const PatientScreen = ({ navigation, route }) => {
 
@@ -14,16 +15,19 @@ const PatientScreen = ({ navigation, route }) => {
   const [ appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-/*   useEffect(() => {
-    const id = item.patient._id;
-    patientsApi.show(id).then(({data}) => {
-      setAppointments(data.data.appoitments);
-      setIsLoading(false);
-    }).catch((e) => {
-      console.log(e);
-      setIsLoading(false);
-    })
-  }, []) */
+  const getAppointments = async () => {
+    const appointmentsTable = await getPatientAppointments(item.patientId);
+    appointmentsTable.rows.length 
+      ? setAppointments(appointmentsTable.rows._array)
+      : setAppointments('no appointments')
+    setIsLoading(false); 
+    console.log(appointmentsTable.rows._array)
+  } 
+
+  useEffect(() => {
+    getAppointments();
+  }, [])
+  
   return (
     <View style = {{flex: 1}}>
         <PatientDetails>
@@ -36,15 +40,15 @@ const PatientScreen = ({ navigation, route }) => {
           </PattientButtons>  
       </PatientDetails>
 
-    {/*   <PatientAppoitments>
+      <PatientAppoitments>
         <Container>
           {isLoading 
           ? <ActivityIndicator size="large" color="#2A86FF"/> 
           : appointments.map((appointment) => 
-            <AppoitmentCard key = {appointment._id}>
+            <AppoitmentCard key = {appointment.id}>
              <AppoitmentCardRow>
                <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
-               <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.dentNumber ? appointment.dentNumber : 'не указан'}</Text></AppoitmentCardLabel>
+               <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.toothNumber ? appointment.toothNumber : 'не указан'}</Text></AppoitmentCardLabel>
              </AppoitmentCardRow>
              <AppoitmentCardRow>
                <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
@@ -59,7 +63,7 @@ const PatientScreen = ({ navigation, route }) => {
            </AppoitmentCard>
          )}
         </Container>
-      </PatientAppoitments> */}
+      </PatientAppoitments>
       <PlusButton onPress = {() => navigation.navigate('AddAppointment', {
         patientId: item.id
       })}/>

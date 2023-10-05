@@ -71,7 +71,7 @@ const createTables = () => {
   const isPatientAppointments = async (patientId) => {
     return new Promise((res, rej) => {
       db.transaction(txn => {
-        txn.executeSql(`SELECT * FROM appointments WHERE patientId=${patientId};`, null,
+        txn.executeSql(`SELECT * FROM appointments WHERE patientId = ${patientId};`, null,
         (txnObj, result) => {
           const rowCount = result.rows.length;
           const isNotEmpty = rowCount > 0;
@@ -205,4 +205,20 @@ const createTables = () => {
       }) 
   }
 
-  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients, deleteAppointment, changePatient, changeAppointment }
+  const getPatientAppointments = async (patientId) => {
+    return new Promise((res, rej) => {
+      db.transaction(txn => {
+        txn.executeSql(`SELECT * FROM appointments WHERE patientId = ${patientId};`, null,
+        (txnObj, result) => {
+          res(result)
+        },
+        (txnObj, error) => {
+          console.log(error);
+          rej(error)
+        }
+        )
+      })
+    })
+  }
+
+  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients, deleteAppointment, changePatient, changeAppointment, getPatientAppointments }

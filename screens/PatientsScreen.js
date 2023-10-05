@@ -18,7 +18,7 @@ const PatientsScreen = ({navigation}) => {
   const getPatientsHandler = async () => {
     setIsLoading(true);
     const patientsTable = await getPatients();
-    patientsTable.rows.length ? setPatients(patientsTable.rows._array) : setPatients('no patients')
+    patientsTable.rows.length ? setPatients(patientsTable.rows._array) : setPatients('no patients');
     setIsLoading(false);
   }
 
@@ -133,6 +133,7 @@ const PatientsScreen = ({navigation}) => {
               onLongPress = {(itemInfo) => openSheet(itemInfo)}
               item = {{
                 id: item.id,
+                patientId: item.id,
                 fullname: item.fullname,
                 diagnosis: item.phone,
                 phone: item.phone
