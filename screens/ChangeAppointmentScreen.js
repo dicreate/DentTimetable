@@ -9,6 +9,7 @@ import LocaleCalendar from '../utils/LocaleCalendar';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import CustomInput from '../components/CustomInput';
+import { changeAppointment } from '../sqlite/requests';
 
 function ChangeAppointmentScreen ({navigation, route}) {
 
@@ -23,11 +24,11 @@ function ChangeAppointmentScreen ({navigation, route}) {
   
   const [values, setValues] = useState({
     'diagnosis': item.diagnosis,
-    'dentNumber': String(item.dentNumber),
+    'dentNumber': String(item.toothNumber),
     'price': String(item.price),
     'date': item.date,
     'time': item.time,
-    'patient': item.patient._id,
+    'patient': item.patientId,
   });
 
   const fieldsName = {
@@ -51,20 +52,8 @@ function ChangeAppointmentScreen ({navigation, route}) {
   }
 
   const onSumbit = () => {
-    appoitmentsApi
-    .change(item._id, values)
-    .then(() => {
-      navigation.navigate('Home', { lastUpdate: new Date() });
-    }).catch((e) => {
-        if (e.response.data && e.response.data.errors) {
-          e.response.data.errors.forEach(err => {
-            const fieldName = err.path;
-            alert(
-              `Ошибка! Поле "${fieldsName[fieldName]}" указано неверно.`
-            )
-        })
-      }
-    });
+    changeAppointment(item.id, values.date, values.diagnosis, values.price, values.time, values.dentNumber)
+    navigation.navigate('Home', { lastUpdate: new Date() });
   }
 
   return (

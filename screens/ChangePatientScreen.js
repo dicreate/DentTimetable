@@ -5,12 +5,11 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { CommonActions } from '@react-navigation/native';
 import CustomInput from '../components/CustomInput';
-import * as SQLite from 'expo-sqlite';
+import { changePatient } from '../sqlite/requests';
 
 function AddPatientsScreen ({navigation, route}) {
 
   const { item } = route.params;
-  const db = SQLite.openDatabase('DentTimetable.db');
 
   const [values, setValues] = useState({
     'fullname': item.fullname,
@@ -29,22 +28,8 @@ function AddPatientsScreen ({navigation, route}) {
 
 
   const onSumbit = () => {
-    db.transaction(txn => {
-      txn.executeSql(
-        `UPDATE patients 
-        SET fullname = '${values.fullname}', phone = '${values.phone}'
-        WHERE id = ${item.id}
-        `,
-        [],
-        () => {
-          console.log('info added successfully')
-        },
-        error => {
-          console.log('error on adding info ' + error.message)
-        }
-          )
-      }) 
-      navigation.navigate('Patients', { lastUpdatePatient: new Date() });
+    changePatient(values.fullname, values.phone, item.id);
+    navigation.navigate('Patients', { lastUpdatePatient: new Date() });
   }
 
   return (

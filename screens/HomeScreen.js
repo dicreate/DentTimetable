@@ -9,7 +9,7 @@ import { Spinner, Heading, HStack } from "native-base";
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { reduce, groupBy } from 'lodash';
-import { getAppointmentsWithPatients } from '../sqlite/requests';
+import { getAppointmentsWithPatients, deleteAppointment } from '../sqlite/requests';
 
 const HomeScreen = ({navigation}) => {
 
@@ -66,49 +66,18 @@ const HomeScreen = ({navigation}) => {
                 return;
 
               case 1:
-                db.transaction(txn => {
-                  txn.executeSql(`DELETE FROM appointments WHERE id=${item.id};`,
-                  [],
-                  () => {
-                    console.log('appointment deleted successfully')
-                  },
-                  error => {
-                    console.log('error on deleting appointment' + error.message)
-                  })
-                })
-                getAppointments()
+                deleteAppointment(item.id);
+                getAppointments();
                 return;
 
               case 2:
                 return;
               
               default: 
-                console.log('Обработчик не добавлен')
+                console.log('Обработчик не добавлен');
            }         
        }
      )};
-   
-  const removeAppointment = id => {
-    Alert.alert(
-      'удаление приёма',
-      'Вы действительно хотите удалить приём ?',
-      [
-        {
-          text: 'Отмена',
-          style: 'cancel',
-        },
-        {text:'Удалить', onPress: () => {
-          appoitmentsApi.remove(id).then(() => {
-            fetchAppointments();
-          }).catch((e) => {
-            console.log(e);
-            setIsLoading(false);
-          } )
-        }}
-      ],
-      {cancelable: false},
-    );
- }
     
   return (
    <Container>

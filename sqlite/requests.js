@@ -156,5 +156,53 @@ const createTables = () => {
     })
   }
 
+  const deleteAppointment = (appointmentId) => {
+    db.transaction(txn => {
+      txn.executeSql(`DELETE FROM appointments WHERE id = ${appointmentId};`,
+      [],
+      () => {
+        console.log('appointment deleted successfully')
+      },
+      error => {
+        console.log('error on deleting appointment' + error.message)
+      })
+    })
+  }
 
-  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients }
+  const changePatient = (fullname, phone, id) => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `UPDATE patients 
+        SET fullname = '${fullname}', phone = '${phone}'
+        WHERE id = ${id}
+        `,
+        [],
+        () => {
+          console.log('info update successfully')
+        },
+        error => {
+          console.log('error on updating info ' + error.message)
+        }
+          )
+      }) 
+  }
+
+  const changeAppointment = (id, date, diagnosis, price, time, toothNumber) => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `UPDATE appointments 
+        SET date = '${date}', diagnosis = '${diagnosis}', price = '${price}', time = '${time}', toothNumber = '${toothNumber}'
+        WHERE id = ${id}
+        `,
+        [],
+        () => {
+          console.log('info updated successfully')
+        },
+        error => {
+          console.log('error on updating info ' + error.message)
+        }
+          )
+      }) 
+  }
+
+  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients, deleteAppointment, changePatient, changeAppointment }
