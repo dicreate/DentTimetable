@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen, PatientsScreen, ChangeAppointmentScreen, ChangePatientScreen } from "./screens";
@@ -10,8 +10,13 @@ import { createTables, dropAppointments, dropPatients } from "./sqlite/requests"
 
 export default function App() {
 
-  createTables()
+/*   dropAppointments();
+  dropPatients(); */
 
+  useEffect(() => {
+    createTables()
+  }, [])
+  
   const Stack = createNativeStackNavigator();
   
   return (

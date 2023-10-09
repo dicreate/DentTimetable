@@ -42,7 +42,6 @@ const HomeScreen = ({navigation}) => {
     const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
     const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
     const title = item.fullname + ' - ' + item.time;
-    console.log(item)
     const icons = [
       <Icon name="exchange" size={20} />,
       <Icon name="trash" size={20} />,

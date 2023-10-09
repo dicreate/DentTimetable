@@ -6,7 +6,7 @@ const createTables = () => {
        
     db.transaction(txn => {
         txn.executeSql(
-          'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname VARCHAR(20), phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
+          'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname VARCHAR(20) NOT NULL, phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
           [],
           () => {
             console.log('table created successfully')
@@ -19,7 +19,7 @@ const createTables = () => {
 
     db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20), time VARCHAR(20), FOREIGN KEY (patientId) REFERENCES patients(id))',
+        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER NOT NULL, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20) NOT NULL, time VARCHAR(20) NOT NULL, FOREIGN KEY (patientId) REFERENCES patients(id))',
         [],
         () => {
           console.log('table created successfully')
@@ -110,7 +110,7 @@ const createTables = () => {
     }) 
   }
 
-  const deletePatient = async (patientId) => {
+  const deletePatient = (patientId) => {
     db.transaction(txn => {
 
       txn.executeSql(`DELETE FROM patients WHERE id=${patientId};`,
@@ -221,4 +221,35 @@ const createTables = () => {
     })
   }
 
-  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients, deleteAppointment, changePatient, changeAppointment, getPatientAppointments }
+  const addPatients = (fullname, phone, isSmoking, isPregnancy) => {
+    db.transaction(txn => {
+      txn.executeSql(
+        `INSERT INTO patients (fullname, phone, isSmoking, isPregnancy) VALUES ('${fullname}', '${phone}', ${isSmoking}, ${isPregnancy})`,
+        [],
+        () => {
+          console.log('Patient added successfully')
+        },
+        error => {
+          console.log('error on adding patient' + error.message)
+        }
+          )
+      }) 
+  }
+
+  const addAppointments = (patient, toothNumber, diagnosis, price, date, time) => {
+
+    db.transaction(txn => {
+      txn.executeSql(
+        `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time) VALUES (${patient}, ${Number(toothNumber)}, '${diagnosis}', ${Number(price)}, '${date}', '${time}')`,
+        [],
+        () => {
+          console.log('appointment added successfully')
+        },
+        error => {
+          console.log('error on adding appointment' + error.message)
+        }
+          )
+      }) 
+  }
+
+  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients, deleteAppointment, changePatient, changeAppointment, getPatientAppointments, addPatients, addAppointments }

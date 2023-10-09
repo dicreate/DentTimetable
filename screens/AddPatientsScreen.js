@@ -5,11 +5,9 @@ import { Stack, Button, HStack,} from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { CustomInput, CustomSwitch } from '../components/';
-import * as SQLite from 'expo-sqlite';
+import { addPatients } from '../sqlite/requests';
 
 function AddPatientsScreen ({navigation}) {
-
-  const db = SQLite.openDatabase('DentTimetable.db');
 
   const [values, setValues] = useState({
     'fullname': '',
@@ -18,33 +16,12 @@ function AddPatientsScreen ({navigation}) {
   const [openInfo, setOpenInfo] = useState(false);
   const [isSmoking, setIsSmoking] = useState(false);
   const [isPregnancy, setIsPregnancy] = useState(false);
-  const [patients, setPatients] = useState(undefined)
 
-    addPatientInfo = () => {
-
-      db.transaction(txn => {
-      txn.executeSql(
-        `INSERT INTO patients (fullname, phone, isSmoking, isPregnancy) VALUES ('${values.fullname}', '${values.phone}', ${isSmoking}, ${isPregnancy})`,
-        [],
-        () => {
-          console.log('info added successfully')
-        },
-        error => {
-          console.log('error on adding info ' + error.message)
-        }
-          )
-      }) 
+    addPatientHandler = () => {
+      addPatients(values.fullname, values.phone, isSmoking, isPregnancy);
       navigation.navigate('Patients', { lastUpdatePatient: new Date()});
     }
-  
-  useEffect(() => {
-    db.transaction(txn => {
-      txn.executeSql('SELECT * FROM patients', null, 
-      (txnObj, resultSet) => setPatients(resultSet.rows._array),
-      (txnObj, error) => {console.log(error);}
-      )
-    })
-  }, [])
+
 
   const hangeChange = (name, e) => {
     
@@ -109,7 +86,7 @@ function AddPatientsScreen ({navigation}) {
           </ButtonText>  
         </Button>
           <Button
-          onPress={() => addPatientInfo()} 
+          onPress={() => addPatientHandler()} 
           size="md"
           w="100%" 
           borderRadius={'20px'} 

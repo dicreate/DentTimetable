@@ -92,13 +92,16 @@ const PatientsScreen = ({navigation}) => {
           onPress: () => {},
           style: 'cancel',
         },
-        {text:'Удалить', onPress: async () => {     
-          deletePatient(patientId)
-          if (isAppointments) {
-            deletePatientAppointments(patientId);
-            navigation.navigate('Home', { lastUpdate: new Date() });
-          }   
-          setIsLoading(false);
+        {
+          text:'Удалить',
+          onPress: () => {     
+            deletePatient(patientId)
+            if (isAppointments) {
+              deletePatientAppointments(patientId);
+              navigation.navigate('Home', { lastUpdate: new Date() });
+            }
+            getPatientsHandler()
+            setIsLoading(false);
         }}
       ],
       {cancelable: false},

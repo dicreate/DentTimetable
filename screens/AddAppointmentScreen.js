@@ -9,11 +9,9 @@ import LocaleCalendar from '../utils/LocaleCalendar';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import CustomInput from '../components/CustomInput';
-import * as SQLite from 'expo-sqlite';
+import { addAppointments } from '../sqlite/requests';
 
 function AddAppointmentScreen ({navigation, route}) {
-
-  const db = SQLite.openDatabase('DentTimetable.db');
 
   LocaleConfig.locales['ru'] = LocaleCalendar.ru
   LocaleConfig.defaultLocale = 'ru';
@@ -52,21 +50,9 @@ function AddAppointmentScreen ({navigation, route}) {
     setFieldValue(name, text);
   }
   
-  const addAppointments = () => {
-
-    db.transaction(txn => {
-      txn.executeSql(
-        `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time) VALUES (${values.patient}, ${Number(values.dentNumber)}, '${values.diagnosis}', ${Number(values.price)}, '${values.date}', '${values.time}')`,
-        [],
-        () => {
-          console.log('info added successfully')
-        },
-        error => {
-          console.log('error on adding info ' + error.message)
-        }
-          )
-      }) 
-      navigation.navigate('Home', { lastUpdate: new Date() });
+  const addAppointmentsHandler = () => {
+    addAppointments(values.patient, values.dentNumber, values.diagnosis, values.price, values.date, values.time)
+    navigation.navigate('Home', { lastUpdate: new Date() });
   }
 
   return (
@@ -119,7 +105,7 @@ function AddAppointmentScreen ({navigation, route}) {
 
         <ButtonView>
           <Button
-          onPress={() => addAppointments()} 
+          onPress={() => addAppointmentsHandler()} 
           size="md"
           w="100%" 
           borderRadius={'20px'} 

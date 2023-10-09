@@ -42,26 +42,29 @@ const PatientScreen = ({ navigation, route }) => {
 
       <PatientAppoitments>
         <Container>
-          {isLoading 
-          ? <ActivityIndicator size="large" color="#2A86FF"/> 
-          : appointments.map((appointment) => 
-            <AppoitmentCard key = {appointment.id}>
-             <AppoitmentCardRow>
-               <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
-               <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.toothNumber ? appointment.toothNumber : 'не указан'}</Text></AppoitmentCardLabel>
-             </AppoitmentCardRow>
-             <AppoitmentCardRow>
-               <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
-               <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis ? appointment.diagnosis : 'не указан'}</Text></AppoitmentCardLabel>
-             </AppoitmentCardRow> 
-             <AppoitmentCardRow 
-             style = {{ marginTop: 15, justifyContent: 'space-between' }}
-             >
-               <Badge style = {{ width: 155, marginLeft: 0 }} active>{moment(appointment.date).locale('ru').format('DD.MM.YYYY')} - {appointment.time}</Badge>
-               <Badge color='green'>{appointment.price}</Badge>    
-             </AppoitmentCardRow>   
-           </AppoitmentCard>
-         )}
+          { 
+            isLoading 
+            ? <ActivityIndicator size="large" color="#2A86FF"/> 
+            : appointments !== 'no appointments'
+              ? appointments.map((appointment) => 
+                <AppoitmentCard key = {appointment.id}>
+                <AppoitmentCardRow>
+                  <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
+                  <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.toothNumber ? appointment.toothNumber : 'не указан'}</Text></AppoitmentCardLabel>
+                </AppoitmentCardRow>
+                <AppoitmentCardRow>
+                  <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
+                  <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis ? appointment.diagnosis : 'не указан'}</Text></AppoitmentCardLabel>
+                </AppoitmentCardRow> 
+                <AppoitmentCardRow 
+                style = {{ marginTop: 15, justifyContent: 'space-between' }}
+                >
+                  <Badge style = {{ width: 155, marginLeft: 0 }} active>{moment(appointment.date).locale('ru').format('DD.MM.YYYY')} - {appointment.time}</Badge>
+                  <Badge color='green'>{appointment.price}</Badge>    
+                </AppoitmentCardRow>   
+              </AppoitmentCard>)
+              : null 
+          }
         </Container>
       </PatientAppoitments>
       <PlusButton onPress = {() => navigation.navigate('AddAppointment', {
