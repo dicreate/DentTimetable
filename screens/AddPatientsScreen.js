@@ -18,10 +18,12 @@ function AddPatientsScreen ({navigation}) {
   const [isPregnancy, setIsPregnancy] = useState(false);
 
     addPatientHandler = () => {
-      addPatients(values.fullname, values.phone, isSmoking, isPregnancy);
-      navigation.navigate('Patients', { lastUpdatePatient: new Date()});
+      if (values.fullname !== '') {
+        addPatients(values.fullname, values.phone, isSmoking, isPregnancy);
+        navigation.navigate('Patients', { lastUpdatePatient: new Date()});
+      }
+      else alert('Имя пациента не должно быть пустым')
     }
-
 
   const hangeChange = (name, e) => {
     
@@ -32,26 +34,6 @@ function AddPatientsScreen ({navigation}) {
       [name]: text
     });
   }
-
-  // Sqlite submit
-  
- /*    onSumbit = () => {
-        db.transaction(txn => {
-      txn.executeSql(
-        'INSERT INTO patients (name, phone, isSmoking, isPregnancy) VALUES (?)',
-        []
-      )
-    }) 
-    } */
- 
-
-    // Submit для MongoDB
-/*   const onSumbit = () => {
-
-    patientsApi.add(values).then(() => {
-      navigation.navigate('Patients', { lastUpdatePatient: new Date() } );
-    }).catch(() => alert("Заполните все поля"));
-  } */
 
   return (
    <View style = {{flex: 1, backgroundColor: openInfo ? 'rgba(0, 0, 0, 0.25)' : '#fff',}}>  

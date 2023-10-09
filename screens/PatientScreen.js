@@ -21,7 +21,6 @@ const PatientScreen = ({ navigation, route }) => {
       ? setAppointments(appointmentsTable.rows._array)
       : setAppointments('no appointments')
     setIsLoading(false); 
-    console.log(appointmentsTable.rows._array)
   } 
 
   useEffect(() => {

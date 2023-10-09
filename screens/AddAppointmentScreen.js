@@ -51,8 +51,11 @@ function AddAppointmentScreen ({navigation, route}) {
   }
   
   const addAppointmentsHandler = () => {
-    addAppointments(values.patient, values.dentNumber, values.diagnosis, values.price, values.date, values.time)
-    navigation.navigate('Home', { lastUpdate: new Date() });
+    if (values.date !== '' && values.time !== '') {
+      addAppointments(values.patient, values.dentNumber, values.diagnosis, values.price, values.date, values.time)
+      navigation.navigate('Home', { lastUpdate: new Date() });
+    }
+    else alert('Время и дата не должны быть пустыми ')
   }
 
   return (
