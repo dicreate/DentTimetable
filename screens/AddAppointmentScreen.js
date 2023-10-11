@@ -8,7 +8,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import LocaleCalendar from '../utils/LocaleCalendar';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
-import CustomInput from '../components/CustomInput';
+import { CustomInput, CustomSwitch } from '../components/';
 import { addAppointments } from '../sqlite/requests';
 
 function AddAppointmentScreen ({navigation, route}) {
@@ -20,6 +20,8 @@ function AddAppointmentScreen ({navigation, route}) {
   const [openDate, setOpenDate] = useState(false);
   const [openTime, setOpenTime] = useState(false);
   const [selected, setSelected] = useState('');
+  const [anesthetization, setAnesthetization] = useState(false);
+  
 
   const [values, setValues] = useState({
     'diagnosis': '',
@@ -52,7 +54,7 @@ function AddAppointmentScreen ({navigation, route}) {
   
   const addAppointmentsHandler = () => {
     if (values.date !== '' && values.time !== '') {
-      addAppointments(values.patient, values.dentNumber, values.diagnosis, values.price, values.date, values.time)
+      addAppointments(values.patient, values.dentNumber, values.diagnosis, values.price, values.date, values.time, anesthetization)
       navigation.navigate('Home', { lastUpdate: new Date() });
     }
     else alert('Время и дата не должны быть пустыми ')
@@ -105,6 +107,8 @@ function AddAppointmentScreen ({navigation, route}) {
               />
           </View>         
         </Pressable>
+
+        <CustomSwitch title={'Анестезия'} state = {anesthetization} setState={setAnesthetization}/>
 
         <ButtonView>
           <Button

@@ -10,7 +10,7 @@ import { createTables, dropAppointments, dropPatients } from "./sqlite/requests"
 
 export default function App() {
 
-/*   dropAppointments();
+ /*  dropAppointments();
   dropPatients(); */
 
   useEffect(() => {

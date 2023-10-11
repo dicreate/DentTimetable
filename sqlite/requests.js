@@ -19,7 +19,7 @@ const createTables = () => {
 
     db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER NOT NULL, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20) NOT NULL, time VARCHAR(20) NOT NULL, FOREIGN KEY (patientId) REFERENCES patients(id))',
+        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER NOT NULL, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20) NOT NULL, time VARCHAR(20) NOT NULL, anesthetization BOOLEAN CHECK (anesthetization IN (0, 1)), FOREIGN KEY (patientId) REFERENCES patients(id))',
         [],
         () => {
           console.log('table created successfully')
@@ -237,17 +237,19 @@ const createTables = () => {
       }) 
   }
 
-  const addAppointments = (patient, toothNumber, diagnosis, price, date, time) => {
+  const addAppointments = (patient, toothNumber, diagnosis, price, date, time, anesthetization) => {
 
     db.transaction(txn => {
       txn.executeSql(
-        `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time) VALUES (${patient}, ${Number(toothNumber)}, '${diagnosis}', ${Number(price)}, '${date}', '${time}')`,
+        `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time, anesthetization) VALUES (${patient}, ${Number(toothNumber)}, '${diagnosis}', ${Number(price)}, '${date}', '${time}', ${anesthetization})`,
         [],
         () => {
-          console.log('appointment added successfully')
+          console.log('appointment added successfully'),
+          console.log(anesthetization)
         },
         error => {
-          console.log('error on adding appointment' + error.message)
+          console.log('error on adding appointment ' + error.message),
+          console.log(anesthetization)
         }
           )
       }) 

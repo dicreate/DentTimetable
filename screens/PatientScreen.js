@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { GrayText, Button, Badge, PlusButton } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import { Foundation } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons'; 
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { getPatientAppointments } from '../sqlite/requests';
@@ -54,7 +55,11 @@ const PatientScreen = ({ navigation, route }) => {
                 <AppoitmentCardRow>
                   <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
                   <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis ? appointment.diagnosis : 'не указан'}</Text></AppoitmentCardLabel>
-                </AppoitmentCardRow> 
+                </AppoitmentCardRow>
+                <AppoitmentCardRow>
+                <Fontisto name="injection-syringe" size={24} color="#A3A3A3" />
+                  <AppoitmentCardLabel>Анестезия:<Text style={{fontWeight: 'bold'}}> {appointment.anesthetization ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                </AppoitmentCardRow>  
                 <AppoitmentCardRow 
                 style = {{ marginTop: 15, justifyContent: 'space-between' }}
                 >

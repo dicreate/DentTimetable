@@ -7,7 +7,7 @@ const CustomSwitch = ({ title, state, setState }) => {
 
     return (
         <SwitchContainer style={{display: "flex",}}>
-            <Text>{title}</Text>
+            <SwitchText>{title}</SwitchText>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
               thumbColor={state ? '#f5dd4b' : '#f4f3f4'}
@@ -19,8 +19,8 @@ const CustomSwitch = ({ title, state, setState }) => {
         </SwitchContainer>        
     )
   }
-
-  const SwitchContainer = styled.View`
+  
+const SwitchContainer = styled.View`
  display: flex;
  width: 80%;
  flex-direction: row;
@@ -28,6 +28,10 @@ const CustomSwitch = ({ title, state, setState }) => {
  align-items: center;
  gap: 5px;
 `;
+
+const SwitchText = styled.Text`
+  color: #2A86FF;
+`
 
 
   export default CustomSwitch;
