@@ -91,10 +91,10 @@ function AddPatientsScreen ({navigation, route}) {
             <View style = {styles.modalView}>
               <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
               <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
-              <TouchableOpacity onPress={() => {
+              <TouchableOpacity style = {{marginTop: 10}} onPress={() => {
                   setOpenInfo(false)   
                 }}>
-                  <Text>Закрыть</Text>
+                  <Text>Выбрать</Text>
               </TouchableOpacity>
             </View>
          </View>
