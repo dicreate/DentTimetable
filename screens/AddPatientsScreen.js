@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text,  View, StyleSheet, TouchableOpacity, Switch } from 'react-native'
-import { Modal } from 'react-native';
+import { Text,  View, StyleSheet, TouchableOpacity, Switch, Modal } from 'react-native'
 import { Stack, Button, HStack,} from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
@@ -56,17 +55,17 @@ function AddPatientsScreen ({navigation}) {
         />
         
         <ButtonView>
-        <Button
-          onPress={() => setOpenInfo(true)} 
-          size="md"
-          w="100%" 
-          borderRadius={'20px'} 
-          colorScheme="blue" 
-          >
-          <ButtonText>
-              Дополнительная информация
-          </ButtonText>  
-        </Button>
+          <Button
+            onPress={() => setOpenInfo(true)} 
+            size="md"
+            w="100%" 
+            borderRadius={'20px'} 
+            colorScheme="blue" 
+            >
+            <ButtonText>
+                Дополнительная информация
+            </ButtonText>  
+          </Button>
           <Button
           onPress={() => addPatientHandler()} 
           size="md"

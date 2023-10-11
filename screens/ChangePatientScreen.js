@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native'
 import { Input, Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { CommonActions } from '@react-navigation/native';
-import CustomInput from '../components/CustomInput';
+import { CustomInput, CustomSwitch } from '../components/';
 import { changePatient } from '../sqlite/requests';
+import { isObject } from 'lodash';
 
 function AddPatientsScreen ({navigation, route}) {
-
   const { item } = route.params;
+
+  const [openInfo, setOpenInfo] = useState(false);
+  const [isSmoking, setIsSmoking] = useState(Boolean(item.isSmoking));
+  const [isPregnancy, setIsPregnancy] = useState(Boolean(item.isPregnancy));
 
   const [values, setValues] = useState({
     'fullname': item.fullname,
@@ -28,12 +32,12 @@ function AddPatientsScreen ({navigation, route}) {
 
 
   const onSumbit = () => {
-    changePatient(values.fullname, values.phone, item.id);
+    changePatient(values.fullname, values.phone, item.id, isSmoking, isPregnancy);
     navigation.navigate('Patients', { lastUpdatePatient: new Date() });
   }
 
   return (
-   <View style = {{flex: 1, backgroundColor: '#fff'}}>
+    <View style = {{flex: 1, backgroundColor: openInfo ? 'rgba(0, 0, 0, 0.25)' : '#fff',}}>  
       <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
         <CustomInput
           title = {'Имя и фамилия'}  
@@ -54,6 +58,17 @@ function AddPatientsScreen ({navigation, route}) {
         
         <ButtonView>
           <Button
+            onPress={() => setOpenInfo(true)} 
+            size="md"
+            w="100%" 
+            borderRadius={'20px'} 
+            colorScheme="blue" 
+            >
+            <ButtonText>
+                Дополнительная информация
+            </ButtonText>  
+          </Button>
+          <Button
           onPress={() => onSumbit()} 
           size="md"
           w="100%" 
@@ -67,15 +82,57 @@ function AddPatientsScreen ({navigation, route}) {
           </Button>
         </ButtonView>
       </Stack>
+      <Modal
+          animationType='slide'
+          transparent={true}
+          visible={openInfo}
+        >
+          <View style = {styles.centeredView}>
+            <View style = {styles.modalView}>
+              <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
+              <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
+              <TouchableOpacity onPress={() => {
+                  setOpenInfo(false)   
+                }}>
+                  <Text>Закрыть</Text>
+              </TouchableOpacity>
+            </View>
+         </View>
+      </Modal>
    </View>
   )
 }
 
+const styles = StyleSheet.create({
+  centeredView: {
+   alignItems: 'center',
+   justifyContent: 'center',
+   height: '100%'
+ },
+ modalView: {
+   backgroundColor: 'white',
+   borderRadius: 20,
+   width: '80%',
+   maxWidth: 400,
+   padding: 35,
+   alignItems: 'center',
+   shadowColor: '#000',
+   shadowOffset: {
+     width: 0,
+     height: 2,
+   },
+   shadowOpacity: 0.25, 
+   shadowRadius: 4,
+   elevation: 5,
+ }
+})
+
 const ButtonView = styled.View`
   margin-top: 30px;
+  gap: 30px;
 `
 
-const ButtonText = styled.View`
+const ButtonText = styled.Text`
   flex-direction: row;
   color: white;
   font-size: 16px;

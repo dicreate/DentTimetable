@@ -139,7 +139,9 @@ const PatientsScreen = ({navigation}) => {
                 patientId: item.id,
                 fullname: item.fullname,
                 diagnosis: item.phone,
-                phone: item.phone
+                phone: item.phone,
+                isSmoking: item.isSmoking,
+                isPregnancy: item.isPregnancy
               }} 
               navigate = { navigation.navigate }/>}
             renderSectionHeader={({section: {title}}) => (

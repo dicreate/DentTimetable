@@ -169,11 +169,11 @@ const createTables = () => {
     })
   }
 
-  const changePatient = (fullname, phone, id) => {
+  const changePatient = (fullname, phone, id, isSmoking, isPregnancy) => {
     db.transaction(txn => {
       txn.executeSql(
         `UPDATE patients 
-        SET fullname = '${fullname}', phone = '${phone}'
+        SET fullname = '${fullname}', phone = '${phone}', isSmoking = '${Number(isSmoking)}',  isPregnancy = '${Number(isPregnancy)}' 
         WHERE id = ${id}
         `,
         [],
@@ -181,7 +181,8 @@ const createTables = () => {
           console.log('info update successfully')
         },
         error => {
-          console.log('error on updating info ' + error.message)
+          console.log('error on updating info ' + error.message),
+          console.log(isSmoking, isPregnancy)
         }
           )
       }) 

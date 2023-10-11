@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react'
 import styled from 'styled-components/native'
 import { View, Animated, Text, StyleSheet, Switch } from 'react-native'
 
-const CustomSwitch = ({title, state, setState}) => {
+const CustomSwitch = ({ title, state, setState }) => {
     const [isEnabled, setIsEnabled] = useState(false);
 
     return (
@@ -22,7 +22,7 @@ const CustomSwitch = ({title, state, setState}) => {
 
   const SwitchContainer = styled.View`
  display: flex;
- width: 50%;
+ width: 70%;
  flex-direction: row;
  justify-content: space-between;
  align-items: center;
