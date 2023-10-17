@@ -49,15 +49,15 @@ const PatientScreen = ({ navigation, route }) => {
               ? appointments.map((appointment) => 
                 <AppoitmentCard key = {appointment.id}>
                 <AppoitmentCardRow>
-                  <MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" />
+                  <IconContainer><MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" /></IconContainer>
                   <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.toothNumber ? appointment.toothNumber : 'не указан'}</Text></AppoitmentCardLabel>
                 </AppoitmentCardRow>
                 <AppoitmentCardRow>
-                  <Foundation name="clipboard-notes" size={24} color="#A3A3A3" />
+                  <IconContainer><Foundation name="clipboard-notes" size={24} color="#A3A3A3" /></IconContainer>
                   <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis ? appointment.diagnosis : 'не указан'}</Text></AppoitmentCardLabel>
                 </AppoitmentCardRow>
                 <AppoitmentCardRow>
-                <Fontisto name="injection-syringe" size={24} color="#A3A3A3" />
+                  <IconContainer><Fontisto name="injection-syringe" size={24} color="#A3A3A3" /></IconContainer>         
                   <AppoitmentCardLabel>Анестезия:<Text style={{fontWeight: 'bold'}}> {appointment.anesthetization ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
                 </AppoitmentCardRow>  
                 <AppoitmentCardRow 
@@ -77,6 +77,11 @@ const PatientScreen = ({ navigation, route }) => {
       </View>
   )
 }
+
+const IconContainer = styled.View`
+width: 28px;
+align-items: center;
+`
 
 const AppoitmentCardRow = styled.View`
   flex-direction: row;
