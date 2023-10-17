@@ -81,7 +81,7 @@ const HomeScreen = ({navigation}) => {
   return (
    <Container>
     {
-      appointments && appointments !== 'no appointments'
+      appointments && appointments !== 'no appointments' && appointments !== undefined  
       ? <>
          <SectionList
             sections = {appointments}
@@ -98,7 +98,7 @@ const HomeScreen = ({navigation}) => {
     )}
         />
       </>
-      : appointments !== 'no appointments' 
+      : appointments !== 'no appointments' && appointments !== undefined  
         ? <HStack space={2} justifyContent="center" marginTop = {150}>
             <Spinner accessibilityLabel="Loading posts" />
             <Heading color="primary.500" fontSize="md">
