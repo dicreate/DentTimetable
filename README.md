@@ -13,3 +13,4 @@ postinstall command:
 yarn patch-package --use-yarn [package_name]
 
 build command: 
+eas build -p android --profile preview
