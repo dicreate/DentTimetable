@@ -225,13 +225,13 @@ const createTables = () => {
   const addPatients = (fullname, phone, isSmoking, isPregnancy) => {
     db.transaction(txn => {
       txn.executeSql(
-        `INSERT INTO patients (fullname, phone, isSmoking, isPregnancy) VALUES ('${fullname}', '${phone}', ${isSmoking}, ${isPregnancy})`,
-        [],
+        `INSERT INTO patients (fullname, phone, isSmoking, isPregnancy) VALUES (?, ?, ?, ?)`,
+        [fullname, phone, isSmoking, isPregnancy],
         () => {
           console.log('Patient added successfully')
         },
         error => {
-          console.log('error on adding patient' + error.message)
+          console.log('error on adding patient ' + error.message)
         }
           )
       }) 
@@ -241,8 +241,8 @@ const createTables = () => {
 
     db.transaction(txn => {
       txn.executeSql(
-        `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time, anesthetization) VALUES (${patient}, ${Number(toothNumber)}, '${diagnosis}', ${Number(price)}, '${date}', '${time}', ${anesthetization})`,
-        [],
+        `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time, anesthetization) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [patient, Number(toothNumber), diagnosis, Number(price), date, time, anesthetization],
         () => {
           console.log('appointment added successfully'),
           console.log(anesthetization)
