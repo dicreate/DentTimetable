@@ -33,9 +33,14 @@ function AddPatientsScreen ({navigation, route}) {
 
   const onSumbit = () => {
     changePatient(values.fullname, values.phone, item.id, isSmoking, isPregnancy);
-    navigation.navigate('Patients', { lastUpdatePatient: new Date() });
+    navigation.navigate({
+      name: 'Home',
+      params: { lastUpdate: new Date() },
+      merge: true
+    });
+    navigation.navigate("Patients")
   }
-
+  
   return (
     <View style = {{flex: 1, backgroundColor: openInfo ? 'rgba(0, 0, 0, 0.25)' : '#fff',}}>  
       <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">

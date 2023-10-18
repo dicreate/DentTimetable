@@ -31,8 +31,23 @@ const PatientScreen = ({ navigation, route }) => {
   return (
     <View style = {{flex: 1}}>
         <PatientDetails>
-          <PatientFullName>{item.fullname}</PatientFullName>
-          <GrayText>{item.diagnosis}</GrayText>
+          <PatientContacts>
+            <PhoneButtonView>
+              <PhoneButton 
+                onPress = {() => Linking.openURL('tel:' + item.phone)} 
+                color="#84D269">
+                  <Foundation 
+                    name="telephone" 
+                    size={22} 
+                    color="white" 
+                  />
+              </PhoneButton>
+            </PhoneButtonView>
+            <View>
+              <PatientFullName>{item.fullname}</PatientFullName>
+              <GrayText>{item.diagnosis}</GrayText>
+            </View>
+          </PatientContacts>
           <PattientButtons>
             <FormulaButtonView>
               <FormulaButton 
@@ -42,8 +57,6 @@ const PatientScreen = ({ navigation, route }) => {
                 Формула зубов
               </FormulaButton>
             </FormulaButtonView>
-            <PhoneButtonView ><PhoneButton onPress = {() => Linking.openURL('tel:' + item.phone)} color="#84D269"><Foundation name="telephone" size={22} color="white" />
-            </PhoneButton></PhoneButtonView>
           </PattientButtons>  
       </PatientDetails>
 
@@ -85,9 +98,16 @@ const PatientScreen = ({ navigation, route }) => {
   )
 }
 
+
+const PatientContacts = styled.View`
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+`
+
 const IconContainer = styled.View`
-width: 28px;
-align-items: center;
+  width: 28px;
+  align-items: center;
 `
 
 const AppoitmentCardRow = styled.View`
