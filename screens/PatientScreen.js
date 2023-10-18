@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text,  View, ActivityIndicator, Linking } from 'react-native'
+import { Text,  View, ActivityIndicator, Linking, ScrollView } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge, PlusButton } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -30,6 +30,7 @@ const PatientScreen = ({ navigation, route }) => {
   
   return (
     <View style = {{flex: 1}}>
+      <ScrollView>
         <PatientDetails>
           <PatientContacts>
             <PhoneButtonView>
@@ -49,14 +50,21 @@ const PatientScreen = ({ navigation, route }) => {
             </View>
           </PatientContacts>
           <PattientButtons>
-            <FormulaButtonView>
-              <FormulaButton 
+            <ButtonView>
+              <Button
                 onPress = {() => navigation.navigate('Formula', {
                 patientId: item.patientId
               })}>
                 Формула зубов
-              </FormulaButton>
-            </FormulaButtonView>
+              </Button>
+              <Button
+                onPress = {() => navigation.navigate('Formula', {
+                patientId: item.patientId
+              })}>
+                Информация
+              </Button>
+            </ButtonView>
+
           </PattientButtons>  
       </PatientDetails>
 
@@ -91,6 +99,7 @@ const PatientScreen = ({ navigation, route }) => {
           }
         </Container>
       </PatientAppoitments>
+      </ScrollView>
       <PlusButton onPress = {() => navigation.navigate('AddAppointment', {
         patientId: item.id
       })}/>
@@ -141,7 +150,7 @@ const Container = styled.View`
 `;
 
 const PatientDetails = styled(Container)`
-  flex: 0.3;
+  flex: 0.4;
   background-color: #fff;
 `;
 
@@ -151,8 +160,9 @@ const PatientAppoitments = styled.View`
   background: #f8fafd;
 `;
 
-const FormulaButtonView = styled.View`
+const ButtonView = styled.View`
   flex: 1;
+  gap: 20px;
 `
 
 const PhoneButtonView = styled.View`
@@ -166,14 +176,11 @@ const PhoneButton = styled(Button)`
   width: 45px;
 `
 
-const FormulaButton = styled(Button)`
-  align-self: stretch;
-`;
-
 const PattientButtons = styled.View`
   display: flex;
   flex-direction: row;
   margin-top: 20px;
+  flex: 1;
 `
 
 const PatientFullName = styled.Text`

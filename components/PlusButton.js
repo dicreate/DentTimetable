@@ -15,7 +15,7 @@ align-items: center;
 justify-content: center;
 height: 64px;
 width: 64px;
-background: #2a86ff;
+background: #f55151;
 position: absolute; 
 right: 25px;
 bottom: 25px;
