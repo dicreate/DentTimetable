@@ -31,6 +31,21 @@ const createTables = () => {
     })
   }
 
+  const createFormula = () => {
+    db.transaction(txn => {
+      txn.executeSql(
+        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER NOT NULL, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20) NOT NULL, time VARCHAR(20) NOT NULL, anesthetization BOOLEAN CHECK (anesthetization IN (0, 1)), FOREIGN KEY (patientId) REFERENCES patients(id))',
+        [],
+        () => {
+          console.log('table created successfully')
+        },
+        error => {
+          console.log('error on creating table' + error.message)
+        }
+      )
+    })
+  }
+
   const showAppointments = () => {
     db.transaction(txn => {
       txn.executeSql('SELECT * FROM appointments', null, 

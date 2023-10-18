@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen, PatientsScreen, ChangeAppointmentScreen, ChangePatientScreen } from "./screens";
+import { HomeScreen, PatientScreen, AddPatientsScreen, AddAppointmentScreen, PatientsScreen, ChangeAppointmentScreen, ChangePatientScreen, TeethFormula } from "./screens";
 import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -80,7 +80,7 @@ export default function App() {
                 ),
               })}
             />
-              <Stack.Screen 
+            <Stack.Screen 
               name="AddPatient" 
               component={ AddPatientsScreen } 
               options={{
@@ -92,7 +92,7 @@ export default function App() {
                 }
               }}
               />
-              <Stack.Screen 
+            <Stack.Screen 
                 name="AddAppointment" 
                 component={ AddAppointmentScreen } 
                 options={{
@@ -104,7 +104,7 @@ export default function App() {
                 }
               }}
               />
-              <Stack.Screen 
+            <Stack.Screen 
               name="ChangeAppointment" 
               component={ ChangeAppointmentScreen } 
               options={{
@@ -116,11 +116,23 @@ export default function App() {
               }
             }}
             />
-              <Stack.Screen 
+            <Stack.Screen 
               name="ChangePatient" 
               component={ ChangePatientScreen } 
               options={{
               title: 'Изменение данных пациента',
+              headerTintColor: '#2A86FF',
+              headerStyle: {
+                evelation: 0.8,
+                shadowOpacity: 0.8, 
+              }
+            }}
+            />
+             <Stack.Screen 
+              name="Formula" 
+              component={ TeethFormula } 
+              options={{
+              title: 'Формула зубов',
               headerTintColor: '#2A86FF',
               headerStyle: {
                 evelation: 0.8,
