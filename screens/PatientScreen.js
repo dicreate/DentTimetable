@@ -8,12 +8,11 @@ import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { getPatientAppointments } from '../sqlite/requests';
 import Modal from 'react-native-modal';
+import * as Animatable from 'react-native-animatable';
 
 const PatientScreen = ({ navigation, route }) => {
 
   const { item } = route.params;
-
-  console.log(item)
 
   const [ appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -105,8 +104,11 @@ const PatientScreen = ({ navigation, route }) => {
         patientId: item.id
       })}/>
        <Modal
-          isVisible={openInfo}
-          backdropOpacity={0.3}
+          isVisible = {openInfo}
+          backdropOpacity = {0.3}
+          onBackButtonPress = {() => {
+            setOpenInfo(false)   
+          }}
         >
           <View style = {styles.centeredView}>
             <View style = {styles.modalView}>

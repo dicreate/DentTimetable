@@ -89,6 +89,9 @@ function AddPatientsScreen ({navigation, route}) {
       <Modal
          isVisible={openInfo}
          backdropOpacity={0.3}
+         onBackButtonPress = {() => {
+          setOpenInfo(false)   
+        }}
         >
           <View style = {styles.centeredView}>
             <View style = {styles.modalView}>
