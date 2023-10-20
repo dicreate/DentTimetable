@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text,  View, ActivityIndicator, Linking, ScrollView, StyleSheet, Modal, TouchableOpacity } from 'react-native'
+import { Text,  View, ActivityIndicator, Linking, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge, PlusButton } from '../components'
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -7,6 +7,7 @@ import { Foundation, Fontisto, MaterialIcons } from '@expo/vector-icons';
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { getPatientAppointments } from '../sqlite/requests';
+import Modal from 'react-native-modal';
 
 const PatientScreen = ({ navigation, route }) => {
 
@@ -104,9 +105,8 @@ const PatientScreen = ({ navigation, route }) => {
         patientId: item.id
       })}/>
        <Modal
-          animationType='slide'
-          transparent={true}
-          visible={openInfo}
+          isVisible={openInfo}
+          backdropOpacity={0.3}
         >
           <View style = {styles.centeredView}>
             <View style = {styles.modalView}>

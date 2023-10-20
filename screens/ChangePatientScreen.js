@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native'
-import { Input, Stack, Button } from "native-base";
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Stack, Button } from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
-import { CommonActions } from '@react-navigation/native';
 import { CustomInput, CustomSwitch } from '../components/';
 import { changePatient } from '../sqlite/requests';
-import { isObject } from 'lodash';
+import Modal from 'react-native-modal';
 
 function AddPatientsScreen ({navigation, route}) {
   const { item } = route.params;
@@ -88,9 +87,8 @@ function AddPatientsScreen ({navigation, route}) {
         </ButtonView>
       </Stack>
       <Modal
-          animationType='slide'
-          transparent={true}
-          visible={openInfo}
+         isVisible={openInfo}
+         backdropOpacity={0.3}
         >
           <View style = {styles.centeredView}>
             <View style = {styles.modalView}>
