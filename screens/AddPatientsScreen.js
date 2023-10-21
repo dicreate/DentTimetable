@@ -21,6 +21,10 @@ function AddPatientsScreen ({navigation}) {
       if (values.fullname !== '') {
         addPatients(values.fullname, values.phone, isSmoking, isPregnancy);
         navigation.navigate('Patients', { lastUpdatePatient: new Date()});
+        setValues({
+          ['fullname']: '',
+          ['phone']: '',
+        });
       }
       else alert('Имя пациента не должно быть пустым')
     }

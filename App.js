@@ -8,16 +8,45 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
 import { createTables, dropAppointments, dropPatients } from "./sqlite/requests";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { Feather } from '@expo/vector-icons'; 
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 
 function TabNavigator() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name = "Home" component = {StackNavigator} />
-      <Tab.Screen name = "AddPatient" component = {AddPatientsScreen} />
-      <Tab.Screen name = "Patients" component = {PatientsScreen} />
+    <Tab.Navigator
+      barStyle={{ backgroundColor: '#fff' }}
+    >
+      <Tab.Screen 
+        name = "Home" 
+        component = {StackNavigator} 
+        options={{
+          tabBarLabel: 'Приёмы',
+          tabBarIcon: () => (
+            <Ionicons name="clipboard-outline" size={28}></Ionicons>
+          ),
+        }}/>
+      <Tab.Screen 
+        name = "AddPatient" 
+        component = {AddPatientsScreen} 
+        options={{
+          tabBarLabel: 'Добавить пациента',
+          tabBarIcon: () => (
+            <Feather name="user-plus" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen 
+        name = "Patients" 
+        component = {PatientsScreen} 
+        options={{
+          tabBarLabel: 'Пациенты',
+          tabBarIcon: () => (
+            <Feather name="users" size={24} color="black" />
+          ),
+        }}        
+      />
     </Tab.Navigator>
   )
 }
