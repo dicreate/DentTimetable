@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text,  View, StyleSheet, TouchableOpacity, Switch } from 'react-native'
+import { Text,  View, StyleSheet, TouchableOpacity, Switch, KeyboardAvoidingView } from 'react-native'
 import { Stack, Button, HStack,} from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
@@ -36,71 +36,72 @@ function AddPatientsScreen ({navigation}) {
   }
 
   return (
-   <View style = {{flex: 1, backgroundColor: openInfo ? 'rgba(0, 0, 0, 0.25)' : '#fff',}}>  
-      <Stack marginTop = '50px' space={0} w="75%" maxW="300px" mx="auto">
-        <CustomInput
-          title = {'Имя и фамилия'}  
-          value = {values.fullname} 
-          onChange = {hangeChange.bind(this, 'fullname')}
-          autoFocus 
-          placeholder="Имя и фамилия" 
-        />
+   <Container>  
+      <Wrapper>
+        <Stack space={0} w="75%" maxW="300px" mx="auto">
+          <CustomInput
+            title = {'Имя и фамилия'}  
+            value = {values.fullname} 
+            onChange = {hangeChange.bind(this, 'fullname')}
+            placeholder="Имя и фамилия" 
+          />
 
-        <CustomInput
-          title = {'Номер телефона'}  
-          value = {values.phone} 
-          dataDetectorTypes = {"phoneNumber"} 
-          onChange = {hangeChange.bind(this, 'phone')}
-          inputMode = {"tel"}
-          placeholder="Номер телефона" 
-        />
-        
-        <ButtonView>
-          <Button
-            onPress={() => setOpenInfo(true)} 
+          <CustomInput
+            title = {'Номер телефона'}  
+            value = {values.phone} 
+            dataDetectorTypes = {"phoneNumber"} 
+            onChange = {hangeChange.bind(this, 'phone')}
+            inputMode = {"tel"}
+            placeholder="Номер телефона" 
+          />
+          
+          <ButtonView>
+            <Button
+              onPress={() => setOpenInfo(true)} 
+              size="md"
+              w="100%" 
+              borderRadius={'20px'} 
+              colorScheme="blue" 
+              >
+              <ButtonText>
+                  Дополнительная информация
+              </ButtonText>  
+            </Button>
+            <Button
+            onPress={() => addPatientHandler()} 
             size="md"
             w="100%" 
             borderRadius={'20px'} 
-            colorScheme="blue" 
+            colorScheme="green" 
             >
-            <ButtonText>
-                Дополнительная информация
-            </ButtonText>  
-          </Button>
-          <Button
-          onPress={() => addPatientHandler()} 
-          size="md"
-          w="100%" 
-          borderRadius={'20px'} 
-          colorScheme="green" 
+              <ButtonText>
+                <Ionicons name="ios-add" size={20} color="white" />
+                Добавить
+              </ButtonText>  
+            </Button>
+          </ButtonView>
+        </Stack>
+        <Modal
+            isVisible={openInfo}
+            backdropOpacity={0.3}
+            onBackButtonPress = {() => {
+              setOpenInfo(false)   
+            }}
           >
-            <ButtonText>
-              <Ionicons name="ios-add" size={20} color="white" />
-              Добавить
-            </ButtonText>  
-          </Button>
-        </ButtonView>
-      </Stack>
-      <Modal
-          isVisible={openInfo}
-          backdropOpacity={0.3}
-          onBackButtonPress = {() => {
-            setOpenInfo(false)   
-          }}
-        >
-          <View style = {styles.centeredView}>
-            <View style = {styles.modalView}>
-              <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
-              <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
-              <TouchableOpacity style = {{marginTop: 10}} onPress={() => {
-                  setOpenInfo(false)   
-                }}>
-                  <Text>Выбрать</Text>
-              </TouchableOpacity>
-            </View>
-         </View>
-      </Modal>
-   </View>
+            <View style = {styles.centeredView}>
+              <View style = {styles.modalView}>
+                <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
+                <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
+                <TouchableOpacity style = {{marginTop: 10}} onPress={() => {
+                    setOpenInfo(false)   
+                  }}>
+                    <Text>Выбрать</Text>
+                </TouchableOpacity>
+              </View>
+          </View>
+        </Modal>       
+      </Wrapper>
+   </Container>
   )
 }
 
@@ -127,6 +128,16 @@ const styles = StyleSheet.create({
    elevation: 5,
  }
 })
+
+
+const Container = styled.View`
+  flex: 1; 
+  background-color: #fff;
+`
+
+const Wrapper= styled.View`
+  margin-top: 100px;
+`
 
 const ButtonView = styled.View`
   margin-top: 30px;

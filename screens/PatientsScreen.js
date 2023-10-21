@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlatList, Alert, LogBox, View } from 'react-native';
 import styled from 'styled-components/native'
-import { Appoitment, SectionTitle, PlusButton } from '../components';
+import { Appoitment, SectionTitle } from '../components';
 import { useEffect, useState } from 'react';
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
@@ -159,12 +159,12 @@ const PatientsScreen = ({navigation}) => {
         </HStack>
         : null
     }
-    <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
  </Container>
   )
 }
 
 const SearchView = styled.View`
+  margin-top: 30px;
   padding: 20px;
 `;
 

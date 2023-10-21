@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionList, Alert, LogBox, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native'
-import { Appoitment, SectionTitle, PlusButton } from '../components';
+import { Appoitment, SectionTitle } from '../components';
 import { useEffect, useState } from 'react';
 import Icon from "react-native-vector-icons/FontAwesome"
 import { useActionSheet  } from "@expo/react-native-action-sheet";
@@ -80,37 +80,40 @@ const HomeScreen = ({navigation}) => {
     
   return (
    <Container>
-    {
-      appointments && appointments !== 'no appointments' && appointments !== undefined  
-      ? <>
-         <SectionList
-            sections = {appointments}
-            keyExtractor = {(item, index) => index}
-            onRefresh = {getAppointments}
-            refreshing = {isLoading}
-            renderItem = { ({item}) => <Appoitment 
-              onLongPress = {(itemInfo) => openSheet(itemInfo)} 
-              item = {item} 
-              navigate = {navigation.navigate}
-              /> }
-            renderSectionHeader = {({section: {title}}) => (
-              <SectionTitle> {moment(title).locale('ru').format('DD.MM.YY, dd')} </SectionTitle>
-    )}
-        />
-      </>
-      : appointments !== 'no appointments' && appointments !== undefined  
-        ? <HStack space={2} justifyContent="center" marginTop = {150}>
-            <Spinner accessibilityLabel="Loading posts" />
-            <Heading color="primary.500" fontSize="md">
-              Загрузка
-            </Heading>
-        </HStack>
-        : null
-    }
-    <PlusButton onPress = {() => navigation.navigate('AddPatient')} />
+      <Wrapper>
+      {
+        appointments && appointments !== 'no appointments' && appointments !== undefined  
+        ? <SectionList
+              sections = {appointments}
+              keyExtractor = {(item, index) => index}
+              onRefresh = {getAppointments}
+              refreshing = {isLoading}
+              renderItem = { ({item}) => <Appoitment 
+                onLongPress = {(itemInfo) => openSheet(itemInfo)} 
+                item = {item} 
+                navigate = {navigation.navigate}
+                /> }
+              renderSectionHeader = {({section: {title}}) => (
+                <SectionTitle> {moment(title).locale('ru').format('DD.MM.YY, dd')} </SectionTitle>
+      )}
+          />
+        : appointments !== 'no appointments' && appointments !== undefined  
+          ? <HStack space={2} justifyContent="center" marginTop = {150}>
+              <Spinner accessibilityLabel="Loading posts" />
+              <Heading color="primary.500" fontSize="md">
+                Загрузка
+              </Heading>
+          </HStack>
+          : null
+      }
+    </Wrapper>
  </Container>
   )
 }
+
+const Wrapper = styled.View`
+  margin-top: 30px;
+`;
 
 const Container = styled.View`
   flex: 1;

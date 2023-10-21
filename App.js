@@ -7,18 +7,114 @@ import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
 import { createTables, dropAppointments, dropPatients } from "./sqlite/requests";
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
-  /* dropAppointments();
-  dropPatients(); */
+function TabNavigator() {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name = "Home" component = {StackNavigator} />
+      <Tab.Screen name = "AddPatient" component = {AddPatientsScreen} />
+      <Tab.Screen name = "Patients" component = {PatientsScreen} />
+    </Tab.Navigator>
+  )
+}
 
+function StackNavigator() {
+  return (
+    <Stack.Navigator>
+       <Stack.Screen 
+          name="HomeScreen" 
+          component={ HomeScreen }
+          options={{ headerShown: false }}
+        />
+      <Stack.Screen 
+        name="Patient" 
+        component={ PatientScreen } 
+        options={{
+          title: 'Карта пациента',
+          headerTintColor: '#2A86FF',
+          headerStyle: {
+            evelation: 0.8,
+            shadowOpacity: 0.8, 
+          }
+        }}
+      />
+      <Stack.Screen 
+        name="AddAppointment" 
+        component={ AddAppointmentScreen } 
+        options={{
+        title: 'Добавить приём',
+        headerTintColor: '#2A86FF',
+        headerStyle: {
+          evelation: 0.8,
+          shadowOpacity: 0.8, 
+        }
+      }}
+      />
+       <Stack.Screen 
+              name="ChangeAppointment" 
+              component={ ChangeAppointmentScreen } 
+              options={{
+              title: 'Изменение приёма',
+              headerTintColor: '#2A86FF',
+              headerStyle: {
+                evelation: 0.8,
+                shadowOpacity: 0.8, 
+              }
+            }}
+            />
+            <Stack.Screen 
+              name="ChangePatient" 
+              component={ ChangePatientScreen } 
+              options={{
+              title: 'Изменение данных пациента',
+              headerTintColor: '#2A86FF',
+              headerStyle: {
+                evelation: 0.8,
+                shadowOpacity: 0.8, 
+              }
+            }}
+            />
+             <Stack.Screen 
+              name="Formula" 
+              component={ TeethFormula } 
+              options={{
+              title: 'Формула зубов',
+              headerTintColor: '#2A86FF',
+              headerStyle: {
+                evelation: 0.8,
+                shadowOpacity: 0.8, 
+              }
+            }}
+            />
+    </Stack.Navigator>
+  )
+}
+
+export default function App () {
   useEffect(() => {
+    /* dropAppointments();
+    dropPatients(); */
     createTables()
   }, [])
+
+  return (
+    <ActionSheetProvider>
+      <NativeBaseProvider>
+        <NavigationContainer>
+          <TabNavigator />
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </ActionSheetProvider>
+  )
   
-  const Stack = createNativeStackNavigator();
-  
+}
+
+/* export default function App() {
+
   return (
     <ActionSheetProvider>
       <NativeBaseProvider>
@@ -145,5 +241,5 @@ export default function App() {
       </NativeBaseProvider>
     </ActionSheetProvider>
   );
-}
+} */
 
