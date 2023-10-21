@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native';
 import { createTables, dropAppointments, dropPatients } from "./sqlite/requests";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Feather } from '@expo/vector-icons'; 
+import { useTheme } from 'react-native-paper';
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -16,15 +17,20 @@ const Tab = createMaterialBottomTabNavigator();
 function TabNavigator() {
   return (
     <Tab.Navigator
+      shifting={true}
+      screenOptions={{
+        tabBarActiveTintColor: '#2A86FF',
+      }}
       barStyle={{ backgroundColor: '#fff', paddingHorizontal: 10, height: 60}}
     >
       <Tab.Screen 
+        sceneContainerStyle={{backgroundColor: 'transparent'}}
         name = "HomeScreen" 
         component =  {HomeScreen} 
         options={{
           tabBarLabel: false,
-          tabBarIcon: () => (
-            <Ionicons name="clipboard-outline" size={28} color = 'black'></Ionicons>
+          tabBarIcon: ({focused}) => (
+            <Ionicons name="clipboard-outline" size = {24} color = {focused ? '#2A86FF' : '#000'}></Ionicons>
           ),
         }}/>
       <Tab.Screen 
@@ -32,8 +38,8 @@ function TabNavigator() {
         component = {AddPatientsScreen} 
         options={{
           tabBarLabel: false,
-          tabBarIcon: () => (
-            <Feather name="user-plus" size={24} color="#2A86FF" />
+          tabBarIcon: ({focused}) => (
+            <Feather name="user-plus" size = {24} color = {focused ? '#2A86FF' : '#000'} />
           ),
         }}
       />
@@ -42,8 +48,8 @@ function TabNavigator() {
         component = {PatientsScreen} 
         options={{
           tabBarLabel: false,
-          tabBarIcon: ({ color }) => (
-            <Feather name="users" size={24} color = {color} />
+          tabBarIcon: ({focused}) => (
+            <Feather name="users" size = {24} color = {focused ? '#2A86FF' : '#000'} />
           ),
         }}        
       />
@@ -130,6 +136,9 @@ export default function App () {
     createTables()
   }, [])
 
+  const theme = useTheme();
+  theme.colors.secondaryContainer = "transperent"
+  
   return (
     <ActionSheetProvider>
       <NativeBaseProvider>
