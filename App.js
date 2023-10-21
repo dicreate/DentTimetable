@@ -16,24 +16,24 @@ const Tab = createMaterialBottomTabNavigator();
 function TabNavigator() {
   return (
     <Tab.Navigator
-      barStyle={{ backgroundColor: '#fff' }}
+      barStyle={{ backgroundColor: '#fff', paddingHorizontal: 10, height: 60}}
     >
       <Tab.Screen 
-        name = "Home" 
-        component = {StackNavigator} 
+        name = "HomeScreen" 
+        component =  {HomeScreen} 
         options={{
-          tabBarLabel: 'Приёмы',
+          tabBarLabel: false,
           tabBarIcon: () => (
-            <Ionicons name="clipboard-outline" size={28}></Ionicons>
+            <Ionicons name="clipboard-outline" size={28} color = 'black'></Ionicons>
           ),
         }}/>
       <Tab.Screen 
         name = "AddPatient" 
         component = {AddPatientsScreen} 
         options={{
-          tabBarLabel: 'Добавить пациента',
+          tabBarLabel: false,
           tabBarIcon: () => (
-            <Feather name="user-plus" size={24} color="black" />
+            <Feather name="user-plus" size={24} color="#2A86FF" />
           ),
         }}
       />
@@ -41,9 +41,9 @@ function TabNavigator() {
         name = "Patients" 
         component = {PatientsScreen} 
         options={{
-          tabBarLabel: 'Пациенты',
-          tabBarIcon: () => (
-            <Feather name="users" size={24} color="black" />
+          tabBarLabel: false,
+          tabBarIcon: ({ color }) => (
+            <Feather name="users" size={24} color = {color} />
           ),
         }}        
       />
@@ -55,8 +55,8 @@ function StackNavigator() {
   return (
     <Stack.Navigator>
        <Stack.Screen 
-          name="HomeScreen" 
-          component={ HomeScreen }
+          name="Home" 
+          component={ TabNavigator }
           options={{ headerShown: false }}
         />
       <Stack.Screen 
@@ -134,7 +134,7 @@ export default function App () {
     <ActionSheetProvider>
       <NativeBaseProvider>
         <NavigationContainer>
-          <TabNavigator />
+          <StackNavigator />
         </NavigationContainer>
       </NativeBaseProvider>
     </ActionSheetProvider>
