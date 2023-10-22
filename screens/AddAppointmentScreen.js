@@ -21,6 +21,8 @@ function AddAppointmentScreen ({navigation, route}) {
   const [openTime, setOpenTime] = useState(false);
   const [selected, setSelected] = useState('');
   const [anesthetization, setAnesthetization] = useState(false);
+
+  console.log(patientId)
   
 
   const [values, setValues] = useState({

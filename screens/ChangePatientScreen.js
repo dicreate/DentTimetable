@@ -33,7 +33,7 @@ function AddPatientsScreen ({navigation, route}) {
   const onSumbit = () => {
     changePatient(values.fullname, values.phone, item.id, isSmoking, isPregnancy);
     navigation.navigate({
-      name: 'Home',
+      name: 'HomeScreen',
       params: { lastUpdate: new Date() },
       merge: true
     });

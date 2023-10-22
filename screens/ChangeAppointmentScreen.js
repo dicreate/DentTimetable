@@ -53,7 +53,7 @@ function ChangeAppointmentScreen ({navigation, route}) {
 
   const onSumbit = () => {
     changeAppointment(item.id, values.date, values.diagnosis, values.price, values.time, values.dentNumber)
-    navigation.navigate('Home', { lastUpdate: new Date() });
+    navigation.navigate('HomeScreen', { lastUpdate: new Date() });
   }
 
   return (
