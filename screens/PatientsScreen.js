@@ -164,7 +164,7 @@ const PatientsScreen = ({navigation}) => {
 }
 
 const SearchView = styled.View`
-  margin-top: 30px;
+  margin-top: 0px;
   padding: 20px;
 `;
 

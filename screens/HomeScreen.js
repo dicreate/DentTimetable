@@ -112,7 +112,7 @@ const HomeScreen = ({navigation}) => {
 }
 
 const Wrapper = styled.View`
-  margin-top: 30px;
+  margin-top: 0px;
 `;
 
 const Container = styled.View`
