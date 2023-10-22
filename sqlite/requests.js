@@ -259,12 +259,10 @@ const createTables = () => {
         `INSERT INTO appointments (patientId, toothNumber, diagnosis, price, date, time, anesthetization) VALUES (?, ?, ?, ?, ?, ?, ?)`,
         [patient, Number(toothNumber), diagnosis, Number(price), date, time, anesthetization],
         () => {
-          console.log('appointment added successfully'),
-          console.log(anesthetization)
+          console.log('appointment added successfully')
         },
         error => {
-          console.log('error on adding appointment ' + error.message),
-          console.log(anesthetization)
+          console.log('error on adding appointment ' + error.message)
         }
           )
       }) 

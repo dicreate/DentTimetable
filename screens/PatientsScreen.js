@@ -24,7 +24,7 @@ const PatientsScreen = ({navigation}) => {
 
   useEffect(() => { 
     getPatientsHandler()
-  }, [navigation.getState().routes[1].params])
+  }, [navigation.getState().routes[2].params])
 
   const searchPatients = e => {
     setSearchValue(e.nativeEvent.text);
@@ -98,7 +98,7 @@ const PatientsScreen = ({navigation}) => {
             deletePatient(patientId)
             if (isAppointments) {
               deletePatientAppointments(patientId);
-              navigation.navigate('Home', { lastUpdate: new Date() });
+              navigation.navigate('HomeScreen', { lastUpdate: new Date() });
             }
             getPatientsHandler()
             setIsLoading(false);
