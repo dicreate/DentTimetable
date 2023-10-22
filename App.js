@@ -10,6 +10,8 @@ import { createTables, dropAppointments, dropPatients } from "./sqlite/requests"
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Feather } from '@expo/vector-icons'; 
 import { useTheme } from 'react-native-paper';
+import styled from "styled-components";
+import { Text } from "react-native";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -21,37 +23,41 @@ function TabNavigator() {
       screenOptions={{
         tabBarActiveTintColor: '#2A86FF',
       }}
-      barStyle={{ backgroundColor: '#fff', paddingHorizontal: 10, height: 60}}
+      barStyle={{ backgroundColor: '#fff', borderTopWidth: 1, marginVertical: -13, borderTopColor: '#dedede', justifyContent: 'center',
+      alignItems: 'center', alignSelf: 'center'}}
+      tabBarLabelStyle = {{
+        fontSize: 22,
+      }}
     >
       <Tab.Screen 
         sceneContainerStyle={{backgroundColor: 'transparent'}}
         name = "HomeScreen" 
         component =  {HomeScreen} 
-        options={{
-          tabBarLabel: false,
+        options={({route}) => ({
+          tabBarLabel: route.name === 'HomeScreen' ? <TabText>Приёмы</TabText> : null,
           tabBarIcon: ({focused}) => (
-            <Ionicons name="clipboard-outline" size = {24} color = {focused ? '#2A86FF' : '#000'}></Ionicons>
+            <Ionicons name="clipboard-outline" size = {22} color = {focused ? '#2A86FF' : '#000'}></Ionicons>
           ),
-        }}/>
+        })}/>
       <Tab.Screen 
         name = "AddPatient" 
         component = {AddPatientsScreen} 
-        options={{
-          tabBarLabel: false,
+        options={({route}) => ({
+          tabBarLabel: route.name === 'AddPatient' ? <TabText>Новый пациент</TabText>: null,
           tabBarIcon: ({focused}) => (
-            <Feather name="user-plus" size = {24} color = {focused ? '#2A86FF' : '#000'} />
+            <Feather name="user-plus" size = {22} color = {focused ? '#2A86FF' : '#000'} />
           ),
-        }}
+        })}
       />
       <Tab.Screen 
         name = "Patients" 
         component = {PatientsScreen} 
-        options={{
-          tabBarLabel: false,
+        options={({route}) => ({
+          tabBarLabel: route.name === 'Patients' ? <TabText>Пациенты</TabText> : null,
           tabBarIcon: ({focused}) => (
-            <Feather name="users" size = {24} color = {focused ? '#2A86FF' : '#000'} />
+            <Feather name="users" size = {22} color = {focused ? '#2A86FF' : '#000'} />
           ),
-        }}        
+        })}        
       />
     </Tab.Navigator>
   )
@@ -151,133 +157,6 @@ export default function App () {
   
 }
 
-/* export default function App() {
-
-  return (
-    <ActionSheetProvider>
-      <NativeBaseProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen 
-              name="Home" 
-              component={ HomeScreen }
-              options={({ navigation }) => ({ 
-                title: 'Журнал приёмов', 
-                headerTintColor: '#2A86FF',
-                headerStyle: {
-                  evelation: 0.8,
-                  shadowOpacity: 0.8, 
-                },
-                headerRight: () => (
-                  <TouchableOpacity
-                    style = {{
-                      marginRight: 20
-                    }}
-                    onPress={() => navigation.navigate('Patients')}
-                  >
-                    <Ionicons name='md-people' size={32}></Ionicons>
-                  </TouchableOpacity>
-                ),
-              })}
-              />
-            <Stack.Screen 
-              name="Patient" 
-              component={ PatientScreen } 
-              options={{
-                title: 'Карта пациента',
-                headerTintColor: '#2A86FF',
-                headerStyle: {
-                  evelation: 0.8,
-                  shadowOpacity: 0.8, 
-                }
-              }}
-              />
-            <Stack.Screen 
-              name="Patients" 
-              component={ PatientsScreen } 
-              options={({navigation}) => ({
-                title: 'Список пациентов',
-                headerTintColor: '#2A86FF',
-                headerStyle: {
-                  evelation: 0.8,
-                  shadowOpacity: 0.8, 
-                },
-                headerRight: () => (
-                  <TouchableOpacity
-                    style = {{
-                      marginRight: 20
-                    }}
-                    onPress={() => navigation.navigate('Home')}
-                  >
-                    <Ionicons name="clipboard-outline" size={32}></Ionicons>
-                  </TouchableOpacity>
-                ),
-              })}
-            />
-            <Stack.Screen 
-              name="AddPatient" 
-              component={ AddPatientsScreen } 
-              options={{
-                title: 'Добавить пациента',
-                headerTintColor: '#2A86FF',
-                headerStyle: {
-                  evelation: 0.8,
-                  shadowOpacity: 0.8, 
-                }
-              }}
-              />
-            <Stack.Screen 
-                name="AddAppointment" 
-                component={ AddAppointmentScreen } 
-                options={{
-                title: 'Добавить приём',
-                headerTintColor: '#2A86FF',
-                headerStyle: {
-                  evelation: 0.8,
-                  shadowOpacity: 0.8, 
-                }
-              }}
-              />
-            <Stack.Screen 
-              name="ChangeAppointment" 
-              component={ ChangeAppointmentScreen } 
-              options={{
-              title: 'Изменение приёма',
-              headerTintColor: '#2A86FF',
-              headerStyle: {
-                evelation: 0.8,
-                shadowOpacity: 0.8, 
-              }
-            }}
-            />
-            <Stack.Screen 
-              name="ChangePatient" 
-              component={ ChangePatientScreen } 
-              options={{
-              title: 'Изменение данных пациента',
-              headerTintColor: '#2A86FF',
-              headerStyle: {
-                evelation: 0.8,
-                shadowOpacity: 0.8, 
-              }
-            }}
-            />
-             <Stack.Screen 
-              name="Formula" 
-              component={ TeethFormula } 
-              options={{
-              title: 'Формула зубов',
-              headerTintColor: '#2A86FF',
-              headerStyle: {
-                evelation: 0.8,
-                shadowOpacity: 0.8, 
-              }
-            }}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </NativeBaseProvider>
-    </ActionSheetProvider>
-  );
-} */
-
+const TabText = styled.Text`
+  font-size: 11px;
+`
