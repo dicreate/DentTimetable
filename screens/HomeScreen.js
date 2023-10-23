@@ -17,17 +17,21 @@ const HomeScreen = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const getAppointments = async () => {
-    setIsLoading(true);
-    const appointmentsTable = await getAppointmentsWithPatients();
-    appointmentsTable.rows.length 
-      ? setAppointments(
-        reduce(groupBy(appointmentsTable.rows._array, 'date'), (result, value, key) => {
-          result = [...result, {title: key, data: value}];
-          return result;
-      },[])
-        )
-      : setAppointments('no appointments')
-    setIsLoading(false); 
+    try {
+      setIsLoading(true);
+      const appointmentsTable = await getAppointmentsWithPatients();
+      appointmentsTable.rows.length 
+        ? setAppointments(
+          reduce(groupBy(appointmentsTable.rows._array, 'date'), (result, value, key) => {
+            result = [...result, {title: key, data: value}];
+            return result;
+        },[])
+          )
+        : setAppointments('no appointments')
+      setIsLoading(false);
+    } catch {
+      console.log('Ошибка при обращении к базе данных. Таблицы не существует')
+    }
   } 
  
   useEffect(() => {

@@ -66,5 +66,3 @@ const Avatar = styled.View`
   `;
 
 export default Appoitment
-
-/* https://blog.logrocket.com/build-custom-react-native-action-sheet/ */

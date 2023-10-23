@@ -6,7 +6,24 @@ const createTables = () => {
        
     db.transaction(txn => {
         txn.executeSql(
-          'CREATE TABLE IF NOT EXISTS patients (id INTEGER PRIMARY KEY AUTOINCREMENT, fullname VARCHAR(20) NOT NULL, phone VARCHAR(20), isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)))',
+          `CREATE TABLE IF NOT EXISTS patients (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, 
+            fullname VARCHAR(20) NOT NULL, 
+            phone VARCHAR(20), 
+            isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), 
+            isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)),
+            isCardiovascularSystem BOOLEAN CHECK (isCardiovascularSystem IN (0, 1)),
+            isNervousSystem BOOLEAN CHECK (isNervousSystem IN (0, 1)),
+            isEndocrineSystem BOOLEAN CHECK (isEndocrineSystem IN (0, 1)),
+            isEndocrineSystem BOOLEAN CHECK (isEndocrineSystem IN (0, 1)),
+            isDigestive BOOLEAN CHECK (isDigestive IN (0, 1)),
+            isRespiratory BOOLEAN CHECK (isRespiratory IN (0, 1)),
+            isInfectious BOOLEAN CHECK (isInfectious IN (0, 1)),
+            isAllergic BOOLEAN CHECK (isAllergic IN (0, 1)),
+            isConstantMedicines BOOLEAN CHECK (isConstantMedicines IN (0, 1)),
+            isHarmfulFactors BOOLEAN CHECK (isHarmfulFactors IN (0, 1)),
+            isOther BOOLEAN CHECK (isOther IN (0, 1))
+          )`, 
           [],
           () => {
             console.log('table created successfully')
@@ -31,10 +48,10 @@ const createTables = () => {
     })
   }
 
-  const createFormula = () => {
+  const createTeethHistory = () => {
     db.transaction(txn => {
       txn.executeSql(
-        'CREATE TABLE IF NOT EXISTS appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER NOT NULL, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20) NOT NULL, time VARCHAR(20) NOT NULL, anesthetization BOOLEAN CHECK (anesthetization IN (0, 1)), FOREIGN KEY (patientId) REFERENCES patients(id))',
+        'CREATE TABLE IF NOT EXISTS teethHistory (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER NOT NULL, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20) NOT NULL, time VARCHAR(20) NOT NULL, anesthetization BOOLEAN CHECK (anesthetization IN (0, 1)), FOREIGN KEY (patientId) REFERENCES patients(id))',
         [],
         () => {
           console.log('table created successfully')
@@ -43,8 +60,18 @@ const createTables = () => {
           console.log('error on creating table' + error.message)
         }
       )
+    })  
+  }
+
+  const dropTeethHistory = () => {
+    db.transaction(txn => {
+      txn.executeSql('DROP TABLE teethHistory', null, 
+      (txnObj, result) => console.log('table drop successfully'),
+      (txnObj, error) => {console.log(error);}
+      )
     })
   }
+
 
   const showAppointments = () => {
     db.transaction(txn => {
@@ -268,4 +295,4 @@ const createTables = () => {
       }) 
   }
 
-  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients, deleteAppointment, changePatient, changeAppointment, getPatientAppointments, addPatients, addAppointments }
+  export { createTables, showAppointments, showPatients, dropAppointments, dropPatients, deletePatientAppointments, isPatientAppointments, deletePatient, getPatients, getAppointmentsWithPatients, deleteAppointment, changePatient, changeAppointment, getPatientAppointments, addPatients, addAppointments, dropTeethHistory }

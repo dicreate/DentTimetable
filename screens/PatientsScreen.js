@@ -16,10 +16,15 @@ const PatientsScreen = ({navigation}) => {
   const [patients, setPatients] = useState(undefined)
 
   const getPatientsHandler = async () => {
-    setIsLoading(true);
-    const patientsTable = await getPatients();
-    patientsTable.rows.length ? setPatients(patientsTable.rows._array) : setPatients('no patients');
-    setIsLoading(false);
+    try {
+      setIsLoading(true);
+      const patientsTable = await getPatients();
+      patientsTable.rows.length ? setPatients(patientsTable.rows._array) : setPatients('no patients');
+      setIsLoading(false);
+    }
+    catch {
+      console.log('Ошибка при обращении к базе данных. Таблицы не существует')
+    }
   }
 
   useEffect(() => { 
@@ -111,7 +116,7 @@ const PatientsScreen = ({navigation}) => {
   return (
    <Container>
     {
-      patients && patients !== 'no patients'
+      patients && patients !== 'no patients' && patients !== undefined  
       ? <>
           <SearchView>
             <Input style={{
@@ -150,7 +155,7 @@ const PatientsScreen = ({navigation}) => {
         />
          
       </>
-      : patients !== 'no patients' 
+      : patients !== 'no patients' && patients !== undefined 
         ? <HStack space={2} justifyContent="center" marginTop = {150}>
             <Spinner accessibilityLabel="Loading posts" />
             <Heading color="primary.500" fontSize="md">
