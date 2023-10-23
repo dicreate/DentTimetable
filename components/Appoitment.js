@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native';
+import { View, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { default as GrayText } from './GrayText'
 import { default as Badge } from './Badge'
@@ -8,7 +8,10 @@ import getAvatarColor from '../utils/getAvatarColor';
 const Appoitment = ({onLongPress, item, navigate}) => {
    const { fullname, active, time, diagnosis } = item;
 
-   const avatarColors = getAvatarColor(fullname[0].toUpperCase())
+   const WindowWidth = Dimensions.get('window').width;
+
+   const avatarColors = getAvatarColor(fullname[0].toUpperCase());
+
 return (
        <AppoitmentItem onLongPress={() => onLongPress(item)} onPress = { navigate.bind(this, 'Patient', {item}) }>
             <Avatar style = {{
@@ -21,7 +24,7 @@ return (
                </Letter>
             </Avatar>
             <View style= {{style: 'flex: 1'}}>
-               <FullName>{ fullname }</FullName>
+               <FullName style = {{maxWidth: time ? WindowWidth - 180 : WindowWidth - 90}}>{ fullname }</FullName>
                <GrayText>{ diagnosis }</GrayText>
             </View>
             { time && <Badge active = {active}>{time}</Badge> }

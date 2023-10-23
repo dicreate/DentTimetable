@@ -34,8 +34,6 @@ const HomeScreen = ({navigation}) => {
     getAppointments(); 
   }, [navigation.getState().routes[0].params])
 
-  console.log(navigation.getState().routes[0])
-
   const { showActionSheetWithOptions } = useActionSheet();
 
   const openSheet = (item) => {

@@ -37,7 +37,7 @@ function AddPatientsScreen ({navigation, route}) {
       params: { lastUpdate: new Date() },
       merge: true
     });
-    navigation.navigate("Patients")
+    navigation.navigate("Patients", { lastUpdate: new Date() })
   }
   
   return (

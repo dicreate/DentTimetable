@@ -20,7 +20,7 @@
     "slug": "dentalapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/medical-appointment.png",
+    "icon": "./assets/tooth.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/medical-appointment.png",
