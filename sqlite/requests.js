@@ -39,8 +39,6 @@ const createPatientsInfo = () => {
       `CREATE TABLE IF NOT EXISTS patientsInfo (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         patientId INTEGER NOT NULL, 
-        isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), 
-        isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)),
         isCardiovascularSystem BOOLEAN CHECK (isCardiovascularSystem IN (0, 1)),
         isNervousSystem BOOLEAN CHECK (isNervousSystem IN (0, 1)),
         isEndocrineSystem BOOLEAN CHECK (isEndocrineSystem IN (0, 1)),
@@ -50,7 +48,9 @@ const createPatientsInfo = () => {
         isAllergic BOOLEAN CHECK (isAllergic IN (0, 1)),
         isConstantMedicines BOOLEAN CHECK (isConstantMedicines IN (0, 1)),
         isHarmfulFactors BOOLEAN CHECK (isHarmfulFactors IN (0, 1)),
+        isPregnancy BOOLEAN CHECK (isPregnancy IN (0, 1)),
         isAlcohol BOOLEAN CHECK (isAlcohol IN (0, 1)),
+        isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), 
         isOther BOOLEAN CHECK (isOther IN (0, 1)),
         FOREIGN KEY (patientId) REFERENCES patients(id)
       )`, 
@@ -364,11 +364,11 @@ const dropPatientsInfo = () => {
        })
   }
 
-  const addPatientsInfo = async (patientId, isSmoking, isPregnancy) => {
+  const addPatientsInfo = async (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther) => {
     db.transaction(txn => {
       txn.executeSql(
-        `INSERT INTO patientsInfo (patientId, isSmoking, isPregnancy) VALUES (?, ?, ?)`,
-        [patientId, isSmoking, isPregnancy],
+        `INSERT INTO patientsInfo (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther],
         () => {
           console.log('PatientInfo added successfully')
         },

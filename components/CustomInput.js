@@ -3,7 +3,7 @@ import styled from 'styled-components/native'
 import { View, Animated, Text, StyleSheet } from 'react-native'
 import { Input } from "native-base";
 
-const CustomInput = ({title, value, onChange, inputMode, variant="underlined" , size = "md", placeholder, autoFocus = false, w = "100%"}) => {
+const CustomInput = ({title, value, onChange, inputMode, variant="underlined" , size = "md", placeholder, autoFocus = false, w = "100%",style}) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -30,6 +30,7 @@ const CustomInput = ({title, value, onChange, inputMode, variant="underlined" , 
             {value === '' ? fadeOut() : fadeIn()}
             <Animated.Text style = {[styles.InputTitle,{opacity: fadeAnim}]}>{title}</Animated.Text>
             <Input 
+                style = {style}
                 title = {'Номер зуба'}
                 value = {value} 
                 onChange = {onChange}

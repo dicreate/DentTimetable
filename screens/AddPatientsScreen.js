@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text,  View, StyleSheet, TouchableOpacity, Switch, KeyboardAvoidingView } from 'react-native'
+import { Text,  View, StyleSheet, TouchableOpacity, Switch, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native'
 import { Stack, Button, HStack,} from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
@@ -14,20 +14,46 @@ function AddPatientsScreen ({navigation}) {
     'phone': ''
   });
 
+  const WindowWidth = Dimensions.get('window').width;  
 
   const [openInfo, setOpenInfo] = useState(false);
-  const [isSmoking, setIsSmoking] = useState(false);
+
+  const [isCardiovascularSystem, setIsCardiovascularSystem] = useState(false);
+  const [isNervousSystem, setIsNervousSystem] = useState(false);
+  const [isEndocrineSystem, setIsEndocrineSystem] = useState(false);
+  const [isDigestive, setIsDigestive] = useState(false);
+  const [isRespiratory, setIsRespiratory] = useState(false);
+  const [isInfectious, setIsInfectious] = useState(false);
+  const [isAllergic, setIsAllergic] = useState(false);
+  const [isConstantMedicines, setIsConstantMedicines] = useState(false);
+  const [isHarmfulFactors, setIsHarmfulFactors] = useState(false);
   const [isPregnancy, setIsPregnancy] = useState(false);
+  const [isAlcohol, setIsAlcohol] = useState(false);
+  const [isSmoking, setIsSmoking] = useState(false);
+  const [isOther, setIsOther] = useState(false);
 
     addPatientHandler = async () => {
       if (values.fullname !== '') {
         const insertId = await addPatients(values.fullname, values.phone);
-        await addPatientsInfo(insertId, isSmoking, isPregnancy);
+        await addPatientsInfo(insertId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther);
         navigation.navigate('Patients', { lastUpdatePatient: new Date()});
         setValues({
           ['fullname']: '',
           ['phone']: '',
         });
+        setIsCardiovascularSystem(false);
+        setIsNervousSystem(false);
+        setIsEndocrineSystem(false);
+        setIsDigestive(false);
+        setIsRespiratory(false);
+        setIsInfectious(false);
+        setIsAllergic(false);
+        setIsConstantMedicines(false);
+        setIsHarmfulFactors(false);
+        setIsPregnancy(false);
+        setIsAlcohol(false);
+        setIsSmoking(false);
+        setIsOther(false);
       }
       else alert('Имя пациента не должно быть пустым')
     }
@@ -43,9 +69,10 @@ function AddPatientsScreen ({navigation}) {
   }
 
   return (
+    <ScrollView>
    <Container>  
       <Wrapper>
-        <Stack space={0} w="75%" maxW="300px" mx="auto">
+        <Stack space={0} w = {WindowWidth*0.8} maxW="300px" mx="auto" my="auto">
           <CustomInput
             title = {'Имя и фамилия'}  
             value = {values.fullname} 
@@ -62,8 +89,20 @@ function AddPatientsScreen ({navigation}) {
             placeholder="Номер телефона" 
           />
 
+          <CustomSwitch style={{marginTop: 20}} title={'Заболевания сердечно-сосудистой системы'} state = {isCardiovascularSystem} setState={setIsCardiovascularSystem}/>
+          <CustomSwitch title={'Заболевания нервной системы'} state = {isNervousSystem} setState={setIsNervousSystem}/>
+          <CustomSwitch title={'Заболевания эндокринной системы'} state = {isEndocrineSystem} setState={setIsEndocrineSystem}/>
+          <CustomSwitch title={'Заболевания органов пищеварения'} state = {isDigestive} setState={setIsDigestive}/>
+          <CustomSwitch title={'Заболевания органов дыхания'} state = {isRespiratory} setState={setIsRespiratory}/>
+          <CustomSwitch title={'Инфекционные заболевания'} state = {isInfectious} setState={setIsInfectious}/>
+          <CustomSwitch title={'Аллергические реакции'} state = {isAllergic} setState={setIsAllergic}/>
+          <CustomSwitch title={'Постоянное применение лекарственных средств'} state = {isConstantMedicines} setState={setIsConstantMedicines}/>
+          <CustomSwitch title={'Вредные факторы производственной среды'} state = {isHarmfulFactors} setState={setIsHarmfulFactors}/>
+          <CustomSwitch title={'Беременность, послеродовый период'} state = {isPregnancy} setState={setIsPregnancy}/>
+          <CustomSwitch title={'Алкогольная зависимость'} state = {isAlcohol} setState={setIsAlcohol}/>
           <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
-          <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
+          <CustomSwitch title={'Другое'} state = {isOther} setState={setIsOther}/>
+ 
           
           <ButtonView>
           {/*   <Button
@@ -112,6 +151,7 @@ function AddPatientsScreen ({navigation}) {
         </Modal>      */}  
       </Wrapper>
    </Container>
+   </ScrollView>
   )
 }
 
@@ -146,11 +186,12 @@ const Container = styled.View`
 `
 
 const Wrapper= styled.View`
-  margin-top: 100px;
+  margin-top: 20px;
 `
 
 const ButtonView = styled.View`
   margin-top: 30px;
+  margin-bottom: 30px;
   gap: 30px;
 `
 

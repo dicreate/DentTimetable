@@ -1,12 +1,12 @@
 import React, {useRef, useState} from 'react'
 import styled from 'styled-components/native'
-import { View, Animated, Text, StyleSheet, Switch } from 'react-native'
+import { View, Animated, Text, StyleSheet, Switch, Dimensions } from 'react-native'
 
-const CustomSwitch = ({ title, state, setState }) => {
+const CustomSwitch = ({ title, state, setState, style }) => {
     const [isEnabled, setIsEnabled] = useState(false);
 
     return (
-        <SwitchContainer style={{display: "flex",}}>
+        <SwitchContainer style={style}>
             <SwitchText>{title}</SwitchText>
             <Switch
               trackColor={{false: '#767577', true: '#81b0ff'}}
@@ -19,6 +19,8 @@ const CustomSwitch = ({ title, state, setState }) => {
         </SwitchContainer>        
     )
   }
+
+const windowWidth = Dimensions.get('window').width;  
   
 const SwitchContainer = styled.View`
  display: flex;
@@ -30,6 +32,7 @@ const SwitchContainer = styled.View`
 `;
 
 const SwitchText = styled.Text`
+  max-width: ${windowWidth * 0.62}px
   color: #2A86FF;
 `
 
