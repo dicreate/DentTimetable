@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Text,  View, ActivityIndicator, Linking, ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text,  View, ActivityIndicator, Linking, ScrollView, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge, PlusButton } from '../components'
-import { MaterialCommunityIcons } from '@expo/vector-icons'; 
-import { Foundation, Fontisto, MaterialIcons } from '@expo/vector-icons'; 
+import { Foundation, Fontisto, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'; 
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { getPatientAppointments, getPatientInfo, showPatientsInfo } from '../sqlite/requests';
@@ -120,75 +119,79 @@ const PatientScreen = ({ navigation, route }) => {
             setOpenInfo(false)   
           }}
         >
-
-      {/*     <CustomSwitch style={{marginTop: 20}} title={'Заболевания сердечно-сосудистой системы'} state = {isCardiovascularSystem} setState={setIsCardiovascularSystem}/>
-          <CustomSwitch title={'Заболевания нервной системы'} state = {isNervousSystem} setState={setIsNervousSystem}/>
-          <CustomSwitch title={'Заболевания эндокринной системы'} state = {isEndocrineSystem} setState={setIsEndocrineSystem}/>
-          <CustomSwitch title={'Заболевания органов пищеварения'} state = {isDigestive} setState={setIsDigestive}/>
-          <CustomSwitch title={'Заболевания органов дыхания'} state = {isRespiratory} setState={setIsRespiratory}/>
-          <CustomSwitch title={'Инфекционные заболевания'} state = {isInfectious} setState={setIsInfectious}/>
-          <CustomSwitch title={'Аллергические реакции'} state = {isAllergic} setState={setIsAllergic}/>
-          <CustomSwitch title={'Постоянное применение лекарственных средств'} state = {isConstantMedicines} setState={setIsConstantMedicines}/>
-          <CustomSwitch title={'Вредные факторы производственной среды'} state = {isHarmfulFactors} setState={setIsHarmfulFactors}/>
-          <CustomSwitch title={'Беременность, послеродовый период'} state = {isPregnancy} setState={setIsPregnancy}/>
-          <CustomSwitch title={'Алкогольная зависимость'} state = {isAlcohol} setState={setIsAlcohol}/>
-          <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
-          <CustomSwitch title={'Другое'} state = {isOther} setState={setIsOther}/> */}
-
+          <ScrollView>
           <View style = {styles.centeredView}>
             <View style = {styles.modalView}>
               <CardRow>
+                  <IconContainer>
+                    <MaterialCommunityIcons name="heart-pulse" size={24} color="#A3A3A3" />
+                  </IconContainer> 
+                  <AppoitmentCardLabel>
+                    <Text>
+                      Заболевания сердечно-сосудистой системы
+                    </Text>
+                    <Text style={{fontWeight: 'bold'}}>
+                      {patientInfo.isCardiovascularSystem ? 'Да' : 'Нет'}
+                    </Text>
+                  </AppoitmentCardLabel>
+              </CardRow>
+              <CardRow>
+                  <IconContainer>
+                    <MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" />
+                  </IconContainer>         
+                  <AppoitmentCardLabel>
+                    <Text style = {styles.diseasesName}>
+                      Заболевания нервной системы
+                    </Text>
+                    <Text style={{fontWeight: 'bold'}}>
+                      {patientInfo.isNervousSystem ? 'Да' : 'Нет'}
+                    </Text>
+                  </AppoitmentCardLabel>
+              </CardRow>
+              <CardRow>
                   <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Заболевания сердечно-сосудистой системы: <Text style={{fontWeight: 'bold'}}>{patientInfo.isCardiovascularSystem ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Заболевания эндокринной системы</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isEndocrineSystem ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Заболевания нервной системы: <Text style={{fontWeight: 'bold'}}>{patientInfo.isNervousSystem ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <IconContainer><MaterialCommunityIcons name="stomach" size={24} color="#A3A3A3" /></IconContainer>         
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Заболевания органов пищеварения</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isDigestive ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+              </CardRow>  
+              <CardRow>
+                  <IconContainer><FontAwesome5 name="lungs" size={24} color="#A3A3A3" /></IconContainer>         
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Заболевания органов дыхания</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isRespiratory ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Заболевания эндокринной системы: <Text style={{fontWeight: 'bold'}}>{patientInfo.isEndocrineSystem ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <IconContainer><FontAwesome5 name="virus" size={24} color="#A3A3A3" /></IconContainer>         
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Инфекционные заболевания</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isInfectious ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+              </CardRow>  
+              <CardRow>
+                  <IconContainer><MaterialCommunityIcons name="allergy" size={24} color="#A3A3A3" /></IconContainer>         
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Аллергические реакции</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isAllergic ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Заболевания органов пищеварения: <Text style={{fontWeight: 'bold'}}>{patientInfo.isDigestive ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <IconContainer><MaterialCommunityIcons name="pill" size={24}  color="#A3A3A3" /></IconContainer>         
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Постоянное применение лекарственных средств</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isConstantMedicines ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>  
               <CardRow>
                   <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Заболевания органов дыхания: <Text style={{fontWeight: 'bold'}}>{patientInfo.isRespiratory ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Вредные факторы производственной среды</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isHarmfulFactors ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
                   <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Инфекционные заболевания: <Text style={{fontWeight: 'bold'}}>{patientInfo.isInfectious ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Беременность, послеродовый период</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isPregnancy ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>  
               <CardRow>
                   <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Аллергические реакции: <Text style={{fontWeight: 'bold'}}>{patientInfo.isAllergic ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Алкогольная зависимость</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isAlcohol ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
                   <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Постоянное применение лекарственных средств: <Text style={{fontWeight: 'bold'}}>{patientInfo.isConstantMedicines ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>  
-              <CardRow>
-                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Вредные факторы производственной среды: <Text style={{fontWeight: 'bold'}}>{patientInfo.isHarmfulFactors ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Курение</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isSmoking ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
                   <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Беременность, послеродовый период: <Text style={{fontWeight: 'bold'}}>{patientInfo.isPregnancy ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>  
-              <CardRow>
-                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Алкогольная зависимость: <Text style={{fontWeight: 'bold'}}>{patientInfo.isAlcohol ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Другое</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isOther ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
-              <CardRow>
-                  <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Курение: <Text style={{fontWeight: 'bold'}}>{patientInfo.isSmoking ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>
-              <CardRow>
-                  <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Другое: <Text style={{fontWeight: 'bold'}}>{patientInfo.isOther ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>      
               <TouchableOpacity style = {{marginTop: 10, alignSelf: "center"}} onPress={() => {
                   setOpenInfo(false)   
                 }}>
@@ -196,10 +199,14 @@ const PatientScreen = ({ navigation, route }) => {
               </TouchableOpacity>
             </View>
          </View>
+         </ScrollView>
       </Modal>
       </View>
   )
 }
+
+const WindowWidth = Dimensions.get('window').width;
+const diseasesWidth = WindowWidth - 140;
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -209,10 +216,10 @@ const styles = StyleSheet.create({
  },
  modalView: {
    backgroundColor: 'white',
-   borderRadius: 20,
    width: '100%',
    maxWidth: 400,
-   padding: 35,
+   gap: 15,
+   padding: 15,
    shadowColor: '#000',
    shadowOffset: {
      width: 0,
@@ -221,8 +228,13 @@ const styles = StyleSheet.create({
    shadowOpacity: 0.25, 
    shadowRadius: 4,
    elevation: 5,
+ },
+ diseasesName: {
+  maxWidth: diseasesWidth,
  }
 })
+
+
 
 const PatientContacts = styled.View`
   display: flex;
@@ -239,12 +251,14 @@ const CardRow = styled.View`
   flex-direction: row;
   align-items: center;
   gap: 5px;
-  margin-top: 3.5px;
-  margin-bottom: 3.5px;
 `;
 
-const AppoitmentCardLabel = styled.Text`
+const AppoitmentCardLabel = styled.View`
   font-size: 16px;
+  flex: 2;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
 `
 
 const AppoitmentCard = styled.View`
