@@ -6,7 +6,7 @@ import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { TouchableOpacity } from 'react-native';
-import { createTables, dropAppointments, dropPatients, showAppointments, dropTeethHistory } from "./sqlite/requests";
+import { createTables, dropTables } from "./sqlite/requests";
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Feather } from '@expo/vector-icons'; 
 import { useTheme } from 'react-native-paper';
@@ -137,8 +137,7 @@ function StackNavigator() {
 
 export default function App () {
   useEffect(() => {
-   /*  dropAppointments();
-    dropPatients();  */
+    /* dropTables() */
     createTables()
   }, [])
 

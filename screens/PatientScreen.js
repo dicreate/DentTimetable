@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation, Fontisto, MaterialIcons } from '@expo/vector-icons'; 
 import moment from 'moment/moment';
 import 'moment/locale/ru';
-import { getPatientAppointments } from '../sqlite/requests';
+import { getPatientAppointments, getPatientInfo, showPatientsInfo } from '../sqlite/requests';
 import Modal from 'react-native-modal';
 import * as Animatable from 'react-native-animatable';
 
@@ -16,7 +16,9 @@ const PatientScreen = ({ navigation, route }) => {
 
   const [ appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [patientInfo, setPatientInfo] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
+
 
   const getAppointments = async () => {
     const appointmentsTable = await getPatientAppointments(item.patientId);
@@ -26,8 +28,16 @@ const PatientScreen = ({ navigation, route }) => {
     setIsLoading(false); 
   } 
 
+  const getPatientInfoHandler = async () => {
+    const patientInfoTable = await getPatientInfo(item.patientId);
+    patientInfoTable.rows.length 
+    ?  setPatientInfo(patientInfoTable.rows._array[0])
+    :  setPatientInfo('no info')
+  }
+
   useEffect(() => {
     getAppointments();
+    getPatientInfoHandler();
   }, [])
   
   return (
@@ -103,7 +113,7 @@ const PatientScreen = ({ navigation, route }) => {
       <PlusButton onPress = {() => navigation.navigate('AddAppointment', {
         patientId: item.id
       })}/>
-       <Modal
+      <Modal
           isVisible = {openInfo}
           backdropOpacity = {0.3}
           onBackButtonPress = {() => {
@@ -114,11 +124,11 @@ const PatientScreen = ({ navigation, route }) => {
             <View style = {styles.modalView}>
               <CardRow>
                   <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Курение:<Text style={{fontWeight: 'bold'}}> {item.isSmoking ? "да" : "нет"}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel>Курение: <Text style={{fontWeight: 'bold'}}>{patientInfo.isSmoking ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
                   <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Беременность:<Text style={{fontWeight: 'bold'}}> {item.isPregnancy ? "да" : "нет"}</Text></AppoitmentCardLabel>
+                  <AppoitmentCardLabel>Беременность: <Text style={{fontWeight: 'bold'}}>{patientInfo.isPregnancy ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>    
               <TouchableOpacity style = {{marginTop: 10, alignSelf: "center"}} onPress={() => {
                   setOpenInfo(false)   

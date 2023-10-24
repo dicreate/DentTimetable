@@ -4,7 +4,7 @@ import { Stack, Button, HStack,} from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
 import { CustomInput, CustomSwitch } from '../components/';
-import { addPatients } from '../sqlite/requests';
+import { addPatients, addPatientsInfo } from '../sqlite/requests';
 import Modal from 'react-native-modal';
 
 function AddPatientsScreen ({navigation}) {
@@ -13,13 +13,16 @@ function AddPatientsScreen ({navigation}) {
     'fullname': '',
     'phone': ''
   });
+
+
   const [openInfo, setOpenInfo] = useState(false);
   const [isSmoking, setIsSmoking] = useState(false);
   const [isPregnancy, setIsPregnancy] = useState(false);
 
-    addPatientHandler = () => {
+    addPatientHandler = async () => {
       if (values.fullname !== '') {
-        addPatients(values.fullname, values.phone, isSmoking, isPregnancy);
+        const insertId = await addPatients(values.fullname, values.phone);
+        await addPatientsInfo(insertId, isSmoking, isPregnancy);
         navigation.navigate('Patients', { lastUpdatePatient: new Date()});
         setValues({
           ['fullname']: '',
@@ -58,9 +61,12 @@ function AddPatientsScreen ({navigation}) {
             inputMode = {"tel"}
             placeholder="Номер телефона" 
           />
+
+          <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
+          <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
           
           <ButtonView>
-            <Button
+          {/*   <Button
               onPress={() => setOpenInfo(true)} 
               size="md"
               w="100%" 
@@ -70,7 +76,7 @@ function AddPatientsScreen ({navigation}) {
               <ButtonText>
                   Дополнительная информация
               </ButtonText>  
-            </Button>
+            </Button> */}
             <Button
             onPress={() => addPatientHandler()} 
             size="md"
@@ -85,7 +91,7 @@ function AddPatientsScreen ({navigation}) {
             </Button>
           </ButtonView>
         </Stack>
-        <Modal
+{/*         <Modal
             isVisible={openInfo}
             backdropOpacity={0.3}
             onBackButtonPress = {() => {
@@ -103,7 +109,7 @@ function AddPatientsScreen ({navigation}) {
                 </TouchableOpacity>
               </View>
           </View>
-        </Modal>       
+        </Modal>      */}  
       </Wrapper>
    </Container>
   )

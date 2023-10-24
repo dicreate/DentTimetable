@@ -22,7 +22,7 @@ const CustomSwitch = ({ title, state, setState }) => {
   
 const SwitchContainer = styled.View`
  display: flex;
- width: 80%;
+ width: 100%;
  flex-direction: row;
  justify-content: space-between;
  align-items: center;
