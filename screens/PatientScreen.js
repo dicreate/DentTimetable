@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Text,  View, ActivityIndicator, Linking, ScrollView, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import styled from 'styled-components'
 import { GrayText, Button, Badge, PlusButton } from '../components'
-import { Foundation, Fontisto, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'; 
+import { Foundation, Fontisto, MaterialIcons, MaterialCommunityIcons, FontAwesome5, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons'; 
 import moment from 'moment/moment';
 import 'moment/locale/ru';
 import { getPatientAppointments, getPatientInfo, showPatientsInfo } from '../sqlite/requests';
@@ -137,7 +137,10 @@ const PatientScreen = ({ navigation, route }) => {
               </CardRow>
               <CardRow>
                   <IconContainer>
-                    <MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" />
+                  <FontAwesome name="hospital-o" size={24} color="#A3A3A3"/>
+                  <Entypo name="flow-tree" size={24} color="#A3A3A3"/>
+                  <FontAwesome5 name="hubspot" size={24} color="#A3A3A3" />
+                  <FontAwesome5 name="mendeley" size={24} color="black" />
                   </IconContainer>         
                   <AppoitmentCardLabel>
                     <Text style = {styles.diseasesName}>
@@ -149,7 +152,7 @@ const PatientScreen = ({ navigation, route }) => {
                   </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
+                  <IconContainer><Ionicons name="sad" size={24} color="black" /></IconContainer>         
                   <AppoitmentCardLabel><Text style = {styles.diseasesName}>Заболевания эндокринной системы</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isEndocrineSystem ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
@@ -173,7 +176,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <AppoitmentCardLabel><Text style = {styles.diseasesName}>Постоянное применение лекарственных средств</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isConstantMedicines ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>  
               <CardRow>
-                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
+                  <IconContainer><Entypo name="tools" size={24} color="#A3A3A3" /></IconContainer>         
                   <AppoitmentCardLabel><Text style = {styles.diseasesName}>Вредные факторы производственной среды</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isHarmfulFactors ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
@@ -181,15 +184,15 @@ const PatientScreen = ({ navigation, route }) => {
                   <AppoitmentCardLabel><Text style = {styles.diseasesName}>Беременность, послеродовый период</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isPregnancy ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>  
               <CardRow>
-                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
+                  <IconContainer><Ionicons name="beer" size={24} color="#A3A3A3" /></IconContainer>         
                   <AppoitmentCardLabel><Text style = {styles.diseasesName}>Алкогольная зависимость</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isAlcohol ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
+                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
                   <AppoitmentCardLabel><Text style = {styles.diseasesName}>Курение</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isSmoking ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
+                  <IconContainer><FontAwesome name="question-circle" size={24} color="#A3A3A3" /></IconContainer>         
                   <AppoitmentCardLabel><Text style = {styles.diseasesName}>Другое</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isOther ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
               </CardRow>
               <TouchableOpacity style = {{marginTop: 10, alignSelf: "center"}} onPress={() => {
@@ -217,7 +220,6 @@ const styles = StyleSheet.create({
  modalView: {
    backgroundColor: 'white',
    width: '100%',
-   maxWidth: 400,
    gap: 15,
    padding: 15,
    shadowColor: '#000',
