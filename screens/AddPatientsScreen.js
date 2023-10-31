@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text,  View, StyleSheet, TouchableOpacity, Switch, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native'
+import { StyleSheet, ScrollView, Dimensions, Keyboard } from 'react-native'
 import { Stack, Button, HStack,} from "native-base";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import styled from 'styled-components'
@@ -82,165 +82,169 @@ function AddPatientsScreen ({navigation}) {
   }
 
   return (
-    <ScrollView>
-   <Container>  
-      <Wrapper>
-        <Stack space={0} w = {WindowWidth*0.8} maxW="300px" mx="auto" my="auto">
-          <CustomInput
-            title = {'Имя и фамилия'}  
-            value = {values.fullname} 
-            onChange = {handleChange.bind(this, 'fullname')}
-            placeholder="Имя и фамилия" 
-          />
+    <ScrollView keyboardShouldPersistTaps='handled'>
+      <Container>  
+          <Wrapper>
+            <Stack space={0} w = {WindowWidth*0.8} maxW="300px" mx="auto" my="auto">
+              <CustomInput
+                title = {'Имя и фамилия'}  
+                value = {values.fullname} 
+                onChange = {handleChange.bind(this, 'fullname')}
+                placeholder="Имя и фамилия" 
+              />
 
-          <CustomInput
-            title = {'Номер телефона'}  
-            value = {values.phone} 
-            dataDetectorTypes = {"phoneNumber"} 
-            onChange = {handleChange.bind(this, 'phone')}
-            inputMode = {"tel"}
-            placeholder="Номер телефона" 
-          />
-          <CustomSwitch 
-            style={{marginTop: 20}} 
-            title={'Заболевания сердечно-сосудистой системы'} 
-            state = {isCardiovascularSystem} 
-            setState={setIsCardiovascularSystem} 
-            handleChange = {handleChange} 
-            name = 'cardiovascularSystem' 
-          />
-          <CustomSwitch 
-            title={'Заболевания нервной системы'} 
-            state = {isNervousSystem} 
-            setState={setIsNervousSystem} 
-            handleChange = {handleChange}
-            name = 'nervousSystem' 
-          />
-          <CustomSwitch 
-            title={'Заболевания эндокринной системы'} 
-            state = {isEndocrineSystem} 
-            setState={setIsEndocrineSystem} 
-            handleChange = {handleChange} 
-            name = 'endocrineSystem'
-          />
-          <CustomSwitch 
-            title={'Заболевания органов пищеварения'} 
-            state = {isDigestive} 
-            setState={setIsDigestive} 
-            handleChange = {handleChange} 
-            name = 'digestive' 
-          />
-          <CustomSwitch 
-            title = {'Заболевания органов дыхания'} 
-            state = {isRespiratory} 
-            setState = {setIsRespiratory}
-            handleChange = {handleChange} 
-            name = 'respiratory'
-          />
-          <CustomSwitch 
-            title={'Инфекционные заболевания'} 
-            state = {isInfectious} 
-            setState={setIsInfectious}
-            handleChange = {handleChange} 
-            name = 'infectious'
-          />
-          <CustomSwitch 
-            title={'Аллергические реакции'} 
-            state = {isAllergic} 
-            setState={setIsAllergic}
-            handleChange = {handleChange} 
-            name = 'allergic'
-          />
-          <CustomSwitch 
-            title={'Постоянное применение лекарственных средств'} 
-            state = {isConstantMedicines} 
-            setState={setIsConstantMedicines}
-            handleChange = {handleChange} 
-            name = 'constantMedicines'
-          />
-          <CustomSwitch 
-            title={'Вредные факторы производственной среды'} 
-            state = {isHarmfulFactors} 
-            setState={setIsHarmfulFactors}
-            handleChange = {handleChange} 
-            name = 'harmfulFactors'
-          />
-          <CustomSwitch 
-            title={'Беременность, послеродовый период'} 
-            state = {isPregnancy} 
-            setState={setIsPregnancy}
-            handleChange = {handleChange} 
-            name = 'pregnancy'
-          />
-          <CustomSwitch 
-            title = {'Алкогольная зависимость'} 
-            state = {isAlcohol} 
-            setState = {setIsAlcohol}
-            handleChange = {handleChange} 
-            name = 'alcohol'
-          />
-          <CustomSwitch 
-            title={'Курение'} 
-            state = {isSmoking} 
-            setState={setIsSmoking}
-            handleChange = {handleChange} 
-            name = 'smoking'
-          />
-          <CustomSwitch 
-            title={'Другое'} 
-            state = {isOther} 
-            setState={setIsOther}
-            handleChange = {handleChange} 
-            name = 'other'
-          />
-          
-          <ButtonView>
-          {/*   <Button
-              onPress={() => setOpenInfo(true)} 
-              size="md"
-              w="100%" 
-              borderRadius={'20px'} 
-              colorScheme="blue" 
+              <CustomInput
+                title = {'Номер телефона'}  
+                value = {values.phone} 
+                dataDetectorTypes = {"phoneNumber"} 
+                onChange = {handleChange.bind(this, 'phone')}
+                inputMode = {"tel"}
+                placeholder="Номер телефона" 
+              />
+              <CustomSwitch 
+                style={{marginTop: 20}} 
+                title={'Заболевания сердечно-сосудистой системы'} 
+                state = {isCardiovascularSystem} 
+                setState={setIsCardiovascularSystem} 
+                handleChange = {handleChange} 
+                name = 'cardiovascularSystem' 
+              />
+              <CustomSwitch 
+                title={'Заболевания нервной системы'} 
+                state = {isNervousSystem} 
+                setState={setIsNervousSystem} 
+                handleChange = {handleChange}
+                name = 'nervousSystem' 
+              />
+              <CustomSwitch 
+                title={'Заболевания эндокринной системы'} 
+                state = {isEndocrineSystem} 
+                setState={setIsEndocrineSystem} 
+                handleChange = {handleChange} 
+                name = 'endocrineSystem'
+              />
+              <CustomSwitch 
+                title={'Заболевания органов пищеварения'} 
+                state = {isDigestive} 
+                setState={setIsDigestive} 
+                handleChange = {handleChange} 
+                name = 'digestive' 
+              />
+              <CustomSwitch 
+                title = {'Заболевания органов дыхания'} 
+                state = {isRespiratory} 
+                setState = {setIsRespiratory}
+                handleChange = {handleChange} 
+                name = 'respiratory'
+              />
+              <CustomSwitch 
+                title={'Инфекционные заболевания'} 
+                state = {isInfectious} 
+                setState={setIsInfectious}
+                handleChange = {handleChange} 
+                name = 'infectious'
+              />
+              <CustomSwitch 
+                title={'Аллергические реакции'} 
+                state = {isAllergic} 
+                setState={setIsAllergic}
+                handleChange = {handleChange} 
+                name = 'allergic'
+              />
+              <CustomSwitch 
+                title={'Постоянное применение лекарственных средств'} 
+                state = {isConstantMedicines} 
+                setState={setIsConstantMedicines}
+                handleChange = {handleChange} 
+                name = 'constantMedicines'
+              />
+              <CustomSwitch 
+                title={'Вредные факторы производственной среды'} 
+                state = {isHarmfulFactors} 
+                setState={setIsHarmfulFactors}
+                handleChange = {handleChange} 
+                name = 'harmfulFactors'
+              />
+              <CustomSwitch 
+                title={'Беременность, послеродовый период'} 
+                state = {isPregnancy} 
+                setState={setIsPregnancy}
+                handleChange = {handleChange} 
+                name = 'pregnancy'
+              />
+              <CustomSwitch 
+                title = {'Алкогольная зависимость'} 
+                state = {isAlcohol} 
+                setState = {setIsAlcohol}
+                handleChange = {handleChange} 
+                name = 'alcohol'
+              />
+              <CustomSwitch 
+                title={'Курение'} 
+                state = {isSmoking} 
+                setState={setIsSmoking}
+                handleChange = {handleChange} 
+                name = 'smoking'
+              />
+              <CustomSwitch 
+                title={'Другое'} 
+                state = {isOther} 
+                setState={setIsOther}
+                handleChange = {handleChange} 
+                name = 'other'
+              />
+              
+              <ButtonView>
+              {/*   <Button
+                  onPress={() => setOpenInfo(true)} 
+                  size="md"
+                  w="100%" 
+                  borderRadius={'20px'} 
+                  colorScheme="blue" 
+                  >
+                  <ButtonText>
+                      Дополнительная информация
+                  </ButtonText>  
+                </Button> */}
+                <Button
+                onPress={() => {
+                  Keyboard.dismiss();
+                  addPatientHandler()
+                  }
+                } 
+                size="md"
+                w="100%" 
+                borderRadius={'20px'} 
+                colorScheme="green" 
+                >
+                  <ButtonText>
+                    <Ionicons name="ios-add" size={20} color="white" />
+                    Добавить
+                  </ButtonText>  
+                </Button>
+              </ButtonView>
+            </Stack>
+    {/*         <Modal
+                isVisible={openInfo}
+                backdropOpacity={0.3}
+                onBackButtonPress = {() => {
+                  setOpenInfo(false)   
+                }}
               >
-              <ButtonText>
-                  Дополнительная информация
-              </ButtonText>  
-            </Button> */}
-            <Button
-            onPress={() => addPatientHandler()} 
-            size="md"
-            w="100%" 
-            borderRadius={'20px'} 
-            colorScheme="green" 
-            >
-              <ButtonText>
-                <Ionicons name="ios-add" size={20} color="white" />
-                Добавить
-              </ButtonText>  
-            </Button>
-          </ButtonView>
-        </Stack>
-{/*         <Modal
-            isVisible={openInfo}
-            backdropOpacity={0.3}
-            onBackButtonPress = {() => {
-              setOpenInfo(false)   
-            }}
-          >
-            <View style = {styles.centeredView}>
-              <View style = {styles.modalView}>
-                <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
-                <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
-                <TouchableOpacity style = {{marginTop: 10}} onPress={() => {
-                    setOpenInfo(false)   
-                  }}>
-                    <Text>Выбрать</Text>
-                </TouchableOpacity>
+                <View style = {styles.centeredView}>
+                  <View style = {styles.modalView}>
+                    <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
+                    <CustomSwitch title={'Беременность'} state = {isPregnancy} setState={setIsPregnancy}/>
+                    <TouchableOpacity style = {{marginTop: 10}} onPress={() => {
+                        setOpenInfo(false)   
+                      }}>
+                        <Text>Выбрать</Text>
+                    </TouchableOpacity>
+                  </View>
               </View>
-          </View>
-        </Modal>      */}  
-      </Wrapper>
-   </Container>
+            </Modal>      */}  
+          </Wrapper>
+      </Container>
    </ScrollView>
   )
 }
