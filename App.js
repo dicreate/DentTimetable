@@ -137,7 +137,6 @@ function StackNavigator() {
 
 export default function App () {
   useEffect(() => {
-    /* dropTables() */
     createTables()
   }, [])
 

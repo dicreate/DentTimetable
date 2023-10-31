@@ -13,11 +13,12 @@ const PatientScreen = ({ navigation, route }) => {
 
   const { item } = route.params;
 
-  const [ appointments, setAppointments] = useState([]);
+  const [appointments, setAppointments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [patientInfo, setPatientInfo] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
 
+  console.log(patientInfo)
 
   const getAppointments = async () => {
     const appointmentsTable = await getPatientAppointments(item.patientId);

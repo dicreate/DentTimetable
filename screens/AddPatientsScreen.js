@@ -11,7 +11,9 @@ function AddPatientsScreen ({navigation}) {
 
   const [values, setValues] = useState({
     'fullname': '',
-    'phone': ''
+    'phone': '',
+    'cardiovascularSystem': '',
+    'nervousSystem': '',
   });
 
   const WindowWidth = Dimensions.get('window').width;  
@@ -35,7 +37,7 @@ function AddPatientsScreen ({navigation}) {
     addPatientHandler = async () => {
       if (values.fullname !== '') {
         const insertId = await addPatients(values.fullname, values.phone);
-        await addPatientsInfo(insertId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther);
+        await addPatientsInfo(insertId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, values.cardiovascularSystem, values.nervousSystem);
         navigation.navigate('Patients', { lastUpdatePatient: new Date()});
         setValues({
           ['fullname']: '',
@@ -58,7 +60,7 @@ function AddPatientsScreen ({navigation}) {
       else alert('Имя пациента не должно быть пустым')
     }
 
-  const hangeChange = (name, e) => {
+  const handleChange = (name, e) => {
     
     const text = e.nativeEvent.text;
 
@@ -76,7 +78,7 @@ function AddPatientsScreen ({navigation}) {
           <CustomInput
             title = {'Имя и фамилия'}  
             value = {values.fullname} 
-            onChange = {hangeChange.bind(this, 'fullname')}
+            onChange = {handleChange.bind(this, 'fullname')}
             placeholder="Имя и фамилия" 
           />
 
@@ -84,14 +86,15 @@ function AddPatientsScreen ({navigation}) {
             title = {'Номер телефона'}  
             value = {values.phone} 
             dataDetectorTypes = {"phoneNumber"} 
-            onChange = {hangeChange.bind(this, 'phone')}
+            onChange = {handleChange.bind(this, 'phone')}
             inputMode = {"tel"}
             placeholder="Номер телефона" 
           />
 
-          <CustomSwitch style={{marginTop: 20}} title={'Заболевания сердечно-сосудистой системы'} state = {isCardiovascularSystem} setState={setIsCardiovascularSystem}/>
-          <CustomSwitch title={'Заболевания нервной системы'} state = {isNervousSystem} setState={setIsNervousSystem}/>
-          <CustomSwitch title={'Заболевания эндокринной системы'} state = {isEndocrineSystem} setState={setIsEndocrineSystem}/>
+          <CustomSwitch style={{marginTop: 20}} title={'Заболевания сердечно-сосудистой системы'} state = {isCardiovascularSystem} setState={setIsCardiovascularSystem} handleChange = {handleChange} name = 'cardiovascularSystem' />
+
+          <CustomSwitch title={'Заболевания нервной системы'} state = {isNervousSystem} setState={setIsNervousSystem} handleChange = {handleChange} name = 'nervousSystem' />
+        {/*   <CustomSwitch title={'Заболевания эндокринной системы'} state = {isEndocrineSystem} setState={setIsEndocrineSystem}/>
           <CustomSwitch title={'Заболевания органов пищеварения'} state = {isDigestive} setState={setIsDigestive}/>
           <CustomSwitch title={'Заболевания органов дыхания'} state = {isRespiratory} setState={setIsRespiratory}/>
           <CustomSwitch title={'Инфекционные заболевания'} state = {isInfectious} setState={setIsInfectious}/>
@@ -101,7 +104,7 @@ function AddPatientsScreen ({navigation}) {
           <CustomSwitch title={'Беременность, послеродовый период'} state = {isPregnancy} setState={setIsPregnancy}/>
           <CustomSwitch title={'Алкогольная зависимость'} state = {isAlcohol} setState={setIsAlcohol}/>
           <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
-          <CustomSwitch title={'Другое'} state = {isOther} setState={setIsOther}/>
+          <CustomSwitch title={'Другое'} state = {isOther} setState={setIsOther}/> */}
  
           
           <ButtonView>

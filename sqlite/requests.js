@@ -52,6 +52,8 @@ const createPatientsInfo = () => {
         isAlcohol BOOLEAN CHECK (isAlcohol IN (0, 1)),
         isSmoking BOOLEAN CHECK (isSmoking IN (0, 1)), 
         isOther BOOLEAN CHECK (isOther IN (0, 1)),
+        cardiovascularSystem VARCHAR,
+        nervousSystem VARCHAR,
         FOREIGN KEY (patientId) REFERENCES patients(id)
       )`, 
       [],
@@ -364,11 +366,11 @@ const dropPatientsInfo = () => {
        })
   }
 
-  const addPatientsInfo = async (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther) => {
+  const addPatientsInfo = async (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem ) => {
     db.transaction(txn => {
       txn.executeSql(
-        `INSERT INTO patientsInfo (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther],
+        `INSERT INTO patientsInfo (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem],
         () => {
           console.log('PatientInfo added successfully')
         },

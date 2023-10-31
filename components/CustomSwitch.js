@@ -1,22 +1,33 @@
 import React, {useRef, useState} from 'react'
 import styled from 'styled-components/native'
-import { View, Animated, Text, StyleSheet, Switch, Dimensions } from 'react-native'
+import { Switch, Dimensions } from 'react-native'
+import { Input } from "native-base";
 
-const CustomSwitch = ({ title, state, setState, style }) => {
-    const [isEnabled, setIsEnabled] = useState(false);
+const CustomSwitch = ({ title, state, setState, style, handleChange, name }) => {
 
     return (
-        <SwitchContainer style={style}>
-            <SwitchText>{title}</SwitchText>
-            <Switch
-              trackColor={{false: '#767577', true: '#81b0ff'}}
-              thumbColor={state ? '#f5dd4b' : '#f4f3f4'}
-              ios_backgroundColor="#3e3e3e"
-              onValueChange={() => setState(!state)}
-              value={state}
-              style = {{left: 0}}
-            />
-        </SwitchContainer>        
+        <Container>
+          <SwitchContainer style={style}>
+              <SwitchText>{title}</SwitchText>
+              <Switch
+                trackColor={{false: '#767577', true: '#81b0ff'}}
+                thumbColor={state ? '#f5dd4b' : '#f4f3f4'}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={() => setState(!state)}
+                value={state}
+                style = {{left: 0}}
+              />
+          </SwitchContainer>
+          { state 
+          ? <Input 
+            multiline = {true}
+            placeholder = 'Введите дополнительную информацию'
+            onChange = {handleChange.bind(this, name)}
+          >
+          </Input>
+          : null  
+          }
+        </Container>        
     )
   }
 
@@ -29,6 +40,10 @@ const SwitchContainer = styled.View`
  justify-content: space-between;
  align-items: center;
  gap: 5px;
+`;
+
+const Container = styled.View`
+
 `;
 
 const SwitchText = styled.Text`
