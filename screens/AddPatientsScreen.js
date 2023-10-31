@@ -14,6 +14,17 @@ function AddPatientsScreen ({navigation}) {
     'phone': '',
     'cardiovascularSystem': '',
     'nervousSystem': '',
+    'endocrineSystem': '',
+    'digestive': '',
+    'respiratory': '',
+    'infectious': '',
+    'allergic': '',
+    'constantMedicines': '',
+    'harmfulFactors': '',
+    'pregnancy': '',
+    'alcohol': '',
+    'smoking': '',
+    'other': '',
   });
 
   const WindowWidth = Dimensions.get('window').width;  
@@ -37,7 +48,7 @@ function AddPatientsScreen ({navigation}) {
     addPatientHandler = async () => {
       if (values.fullname !== '') {
         const insertId = await addPatients(values.fullname, values.phone);
-        await addPatientsInfo(insertId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, values.cardiovascularSystem, values.nervousSystem);
+        await addPatientsInfo(insertId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, values.cardiovascularSystem, values.nervousSystem, values.endocrineSystem, values.digestive, values.respiratory, values.infectious, values.allergic, values.constantMedicines, values.harmfulFactors, values.pregnancy, values.alcohol, values.smoking, values.other);
         navigation.navigate('Patients', { lastUpdatePatient: new Date()});
         setValues({
           ['fullname']: '',
@@ -90,22 +101,98 @@ function AddPatientsScreen ({navigation}) {
             inputMode = {"tel"}
             placeholder="Номер телефона" 
           />
-
-          <CustomSwitch style={{marginTop: 20}} title={'Заболевания сердечно-сосудистой системы'} state = {isCardiovascularSystem} setState={setIsCardiovascularSystem} handleChange = {handleChange} name = 'cardiovascularSystem' />
-
-          <CustomSwitch title={'Заболевания нервной системы'} state = {isNervousSystem} setState={setIsNervousSystem} handleChange = {handleChange} name = 'nervousSystem' />
-        {/*   <CustomSwitch title={'Заболевания эндокринной системы'} state = {isEndocrineSystem} setState={setIsEndocrineSystem}/>
-          <CustomSwitch title={'Заболевания органов пищеварения'} state = {isDigestive} setState={setIsDigestive}/>
-          <CustomSwitch title={'Заболевания органов дыхания'} state = {isRespiratory} setState={setIsRespiratory}/>
-          <CustomSwitch title={'Инфекционные заболевания'} state = {isInfectious} setState={setIsInfectious}/>
-          <CustomSwitch title={'Аллергические реакции'} state = {isAllergic} setState={setIsAllergic}/>
-          <CustomSwitch title={'Постоянное применение лекарственных средств'} state = {isConstantMedicines} setState={setIsConstantMedicines}/>
-          <CustomSwitch title={'Вредные факторы производственной среды'} state = {isHarmfulFactors} setState={setIsHarmfulFactors}/>
-          <CustomSwitch title={'Беременность, послеродовый период'} state = {isPregnancy} setState={setIsPregnancy}/>
-          <CustomSwitch title={'Алкогольная зависимость'} state = {isAlcohol} setState={setIsAlcohol}/>
-          <CustomSwitch title={'Курение'} state = {isSmoking} setState={setIsSmoking}/>
-          <CustomSwitch title={'Другое'} state = {isOther} setState={setIsOther}/> */}
- 
+          <CustomSwitch 
+            style={{marginTop: 20}} 
+            title={'Заболевания сердечно-сосудистой системы'} 
+            state = {isCardiovascularSystem} 
+            setState={setIsCardiovascularSystem} 
+            handleChange = {handleChange} 
+            name = 'cardiovascularSystem' 
+          />
+          <CustomSwitch 
+            title={'Заболевания нервной системы'} 
+            state = {isNervousSystem} 
+            setState={setIsNervousSystem} 
+            handleChange = {handleChange}
+            name = 'nervousSystem' 
+          />
+          <CustomSwitch 
+            title={'Заболевания эндокринной системы'} 
+            state = {isEndocrineSystem} 
+            setState={setIsEndocrineSystem} 
+            handleChange = {handleChange} 
+            name = 'endocrineSystem'
+          />
+          <CustomSwitch 
+            title={'Заболевания органов пищеварения'} 
+            state = {isDigestive} 
+            setState={setIsDigestive} 
+            handleChange = {handleChange} 
+            name = 'digestive' 
+          />
+          <CustomSwitch 
+            title = {'Заболевания органов дыхания'} 
+            state = {isRespiratory} 
+            setState = {setIsRespiratory}
+            handleChange = {handleChange} 
+            name = 'respiratory'
+          />
+          <CustomSwitch 
+            title={'Инфекционные заболевания'} 
+            state = {isInfectious} 
+            setState={setIsInfectious}
+            handleChange = {handleChange} 
+            name = 'infectious'
+          />
+          <CustomSwitch 
+            title={'Аллергические реакции'} 
+            state = {isAllergic} 
+            setState={setIsAllergic}
+            handleChange = {handleChange} 
+            name = 'allergic'
+          />
+          <CustomSwitch 
+            title={'Постоянное применение лекарственных средств'} 
+            state = {isConstantMedicines} 
+            setState={setIsConstantMedicines}
+            handleChange = {handleChange} 
+            name = 'constantMedicines'
+          />
+          <CustomSwitch 
+            title={'Вредные факторы производственной среды'} 
+            state = {isHarmfulFactors} 
+            setState={setIsHarmfulFactors}
+            handleChange = {handleChange} 
+            name = 'harmfulFactors'
+          />
+          <CustomSwitch 
+            title={'Беременность, послеродовый период'} 
+            state = {isPregnancy} 
+            setState={setIsPregnancy}
+            handleChange = {handleChange} 
+            name = 'pregnancy'
+          />
+          <CustomSwitch 
+            title = {'Алкогольная зависимость'} 
+            state = {isAlcohol} 
+            setState = {setIsAlcohol}
+            handleChange = {handleChange} 
+            name = 'alcohol'
+          />
+          <CustomSwitch 
+            title={'Курение'} 
+            state = {isSmoking} 
+            setState={setIsSmoking}
+            handleChange = {handleChange} 
+            name = 'smoking'
+          />
+          <CustomSwitch 
+            title={'Другое'} 
+            state = {isOther} 
+            setState={setIsOther}
+            handleChange = {handleChange} 
+            name = 'other'
+          />
           
           <ButtonView>
           {/*   <Button

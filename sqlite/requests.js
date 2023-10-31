@@ -54,6 +54,17 @@ const createPatientsInfo = () => {
         isOther BOOLEAN CHECK (isOther IN (0, 1)),
         cardiovascularSystem VARCHAR,
         nervousSystem VARCHAR,
+        endocrineSystem VARCHAR,
+        digestive VARCHAR,
+        respiratory VARCHAR,
+        infectious VARCHAR,
+        allergic VARCHAR,
+        constantMedicines VARCHAR,
+        harmfulFactors VARCHAR,
+        pregnancy VARCHAR,
+        alcohol VARCHAR,
+        smoking VARCHAR,
+        other VARCHAR,
         FOREIGN KEY (patientId) REFERENCES patients(id)
       )`, 
       [],
@@ -366,11 +377,11 @@ const dropPatientsInfo = () => {
        })
   }
 
-  const addPatientsInfo = async (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem ) => {
+  const addPatientsInfo = async (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory,isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem, endocrineSystem, digestive, respiratory, infectious, allergic, constantMedicines, harmfulFactors, pregnancy, alcohol, smoking, other) => {
     db.transaction(txn => {
       txn.executeSql(
-        `INSERT INTO patientsInfo (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem],
+        `INSERT INTO patientsInfo (patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem, endocrineSystem, digestive, respiratory, infectious, allergic, constantMedicines,harmfulFactors, pregnancy, alcohol, smoking, other) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [patientId, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem, nervousSystem, endocrineSystem, digestive, respiratory, infectious, allergic, constantMedicines, harmfulFactors, pregnancy, alcohol, smoking, other],
         () => {
           console.log('PatientInfo added successfully')
         },
