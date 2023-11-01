@@ -63,8 +63,8 @@ const AppoitmentItem = styled.TouchableOpacity`
   align-items: center;
   flex-direction: row;
   padding: 20px 20px;
-  borderbottomwidth: 1px;
-  borderbottomcolor: #f3f3f3;
+  border-bottom-width: 1px;
+  border-bottom-color: #f3f3f3;
 `;
 
 const Avatar = styled.View`

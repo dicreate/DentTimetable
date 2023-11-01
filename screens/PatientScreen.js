@@ -88,7 +88,7 @@ const PatientScreen = ({ navigation, route }) => {
                   })
                 }
               >
-                Формула зубов
+                <Text>Формула зубов</Text>
               </Button>
               <Button onPress={() => setOpenInfo(true)}>Информация</Button>
             </ButtonView>
@@ -111,9 +111,8 @@ const PatientScreen = ({ navigation, route }) => {
                       />
                     </IconContainer>
                     <AppoitmentCardLabel>
-                      Зуб:
+                      <Text>Зуб:</Text>
                       <Text style={{ fontWeight: "bold" }}>
-                        {" "}
                         {appointment.toothNumber
                           ? appointment.toothNumber
                           : "не указан"}
@@ -129,9 +128,8 @@ const PatientScreen = ({ navigation, route }) => {
                       />
                     </IconContainer>
                     <AppoitmentCardLabel>
-                      Диагноз:
+                      <Text>Диагноз:</Text>
                       <Text style={{ fontWeight: "bold" }}>
-                        {" "}
                         {appointment.diagnosis
                           ? appointment.diagnosis
                           : "не указан"}
@@ -147,9 +145,8 @@ const PatientScreen = ({ navigation, route }) => {
                       />
                     </IconContainer>
                     <AppoitmentCardLabel>
-                      Анестезия:
+                      <Text>Анестезия:</Text>
                       <Text style={{ fontWeight: "bold" }}>
-                        {" "}
                         {appointment.anesthetization ? "Да" : "Нет"}
                       </Text>
                     </AppoitmentCardLabel>
@@ -196,7 +193,7 @@ const PatientScreen = ({ navigation, route }) => {
                     color="#A3A3A3"
                   />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Заболевания сердечно-сосудистой системы</Text>
                     {patientInfo.isCardiovascularSystem ? (
@@ -208,13 +205,13 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isCardiovascularSystem ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
                   <Neuron width={24} height={24} fill={"#A3A3A3"} />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Заболевания нервной системы</Text>
                     {patientInfo.isNervousSystem ? (
@@ -224,13 +221,13 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isNervousSystem ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
                   <Thyroid width={24} height={24} fill={"#A3A3A3"} />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Заболевания эндокринной системы</Text>
                     {patientInfo.isEndocrineSystem ? (
@@ -240,7 +237,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isEndocrineSystem ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
@@ -250,7 +247,7 @@ const PatientScreen = ({ navigation, route }) => {
                     color="#A3A3A3"
                   />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Заболевания органов пищеварения</Text>
                     {patientInfo.isDigestive ? (
@@ -260,13 +257,13 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isDigestive ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
                   <FontAwesome5 name="lungs" size={24} color="#A3A3A3" />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Заболевания органов дыхания</Text>
                     {patientInfo.isRespiratory ? (
@@ -276,13 +273,13 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isRespiratory ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
                   <FontAwesome5 name="virus" size={24} color="#A3A3A3" />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Инфекционные заболевания</Text>
                     {patientInfo.isInfectious ? (
@@ -292,7 +289,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isInfectious ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
@@ -302,7 +299,7 @@ const PatientScreen = ({ navigation, route }) => {
                     color="#A3A3A3"
                   />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Аллергические реакции</Text>
                     {patientInfo.isAllergic ? (
@@ -312,7 +309,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isAllergic ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
@@ -322,7 +319,7 @@ const PatientScreen = ({ navigation, route }) => {
                     color="#A3A3A3"
                   />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Постоянное применение лекарственных средств</Text>
                     {patientInfo.isConstantMedicines ? (
@@ -334,13 +331,13 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isConstantMedicines ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
                   <Entypo name="tools" size={24} color="#A3A3A3" />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Вредные факторы производственной среды</Text>
                     {patientInfo.isHarmfulFactors ? (
@@ -350,7 +347,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isHarmfulFactors ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
@@ -360,7 +357,7 @@ const PatientScreen = ({ navigation, route }) => {
                     color="#A3A3A3"
                   />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Беременность, послеродовый период</Text>
                     {patientInfo.isPregnancy ? (
@@ -370,13 +367,13 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isPregnancy ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
                   <Ionicons name="beer" size={24} color="#A3A3A3" />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Алкогольная зависимость</Text>
                     {patientInfo.isAlcohol ? (
@@ -386,7 +383,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isAlcohol ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
@@ -396,7 +393,7 @@ const PatientScreen = ({ navigation, route }) => {
                     color="#A3A3A3"
                   />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Курение</Text>
                     {patientInfo.isSmoking ? (
@@ -406,7 +403,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isSmoking ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <CardRow>
                 <IconContainer>
@@ -416,7 +413,7 @@ const PatientScreen = ({ navigation, route }) => {
                     color="#A3A3A3"
                   />
                 </IconContainer>
-                <AppoitmentCardLabel>
+                <DiseasesRow>
                   <DiseasesContainer>
                     <Text>Другое</Text>
                     {patientInfo.isOther ? (
@@ -426,7 +423,7 @@ const PatientScreen = ({ navigation, route }) => {
                   <Text style={{ fontWeight: "bold" }}>
                     {patientInfo.isOther ? "Да" : "Нет"}
                   </Text>
-                </AppoitmentCardLabel>
+                </DiseasesRow>
               </CardRow>
               <TouchableOpacity
                 style={{ marginTop: 10, alignSelf: "center" }}
@@ -478,6 +475,7 @@ const DiseasesContainer = styled.View`
 
 const DiseasesText = styled.Text`
   font-style: italic;
+  color: gray;
 `;
 
 const PatientContacts = styled.View`
@@ -495,14 +493,23 @@ const CardRow = styled.View`
   flex-direction: row;
   align-items: center;
   gap: 5px;
+  margin-top: 5px;
 `;
 
 const AppoitmentCardLabel = styled.View`
   font-size: 16px;
+  flex-direction: row;
+  gap: 5px;
+`;
+
+const DiseasesRow = styled.View`
+  font-size: 16px;
   flex: 2;
   flex-direction: row;
+  gap: 5px;
   justify-content: space-between;
-  gap: 10px;
+  border-bottom-width: 1px;
+  border-bottom-color: #f3f3f3;
 `;
 
 const AppoitmentCard = styled.View`

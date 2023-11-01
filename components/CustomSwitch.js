@@ -50,7 +50,6 @@ const Container = styled.View``;
 
 const SwitchText = styled.Text`
   max-width: ${windowWidth * 0.62}px
-  color: #2A86FF;
 `;
 
 export default CustomSwitch;
