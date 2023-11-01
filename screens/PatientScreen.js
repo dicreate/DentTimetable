@@ -31,6 +31,7 @@ import {
 import Modal from "react-native-modal";
 import * as Animatable from "react-native-animatable";
 import Neuron from "../assets/svg/neuron.svg";
+import Thyroid from "../assets/svg/thyroid.svg"
 
 const PatientScreen = ({ navigation, route }) => {
   const { item } = route.params;
@@ -206,10 +207,6 @@ const PatientScreen = ({ navigation, route }) => {
               </CardRow>
               <CardRow>
                 <IconContainer>
-                  {/* <FontAwesome name="hospital-o" size={24} color="#A3A3A3"/>
-                  <Entypo name="flow-tree" size={24} color="#A3A3A3"/>
-                  <FontAwesome5 name="hubspot" size={24} color="#A3A3A3" />
-                  <FontAwesome5 name="mendeley" size={24} color="black" /> */}
                   <Neuron width={24} height={24} fill={'#A3A3A3'}/>
                 </IconContainer>
                 <AppoitmentCardLabel>
@@ -223,7 +220,7 @@ const PatientScreen = ({ navigation, route }) => {
               </CardRow>
               <CardRow>
                 <IconContainer>
-                  <Ionicons name="sad" size={24} color="black" />
+                  <Thyroid width={24} height={24} fill={'#A3A3A3'}/>
                 </IconContainer>
                 <AppoitmentCardLabel>
                   <Text style={styles.diseasesName}>
