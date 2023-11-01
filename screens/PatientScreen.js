@@ -1,16 +1,38 @@
-import React, { useState, useEffect } from 'react'
-import { Text,  View, ActivityIndicator, Linking, ScrollView, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
-import styled from 'styled-components'
-import { GrayText, Button, Badge, PlusButton } from '../components'
-import { Foundation, Fontisto, MaterialIcons, MaterialCommunityIcons, FontAwesome5, Entypo, Ionicons, FontAwesome } from '@expo/vector-icons'; 
-import moment from 'moment/moment';
-import 'moment/locale/ru';
-import { getPatientAppointments, getPatientInfo, showPatientsInfo } from '../sqlite/requests';
-import Modal from 'react-native-modal';
-import * as Animatable from 'react-native-animatable';
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  ActivityIndicator,
+  Linking,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
+import styled from "styled-components";
+import { GrayText, Button, Badge, PlusButton } from "../components";
+import {
+  Foundation,
+  Fontisto,
+  MaterialIcons,
+  MaterialCommunityIcons,
+  FontAwesome5,
+  Entypo,
+  Ionicons,
+  FontAwesome,
+} from "@expo/vector-icons";
+import moment from "moment/moment";
+import "moment/locale/ru";
+import {
+  getPatientAppointments,
+  getPatientInfo,
+  showPatientsInfo,
+} from "../sqlite/requests";
+import Modal from "react-native-modal";
+import * as Animatable from "react-native-animatable";
+import Neuron from "../assets/svg/neuron.svg";
 
 const PatientScreen = ({ navigation, route }) => {
-
   const { item } = route.params;
 
   const [appointments, setAppointments] = useState([]);
@@ -18,42 +40,39 @@ const PatientScreen = ({ navigation, route }) => {
   const [patientInfo, setPatientInfo] = useState([]);
   const [openInfo, setOpenInfo] = useState(false);
 
-  console.log(patientInfo)
+  console.log(patientInfo);
 
   const getAppointments = async () => {
     const appointmentsTable = await getPatientAppointments(item.patientId);
-    appointmentsTable.rows.length 
+    appointmentsTable.rows.length
       ? setAppointments(appointmentsTable.rows._array)
-      : setAppointments('no appointments')
-    setIsLoading(false); 
-  } 
+      : setAppointments("no appointments");
+    setIsLoading(false);
+  };
 
   const getPatientInfoHandler = async () => {
     const patientInfoTable = await getPatientInfo(item.patientId);
-    patientInfoTable.rows.length 
-    ?  setPatientInfo(patientInfoTable.rows._array[0])
-    :  setPatientInfo('no info')
-  }
+    patientInfoTable.rows.length
+      ? setPatientInfo(patientInfoTable.rows._array[0])
+      : setPatientInfo("no info");
+  };
 
   useEffect(() => {
     getAppointments();
     getPatientInfoHandler();
-  }, [])
-  
+  }, []);
+
   return (
-    <View style = {{flex: 1, backgroundColor: '#f8fafd'}}>
+    <View style={{ flex: 1, backgroundColor: "#f8fafd" }}>
       <ScrollView>
         <PatientDetails>
           <PatientContacts>
             <PhoneButtonView>
-              <PhoneButton 
-                onPress = {() => Linking.openURL('tel:' + item.phone)} 
-                color="#84D269">
-                  <Foundation 
-                    name="telephone" 
-                    size={22} 
-                    color="white" 
-                  />
+              <PhoneButton
+                onPress={() => Linking.openURL("tel:" + item.phone)}
+                color="#84D269"
+              >
+                <Foundation name="telephone" size={22} color="white" />
               </PhoneButton>
             </PhoneButtonView>
             <View>
@@ -64,191 +83,359 @@ const PatientScreen = ({ navigation, route }) => {
           <PattientButtons>
             <ButtonView>
               <Button
-                onPress = {() => navigation.navigate('Formula', {
-                patientId: item.patientId
-              })}>
+                onPress={() =>
+                  navigation.navigate("Formula", {
+                    patientId: item.patientId,
+                  })
+                }
+              >
                 Формула зубов
               </Button>
-              <Button
-                onPress = {() => setOpenInfo(true)}>
-                Информация
-              </Button>
+              <Button onPress={() => setOpenInfo(true)}>Информация</Button>
             </ButtonView>
+          </PattientButtons>
+        </PatientDetails>
 
-          </PattientButtons>  
-      </PatientDetails>
-
-      <PatientAppoitments>
-        <Container>
-          { 
-            isLoading 
-            ? <ActivityIndicator size="large" color="#2A86FF"/> 
-            : appointments !== 'no appointments'
-              ? appointments.map((appointment) => 
-                <AppoitmentCard key = {appointment.id}>
-                <CardRow>
-                  <IconContainer><MaterialCommunityIcons name="tooth-outline" size={24} color="#A3A3A3" /></IconContainer>
-                  <AppoitmentCardLabel>Зуб:<Text style={{fontWeight: 'bold'}}> {appointment.toothNumber ? appointment.toothNumber : 'не указан'}</Text></AppoitmentCardLabel>
-                </CardRow>
-                <CardRow>
-                  <IconContainer><Foundation name="clipboard-notes" size={24} color="#A3A3A3" /></IconContainer>
-                  <AppoitmentCardLabel>Диагноз:<Text style={{fontWeight: 'bold'}}> {appointment.diagnosis ? appointment.diagnosis : 'не указан'}</Text></AppoitmentCardLabel>
-                </CardRow>
-                <CardRow>
-                  <IconContainer><Fontisto name="injection-syringe" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel>Анестезия:<Text style={{fontWeight: 'bold'}}> {appointment.anesthetization ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-                </CardRow>  
-                <CardRow 
-                style = {{ marginTop: 15, justifyContent: 'space-between' }}
-                >
-                  <Badge style = {{ width: 155, marginLeft: 0 }} active>{moment(appointment.date).locale('ru').format('DD.MM.YYYY')} - {appointment.time}</Badge>
-                  <Badge color='green'>{appointment.price}</Badge>    
-                </CardRow>   
-              </AppoitmentCard>)
-              : null 
-          }
-        </Container>
-      </PatientAppoitments>
+        <PatientAppoitments>
+          <Container>
+            {isLoading ? (
+              <ActivityIndicator size="large" color="#2A86FF" />
+            ) : appointments !== "no appointments" ? (
+              appointments.map((appointment) => (
+                <AppoitmentCard key={appointment.id}>
+                  <CardRow>
+                    <IconContainer>
+                      <MaterialCommunityIcons
+                        name="tooth-outline"
+                        size={24}
+                        color="#A3A3A3"
+                      />
+                    </IconContainer>
+                    <AppoitmentCardLabel>
+                      Зуб:
+                      <Text style={{ fontWeight: "bold" }}>
+                        {" "}
+                        {appointment.toothNumber
+                          ? appointment.toothNumber
+                          : "не указан"}
+                      </Text>
+                    </AppoitmentCardLabel>
+                  </CardRow>
+                  <CardRow>
+                    <IconContainer>
+                      <Foundation
+                        name="clipboard-notes"
+                        size={24}
+                        color="#A3A3A3"
+                      />
+                    </IconContainer>
+                    <AppoitmentCardLabel>
+                      Диагноз:
+                      <Text style={{ fontWeight: "bold" }}>
+                        {" "}
+                        {appointment.diagnosis
+                          ? appointment.diagnosis
+                          : "не указан"}
+                      </Text>
+                    </AppoitmentCardLabel>
+                  </CardRow>
+                  <CardRow>
+                    <IconContainer>
+                      <Fontisto
+                        name="injection-syringe"
+                        size={24}
+                        color="#A3A3A3"
+                      />
+                    </IconContainer>
+                    <AppoitmentCardLabel>
+                      Анестезия:
+                      <Text style={{ fontWeight: "bold" }}>
+                        {" "}
+                        {appointment.anesthetization ? "Да" : "Нет"}
+                      </Text>
+                    </AppoitmentCardLabel>
+                  </CardRow>
+                  <CardRow
+                    style={{ marginTop: 15, justifyContent: "space-between" }}
+                  >
+                    <Badge style={{ width: 155, marginLeft: 0 }} active>
+                      {moment(appointment.date)
+                        .locale("ru")
+                        .format("DD.MM.YYYY")}{" "}
+                      - {appointment.time}
+                    </Badge>
+                    <Badge color="green">{appointment.price}</Badge>
+                  </CardRow>
+                </AppoitmentCard>
+              ))
+            ) : null}
+          </Container>
+        </PatientAppoitments>
       </ScrollView>
-      <PlusButton onPress = {() => navigation.navigate('AddAppointment', {
-        patientId: item.id
-      })}/>
+      <PlusButton
+        onPress={() =>
+          navigation.navigate("AddAppointment", {
+            patientId: item.id,
+          })
+        }
+      />
       <Modal
-          isVisible = {openInfo}
-          backdropOpacity = {0.3}
-          onBackButtonPress = {() => {
-            setOpenInfo(false)   
-          }}
-        >
-          <ScrollView>
-          <View style = {styles.centeredView}>
-            <View style = {styles.modalView}>
+        isVisible={openInfo}
+        backdropOpacity={0.3}
+        onBackButtonPress={() => {
+          setOpenInfo(false);
+        }}
+      >
+        <ScrollView>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
               <CardRow>
-                  <IconContainer>
-                    <MaterialCommunityIcons name="heart-pulse" size={24} color="#A3A3A3" />
-                  </IconContainer> 
-                  <AppoitmentCardLabel>
-                    <Text>
-                      Заболевания сердечно-сосудистой системы
-                    </Text>
-                    <Text style={{fontWeight: 'bold'}}>
-                      {patientInfo.isCardiovascularSystem ? 'Да' : 'Нет'}
-                    </Text>
-                  </AppoitmentCardLabel>
+                <IconContainer>
+                  <MaterialCommunityIcons
+                    name="heart-pulse"
+                    size={24}
+                    color="#A3A3A3"
+                  />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text>Заболевания сердечно-сосудистой системы</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isCardiovascularSystem ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer>
-                  <FontAwesome name="hospital-o" size={24} color="#A3A3A3"/>
+                <IconContainer>
+                  {/* <FontAwesome name="hospital-o" size={24} color="#A3A3A3"/>
                   <Entypo name="flow-tree" size={24} color="#A3A3A3"/>
                   <FontAwesome5 name="hubspot" size={24} color="#A3A3A3" />
-                  <FontAwesome5 name="mendeley" size={24} color="black" />
-                  </IconContainer>         
-                  <AppoitmentCardLabel>
-                    <Text style = {styles.diseasesName}>
-                      Заболевания нервной системы
-                    </Text>
-                    <Text style={{fontWeight: 'bold'}}>
-                      {patientInfo.isNervousSystem ? 'Да' : 'Нет'}
-                    </Text>
-                  </AppoitmentCardLabel>
+                  <FontAwesome5 name="mendeley" size={24} color="black" /> */}
+                  <Neuron width={24} height={24} fill={'#A3A3A3'}/>
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Заболевания нервной системы
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isNervousSystem ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><Ionicons name="sad" size={24} color="black" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Заболевания эндокринной системы</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isEndocrineSystem ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                <IconContainer>
+                  <Ionicons name="sad" size={24} color="black" />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Заболевания эндокринной системы
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isEndocrineSystem ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialCommunityIcons name="stomach" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Заболевания органов пищеварения</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isDigestive ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>  
-              <CardRow>
-                  <IconContainer><FontAwesome5 name="lungs" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Заболевания органов дыхания</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isRespiratory ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                <IconContainer>
+                  <MaterialCommunityIcons
+                    name="stomach"
+                    size={24}
+                    color="#A3A3A3"
+                  />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Заболевания органов пищеварения
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isDigestive ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><FontAwesome5 name="virus" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Инфекционные заболевания</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isInfectious ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>  
-              <CardRow>
-                  <IconContainer><MaterialCommunityIcons name="allergy" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Аллергические реакции</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isAllergic ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                <IconContainer>
+                  <FontAwesome5 name="lungs" size={24} color="#A3A3A3" />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Заболевания органов дыхания
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isRespiratory ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialCommunityIcons name="pill" size={24}  color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Постоянное применение лекарственных средств</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isConstantMedicines ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>  
-              <CardRow>
-                  <IconContainer><Entypo name="tools" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Вредные факторы производственной среды</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isHarmfulFactors ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                <IconContainer>
+                  <FontAwesome5 name="virus" size={24} color="#A3A3A3" />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Инфекционные заболевания
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isInfectious ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="pregnant-woman" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Беременность, послеродовый период</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isPregnancy ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
-              </CardRow>  
-              <CardRow>
-                  <IconContainer><Ionicons name="beer" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Алкогольная зависимость</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isAlcohol ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                <IconContainer>
+                  <MaterialCommunityIcons
+                    name="allergy"
+                    size={24}
+                    color="#A3A3A3"
+                  />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>Аллергические реакции</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isAllergic ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><MaterialIcons name="smoking-rooms" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Курение</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isSmoking ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                <IconContainer>
+                  <MaterialCommunityIcons
+                    name="pill"
+                    size={24}
+                    color="#A3A3A3"
+                  />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Постоянное применение лекарственных средств
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isConstantMedicines ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
               <CardRow>
-                  <IconContainer><FontAwesome name="question-circle" size={24} color="#A3A3A3" /></IconContainer>         
-                  <AppoitmentCardLabel><Text style = {styles.diseasesName}>Другое</Text><Text style={{fontWeight: 'bold'}}>{patientInfo.isOther ? 'Да' : 'Нет'}</Text></AppoitmentCardLabel>
+                <IconContainer>
+                  <Entypo name="tools" size={24} color="#A3A3A3" />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Вредные факторы производственной среды
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isHarmfulFactors ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
               </CardRow>
-              <TouchableOpacity style = {{marginTop: 10, alignSelf: "center"}} onPress={() => {
-                  setOpenInfo(false)   
-                }}>
-                  <Text>Закрыть</Text>
+              <CardRow>
+                <IconContainer>
+                  <MaterialIcons
+                    name="pregnant-woman"
+                    size={24}
+                    color="#A3A3A3"
+                  />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Беременность, послеродовый период
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isPregnancy ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
+              </CardRow>
+              <CardRow>
+                <IconContainer>
+                  <Ionicons name="beer" size={24} color="#A3A3A3" />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>
+                    Алкогольная зависимость
+                  </Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isAlcohol ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
+              </CardRow>
+              <CardRow>
+                <IconContainer>
+                  <MaterialIcons
+                    name="smoking-rooms"
+                    size={24}
+                    color="#A3A3A3"
+                  />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>Курение</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isSmoking ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
+              </CardRow>
+              <CardRow>
+                <IconContainer>
+                  <FontAwesome
+                    name="question-circle"
+                    size={24}
+                    color="#A3A3A3"
+                  />
+                </IconContainer>
+                <AppoitmentCardLabel>
+                  <Text style={styles.diseasesName}>Другое</Text>
+                  <Text style={{ fontWeight: "bold" }}>
+                    {patientInfo.isOther ? "Да" : "Нет"}
+                  </Text>
+                </AppoitmentCardLabel>
+              </CardRow>
+              <TouchableOpacity
+                style={{ marginTop: 10, alignSelf: "center" }}
+                onPress={() => {
+                  setOpenInfo(false);
+                }}
+              >
+                <Text>Закрыть</Text>
               </TouchableOpacity>
             </View>
-         </View>
-         </ScrollView>
+          </View>
+        </ScrollView>
       </Modal>
-      </View>
-  )
-}
+    </View>
+  );
+};
 
-const WindowWidth = Dimensions.get('window').width;
+const WindowWidth = Dimensions.get("window").width;
 const diseasesWidth = WindowWidth - 140;
 
 const styles = StyleSheet.create({
   centeredView: {
-   alignItems: 'center',
-   justifyContent: 'center',
-   height: '100%',
- },
- modalView: {
-   backgroundColor: 'white',
-   width: '100%',
-   gap: 15,
-   padding: 15,
-   shadowColor: '#000',
-   shadowOffset: {
-     width: 0,
-     height: 2,
-   },
-   shadowOpacity: 0.25, 
-   shadowRadius: 4,
-   elevation: 5,
- },
- diseasesName: {
-  maxWidth: diseasesWidth,
- }
-})
-
-
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+  },
+  modalView: {
+    backgroundColor: "white",
+    width: "100%",
+    gap: 15,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  diseasesName: {
+    maxWidth: diseasesWidth,
+  },
+});
 
 const PatientContacts = styled.View`
   display: flex;
   flex-direction: row;
   gap: 20px;
-`
+`;
 
 const IconContainer = styled.View`
   width: 28px;
   align-items: center;
-`
+`;
 
 const CardRow = styled.View`
   flex-direction: row;
@@ -262,7 +449,7 @@ const AppoitmentCardLabel = styled.View`
   flex-direction: row;
   justify-content: space-between;
   gap: 10px;
-`
+`;
 
 const AppoitmentCard = styled.View`
   shadow-opacity: 0.7;
@@ -279,14 +466,12 @@ const AppoitmentCard = styled.View`
 } */
 const Container = styled.View`
   padding: 25px;
-
 `;
 
 const PatientDetails = styled(Container)`
   flex: 0.4;
   background-color: #fff;
 `;
-
 
 const PatientAppoitments = styled.View`
   flex: 1;
@@ -295,25 +480,25 @@ const PatientAppoitments = styled.View`
 const ButtonView = styled.View`
   flex: 1;
   gap: 20px;
-`
+`;
 
 const PhoneButtonView = styled.View`
   margin-left: 10px;
   width: 45px;
-`
+`;
 
 const PhoneButton = styled(Button)`
   background: #84d269;
   height: 45px;
   width: 45px;
-`
+`;
 
 const PattientButtons = styled.View`
   display: flex;
   flex-direction: row;
   margin-top: 20px;
   flex: 1;
-`
+`;
 
 const PatientFullName = styled.Text`
   font-weight: 600;
@@ -322,4 +507,4 @@ const PatientFullName = styled.Text`
   margin-bottom: 3px;
 `;
 
-export default PatientScreen
+export default PatientScreen;
