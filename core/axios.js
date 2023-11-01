@@ -9,7 +9,7 @@ import axios from "axios";
 .concat(`:6666`)
 : `api.example.com`; */
 
-const dataURL = 'https://tan-wandering-blackbuck.cyclic.app'
+const dataURL = "https://tan-wandering-blackbuck.cyclic.app";
 
 /* const dataURL = 'http://10.0.2.2:6666' */
 
