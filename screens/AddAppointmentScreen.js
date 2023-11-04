@@ -134,6 +134,7 @@ function AddAppointmentScreen({ navigation, route }) {
           title={"Анестезия"}
           state={anesthetization}
           setState={setAnesthetization}
+          isInput={false} 
         />
 
         <ButtonView>

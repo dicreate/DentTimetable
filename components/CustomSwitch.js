@@ -10,6 +10,7 @@ const CustomSwitch = ({
   style,
   handleChange,
   name,
+  isInput = true,
 }) => {
   return (
     <Container>
@@ -24,7 +25,7 @@ const CustomSwitch = ({
           style={{ left: 0 }}
         />
       </SwitchContainer>
-      {state ? (
+      {state && isInput ? (
         <Input
           multiline={true}
           placeholder="Введите дополнительную информацию"
