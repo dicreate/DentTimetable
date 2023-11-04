@@ -181,6 +181,7 @@ const PatientScreen = ({ navigation, route }) => {
         onBackButtonPress={() => {
           setOpenInfo(false);
         }}
+        style = {{margin: 50}}
       >
         <ScrollView>
           <View style={styles.centeredView}>
@@ -218,7 +219,7 @@ const PatientScreen = ({ navigation, route }) => {
                       <DiseasesText>{patientInfo.nervousSystem}</DiseasesText>
                     ) : null}
                   </DiseasesContainer>
-                  <Text style={{ fontWeight: "bold" }}>
+                  <Text style={{ fontWeight: "bold"}}>
                     {patientInfo.isNervousSystem ? "Да" : "Нет"}
                   </Text>
                 </DiseasesRow>
@@ -442,7 +443,7 @@ const PatientScreen = ({ navigation, route }) => {
 };
 
 const WindowWidth = Dimensions.get("window").width;
-const diseasesWidth = WindowWidth - 140;
+const diseasesWidth = WindowWidth - 220;
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -463,14 +464,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-  },
-  diseasesName: {
-    maxWidth: diseasesWidth,
-  },
+  }
 });
 
 const DiseasesContainer = styled.View`
-  max-width: ${diseasesWidth}px;
+  width: ${diseasesWidth}px;
 `;
 
 const DiseasesText = styled.Text`

@@ -106,14 +106,15 @@ function AddPatientsScreen({ navigation }) {
     });
   };
 
+  console.log(WindowWidth)
+
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <Container>
         <Wrapper>
           <Stack
             space={0}
-            w={WindowWidth * 0.8}
-            maxW="300px"
+            maxW={WindowWidth - 80}
             mx="auto"
             my="auto"
           >
@@ -243,9 +244,10 @@ function AddPatientsScreen({ navigation }) {
                   addPatientHandler();
                 }}
                 size="md"
-                w="100%"
+                w= '400px'
                 borderRadius={"20px"}
                 colorScheme="green"
+                style = {{alignSelf: 'center'}}
               >
                 <ButtonText>
                   <Ionicons name="ios-add" size={20} color="white" />
