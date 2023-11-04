@@ -112,8 +112,8 @@ function AddPatientsScreen({ navigation, route }) {
   }, []);
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled">
-      <Container>
+    <Container>
+      <ScrollView keyboardShouldPersistTaps="handled">
         {patientInfo ? (
           <Wrapper>
             <Stack space={0} maxW={WindowWidth - 80} mx="auto" my="auto">
@@ -266,8 +266,8 @@ function AddPatientsScreen({ navigation, route }) {
             </Heading>
           </HStack>
         )}
-      </Container>
-    </ScrollView>
+      </ScrollView>
+    </Container>
   );
 }
 

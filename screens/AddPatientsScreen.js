@@ -107,8 +107,8 @@ function AddPatientsScreen({ navigation }) {
   };
 
   return (
-    <ScrollView keyboardShouldPersistTaps="handled">
-      <Container>
+    <Container>
+      <ScrollView keyboardShouldPersistTaps="handled">
         <Wrapper>
           <Stack space={0} maxW={WindowWidth - 80} mx="auto" my="auto">
             <CustomInput
@@ -269,8 +269,8 @@ function AddPatientsScreen({ navigation }) {
               </View>
             </Modal>      */}
         </Wrapper>
-      </Container>
-    </ScrollView>
+      </ScrollView>
+    </Container>
   );
 }
 
