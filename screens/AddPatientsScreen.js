@@ -28,7 +28,7 @@ function AddPatientsScreen({ navigation }) {
 
   const WindowWidth = Dimensions.get("window").width;
 
-  const [openInfo, setOpenInfo] = useState(false);
+  /*   const [openInfo, setOpenInfo] = useState(false); */
 
   const [isCardiovascularSystem, setIsCardiovascularSystem] = useState(false);
   const [isNervousSystem, setIsNervousSystem] = useState(false);
@@ -106,18 +106,11 @@ function AddPatientsScreen({ navigation }) {
     });
   };
 
-  console.log(WindowWidth)
-
   return (
     <ScrollView keyboardShouldPersistTaps="handled">
       <Container>
         <Wrapper>
-          <Stack
-            space={0}
-            maxW={WindowWidth - 80}
-            mx="auto"
-            my="auto"
-          >
+          <Stack space={0} maxW={WindowWidth - 80} mx="auto" my="auto">
             <CustomInput
               title={"Имя и фамилия"}
               value={values.fullname}
@@ -244,10 +237,10 @@ function AddPatientsScreen({ navigation }) {
                   addPatientHandler();
                 }}
                 size="md"
-                w= '400px'
+                w="400px"
                 borderRadius={"20px"}
                 colorScheme="green"
-                style = {{alignSelf: 'center'}}
+                style={{ alignSelf: "center" }}
               >
                 <ButtonText>
                   <Ionicons name="ios-add" size={20} color="white" />

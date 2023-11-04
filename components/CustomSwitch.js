@@ -11,6 +11,7 @@ const CustomSwitch = ({
   handleChange,
   name,
   isInput = true,
+  value = {value}
 }) => {
   return (
     <Container>
@@ -30,6 +31,7 @@ const CustomSwitch = ({
           multiline={true}
           placeholder="Введите дополнительную информацию"
           onChange={handleChange.bind(this, name)}
+          value={value}
         ></Input>
       ) : null}
     </Container>

@@ -1,25 +1,88 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Stack, Button } from "native-base";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, ScrollView, Dimensions, Keyboard } from "react-native";
+import { Stack, Button, HStack, Spinner, Heading } from "native-base";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styled from "styled-components";
 import { CustomInput, CustomSwitch } from "../components/";
-import { changePatient } from "../sqlite/requests";
-import Modal from "react-native-modal";
+import { changePatient, getPatientInfo } from "../sqlite/requests";
 
 function AddPatientsScreen({ navigation, route }) {
   const { item } = route.params;
 
-  const [openInfo, setOpenInfo] = useState(false);
-  const [isSmoking, setIsSmoking] = useState(Boolean(item.isSmoking));
-  const [isPregnancy, setIsPregnancy] = useState(Boolean(item.isPregnancy));
+  const [patientInfo, setPatientInfo] = useState(null);
+
+  const [isCardiovascularSystem, setIsCardiovascularSystem] = useState(false);
+  const [isNervousSystem, setIsNervousSystem] = useState(false);
+  const [isEndocrineSystem, setIsEndocrineSystem] = useState(false);
+  const [isDigestive, setIsDigestive] = useState(false);
+  const [isRespiratory, setIsRespiratory] = useState(false);
+  const [isInfectious, setIsInfectious] = useState(false);
+  const [isAllergic, setIsAllergic] = useState(false);
+  const [isConstantMedicines, setIsConstantMedicines] = useState(false);
+  const [isHarmfulFactors, setIsHarmfulFactors] = useState(false);
+  const [isPregnancy, setIsPregnancy] = useState(false);
+  const [isAlcohol, setIsAlcohol] = useState(false);
+  const [isSmoking, setIsSmoking] = useState(false);
+  const [isOther, setIsOther] = useState(false);
 
   const [values, setValues] = useState({
     fullname: item.fullname,
     phone: item.phone,
+    cardiovascularSystem: "",
+    nervousSystem: "",
+    endocrineSystem: "",
+    digestive: "",
+    respiratory: "",
+    infectious: "",
+    allergic: "",
+    constantMedicines: "",
+    harmfulFactors: "",
+    pregnancy: "",
+    alcohol: "",
+    smoking: "",
+    other: "",
   });
 
-  const hangeChange = (name, e) => {
+  const getPatientInfoHandler = async () => {
+    const patientInfoTable = await getPatientInfo(item.patientId);
+    const infoObject = patientInfoTable.rows._array[0];
+    patientInfoTable.rows.length
+      ? (setPatientInfo(infoObject),
+        setIsCardiovascularSystem(Boolean(infoObject.isCardiovascularSystem)),
+        setIsNervousSystem(Boolean(infoObject.isNervousSystem)),
+        setIsEndocrineSystem(Boolean(infoObject.isEndocrineSystem)),
+        setIsDigestive(Boolean(infoObject.isDigestive)),
+        setIsRespiratory(Boolean(infoObject.isRespiratory)),
+        setIsInfectious(Boolean(infoObject.isInfectious)),
+        setIsAllergic(Boolean(infoObject.isAllergic)),
+        setIsConstantMedicines(Boolean(infoObject.isConstantMedicines)),
+        setIsHarmfulFactors(Boolean(infoObject.isHarmfulFactors)),
+        setIsPregnancy(Boolean(infoObject.isPregnancy)),
+        setIsAlcohol(Boolean(infoObject.isAlcohol)),
+        setIsSmoking(Boolean(infoObject.isSmoking)),
+        setIsOther(Boolean(infoObject.isOther)),
+        setValues({
+          ...values,
+          cardiovascularSystem: infoObject.cardiovascularSystem,
+          nervousSystem: infoObject.nervousSystem,
+          endocrineSystem: infoObject.endocrineSystem,
+          digestive: infoObject.digestive,
+          respiratory: infoObject.respiratory,
+          infectious: infoObject.infectious,
+          allergic: infoObject.allergic,
+          constantMedicines: infoObject.constantMedicines,
+          harmfulFactors: infoObject.harmfulFactors,
+          pregnancy: infoObject.pregnancy,
+          alcohol: infoObject.alcohol,
+          smoking: infoObject.smoking,
+          other: infoObject.other,
+        }))
+      : setPatientInfo("no info");
+  };
+
+  const WindowWidth = Dimensions.get("window").width;
+
+  const handleChange = (name, e) => {
     const text = e.nativeEvent.text;
 
     setValues({
@@ -44,115 +107,183 @@ function AddPatientsScreen({ navigation, route }) {
     navigation.navigate("Patients", { lastUpdate: new Date() });
   };
 
+  useEffect(() => {
+    getPatientInfoHandler();
+  }, []);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: openInfo ? "rgba(0, 0, 0, 0.25)" : "#fff",
-      }}
-    >
-      <Stack marginTop="50px" space={0} w="75%" maxW="300px" mx="auto">
-        <CustomInput
-          title={"Имя и фамилия"}
-          value={values.fullname}
-          onChange={hangeChange.bind(this, "fullname")}
-          autoFocus
-          placeholder="Имя и фамилия"
-        />
+    <ScrollView keyboardShouldPersistTaps="handled">
+      <Container>
+        {patientInfo ? (
+          <Wrapper>
+            <Stack space={0} maxW={WindowWidth - 80} mx="auto" my="auto">
+              <CustomInput
+                title={"Имя и фамилия"}
+                value={values.fullname}
+                onChange={handleChange.bind(this, "fullname")}
+                placeholder="Имя и фамилия"
+              />
 
-        <CustomInput
-          title={"Номер телефона"}
-          value={values.phone}
-          dataDetectorTypes={"phoneNumber"}
-          onChange={hangeChange.bind(this, "phone")}
-          inputMode={"tel"}
-          placeholder="Номер телефона"
-        />
+              <CustomInput
+                title={"Номер телефона"}
+                value={values.phone}
+                dataDetectorTypes={"phoneNumber"}
+                onChange={handleChange.bind(this, "phone")}
+                inputMode={"tel"}
+                placeholder="Номер телефона"
+              />
+              <CustomSwitch
+                style={{ marginTop: 20 }}
+                title={"Заболевания сердечно-сосудистой системы"}
+                state={isCardiovascularSystem}
+                setState={setIsCardiovascularSystem}
+                handleChange={handleChange}
+                name="cardiovascularSystem"
+                value={values.cardiovascularSystem}
+              />
+              <CustomSwitch
+                title={"Заболевания нервной системы"}
+                state={isNervousSystem}
+                setState={setIsNervousSystem}
+                handleChange={handleChange}
+                name="nervousSystem"
+                value={values.nervousSystem}
+              />
+              <CustomSwitch
+                title={"Заболевания эндокринной системы"}
+                state={isEndocrineSystem}
+                setState={setIsEndocrineSystem}
+                handleChange={handleChange}
+                name="endocrineSystem"
+                value={values.endocrineSystem}
+              />
+              <CustomSwitch
+                title={"Заболевания органов пищеварения"}
+                state={isDigestive}
+                setState={setIsDigestive}
+                handleChange={handleChange}
+                name="digestive"
+                value={values.digestive}
+              />
+              <CustomSwitch
+                title={"Заболевания органов дыхания"}
+                state={isRespiratory}
+                setState={setIsRespiratory}
+                handleChange={handleChange}
+                name="respiratory"
+                value={values.respiratory}
+              />
+              <CustomSwitch
+                title={"Инфекционные заболевания"}
+                state={isInfectious}
+                setState={setIsInfectious}
+                handleChange={handleChange}
+                name="infectious"
+                value={values.infectious}
+              />
+              <CustomSwitch
+                title={"Аллергические реакции"}
+                state={isAllergic}
+                setState={setIsAllergic}
+                handleChange={handleChange}
+                name="allergic"
+                value={values.allergic}
+              />
+              <CustomSwitch
+                title={"Постоянное применение лекарственных средств"}
+                state={isConstantMedicines}
+                setState={setIsConstantMedicines}
+                handleChange={handleChange}
+                name="constantMedicines"
+                value={values.constantMedicines}
+              />
+              <CustomSwitch
+                title={"Вредные факторы производственной среды"}
+                state={isHarmfulFactors}
+                setState={setIsHarmfulFactors}
+                handleChange={handleChange}
+                name="harmfulFactors"
+                value={values.harmfulFactors}
+              />
+              <CustomSwitch
+                title={"Беременность, послеродовый период"}
+                state={isPregnancy}
+                setState={setIsPregnancy}
+                handleChange={handleChange}
+                name="pregnancy"
+                value={values.pregnancy}
+              />
+              <CustomSwitch
+                title={"Алкогольная зависимость"}
+                state={isAlcohol}
+                setState={setIsAlcohol}
+                handleChange={handleChange}
+                name="alcohol"
+                value={values.alcohol}
+              />
+              <CustomSwitch
+                title={"Курение"}
+                state={isSmoking}
+                setState={setIsSmoking}
+                handleChange={handleChange}
+                name="smoking"
+                value={values.smoking}
+              />
+              <CustomSwitch
+                title={"Другое"}
+                state={isOther}
+                setState={setIsOther}
+                handleChange={handleChange}
+                name="other"
+                value={values.other}
+              />
 
-        <ButtonView>
-          <Button
-            onPress={() => setOpenInfo(true)}
-            size="md"
-            w="100%"
-            borderRadius={"20px"}
-            colorScheme="blue"
-          >
-            <ButtonText>Дополнительная информация</ButtonText>
-          </Button>
-          <Button
-            onPress={() => onSumbit()}
-            size="md"
-            w="100%"
-            borderRadius={"20px"}
-            colorScheme="green"
-          >
-            <ButtonText>
-              <Ionicons name="pencil-outline" size={20} color="white" />
-              <Text style={{ color: "white" }}>Изменить</Text>
-            </ButtonText>
-          </Button>
-        </ButtonView>
-      </Stack>
-      <Modal
-        isVisible={openInfo}
-        backdropOpacity={0.3}
-        onBackButtonPress={() => {
-          setOpenInfo(false);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <CustomSwitch
-              title={"Курение"}
-              state={isSmoking}
-              setState={setIsSmoking}
-            />
-            <CustomSwitch
-              title={"Беременность"}
-              state={isPregnancy}
-              setState={setIsPregnancy}
-            />
-            <TouchableOpacity
-              style={{ marginTop: 10 }}
-              onPress={() => {
-                setOpenInfo(false);
-              }}
-            >
-              <Text>Выбрать</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-    </View>
+              <ButtonView>
+                <Button
+                  onPress={() => {
+                    Keyboard.dismiss();
+                    onSumbit();
+                  }}
+                  size="md"
+                  w="400px"
+                  borderRadius={"20px"}
+                  colorScheme="green"
+                  style={{ alignSelf: "center" }}
+                >
+                  <ButtonText>
+                    <Ionicons name="ios-add" size={20} color="white" />
+                    Добавить
+                  </ButtonText>
+                </Button>
+              </ButtonView>
+            </Stack>
+          </Wrapper>
+        ) : (
+          <HStack flex={1} space={2} justifyContent="center" marginTop={150}>
+            <Spinner accessibilityLabel="Loading posts" />
+            <Heading color="primary.500" fontSize="md">
+              Загрузка
+            </Heading>
+          </HStack>
+        )}
+      </Container>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  centeredView: {
-    alignItems: "center",
-    justifyContent: "center",
-    height: "100%",
-  },
-  modalView: {
-    backgroundColor: "white",
-    borderRadius: 20,
-    width: "80%",
-    maxWidth: 400,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-});
+const Container = styled.View`
+  flex: 1;
+  height: 100%;
+  background-color: #fff;
+`;
+
+const Wrapper = styled.View`
+  margin-top: 20px;
+`;
 
 const ButtonView = styled.View`
   margin-top: 30px;
+  margin-bottom: 30px;
   gap: 30px;
 `;
 
@@ -160,7 +291,6 @@ const ButtonText = styled.Text`
   flex-direction: row;
   color: white;
   font-size: 16px;
-  gap: 10px;
 `;
 
 export default AddPatientsScreen;
