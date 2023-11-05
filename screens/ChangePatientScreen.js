@@ -245,14 +245,14 @@ function AddPatientsScreen({ navigation, route }) {
                     onSumbit();
                   }}
                   size="md"
-                  w="400px"
+                  w="100%"
                   borderRadius={"20px"}
                   colorScheme="green"
                   style={{ alignSelf: "center" }}
                 >
                   <ButtonText>
                     <Ionicons name="ios-add" size={20} color="white" />
-                    Добавить
+                    Изменить
                   </ButtonText>
                 </Button>
               </ButtonView>
@@ -284,7 +284,6 @@ const Wrapper = styled.View`
 const ButtonView = styled.View`
   margin-top: 30px;
   margin-bottom: 30px;
-  gap: 30px;
 `;
 
 const ButtonText = styled.Text`

@@ -181,7 +181,7 @@ const PatientScreen = ({ navigation, route }) => {
         onBackButtonPress={() => {
           setOpenInfo(false);
         }}
-        style = {{margin: 50}}
+        style = {{margin: 20}}
       >
         <ScrollView>
           <View style={styles.centeredView}>
@@ -443,7 +443,7 @@ const PatientScreen = ({ navigation, route }) => {
 };
 
 const WindowWidth = Dimensions.get("window").width;
-const diseasesWidth = WindowWidth - 220;
+const diseasesWidth = WindowWidth - 160;
 
 const styles = StyleSheet.create({
   centeredView: {

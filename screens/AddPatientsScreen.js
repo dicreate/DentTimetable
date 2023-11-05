@@ -133,6 +133,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsCardiovascularSystem}
               handleChange={handleChange}
               name="cardiovascularSystem"
+              value={values.cardiovascularSystem}
             />
             <CustomSwitch
               title={"Заболевания нервной системы"}
@@ -140,6 +141,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsNervousSystem}
               handleChange={handleChange}
               name="nervousSystem"
+              value={values.nervousSystem}
             />
             <CustomSwitch
               title={"Заболевания эндокринной системы"}
@@ -147,6 +149,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsEndocrineSystem}
               handleChange={handleChange}
               name="endocrineSystem"
+              value={values.endocrineSystem}
             />
             <CustomSwitch
               title={"Заболевания органов пищеварения"}
@@ -154,6 +157,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsDigestive}
               handleChange={handleChange}
               name="digestive"
+              value={values.digestive}
             />
             <CustomSwitch
               title={"Заболевания органов дыхания"}
@@ -161,6 +165,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsRespiratory}
               handleChange={handleChange}
               name="respiratory"
+              value={values.respiratory}
             />
             <CustomSwitch
               title={"Инфекционные заболевания"}
@@ -168,6 +173,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsInfectious}
               handleChange={handleChange}
               name="infectious"
+              value={values.infectious}
             />
             <CustomSwitch
               title={"Аллергические реакции"}
@@ -175,6 +181,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsAllergic}
               handleChange={handleChange}
               name="allergic"
+              value={values.allergic}
             />
             <CustomSwitch
               title={"Постоянное применение лекарственных средств"}
@@ -182,6 +189,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsConstantMedicines}
               handleChange={handleChange}
               name="constantMedicines"
+              value={values.constantMedicines}
             />
             <CustomSwitch
               title={"Вредные факторы производственной среды"}
@@ -189,6 +197,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsHarmfulFactors}
               handleChange={handleChange}
               name="harmfulFactors"
+              value={values.harmfulFactors}
             />
             <CustomSwitch
               title={"Беременность, послеродовый период"}
@@ -196,6 +205,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsPregnancy}
               handleChange={handleChange}
               name="pregnancy"
+              value={values.pregnancy}
             />
             <CustomSwitch
               title={"Алкогольная зависимость"}
@@ -203,6 +213,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsAlcohol}
               handleChange={handleChange}
               name="alcohol"
+              value={values.alcohol}
             />
             <CustomSwitch
               title={"Курение"}
@@ -210,6 +221,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsSmoking}
               handleChange={handleChange}
               name="smoking"
+              value={values.smoking}
             />
             <CustomSwitch
               title={"Другое"}
@@ -217,6 +229,7 @@ function AddPatientsScreen({ navigation }) {
               setState={setIsOther}
               handleChange={handleChange}
               name="other"
+              value={values.other}
             />
 
             <ButtonView>
@@ -237,7 +250,7 @@ function AddPatientsScreen({ navigation }) {
                   addPatientHandler();
                 }}
                 size="md"
-                w="400px"
+                w="100%"
                 borderRadius={"20px"}
                 colorScheme="green"
                 style={{ alignSelf: "center" }}
@@ -310,7 +323,6 @@ const Wrapper = styled.View`
 const ButtonView = styled.View`
   margin-top: 30px;
   margin-bottom: 30px;
-  gap: 30px;
 `;
 
 const ButtonText = styled.Text`

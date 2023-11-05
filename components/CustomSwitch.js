@@ -13,6 +13,7 @@ const CustomSwitch = ({
   isInput = true,
   value = {value}
 }) => {
+  console.log(value)
   return (
     <Container>
       <SwitchContainer style={style}>
