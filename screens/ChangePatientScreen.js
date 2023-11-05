@@ -4,7 +4,11 @@ import { Stack, Button, HStack, Spinner, Heading } from "native-base";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import styled from "styled-components";
 import { CustomInput, CustomSwitch } from "../components/";
-import { changePatient, getPatientInfo } from "../sqlite/requests";
+import {
+  changePatient,
+  getPatientInfo,
+  changePatientInfo,
+} from "../sqlite/requests";
 
 function AddPatientsScreen({ navigation, route }) {
   const { item } = route.params;
@@ -84,21 +88,15 @@ function AddPatientsScreen({ navigation, route }) {
 
   const handleChange = (name, e) => {
     const text = e.nativeEvent.text;
-
     setValues({
       ...values,
       [name]: text,
     });
   };
 
-  const onSumbit = () => {
-    changePatient(
-      values.fullname,
-      values.phone,
-      item.id,
-      isSmoking,
-      isPregnancy
-    );
+  const onSumbit = async () => {
+    changePatient(values.fullname, values.phone, item.id);
+    changePatientInfo({patientId: item.id, isCardiovascularSystem, isNervousSystem, isEndocrineSystem, isDigestive, isRespiratory, isInfectious, isAllergic, isConstantMedicines, isHarmfulFactors, isPregnancy, isAlcohol, isSmoking, isOther, cardiovascularSystem: values.cardiovascularSystem, nervousSystem: values.cardiovascularSystem, endocrineSystem: values.endocrineSystem, digestive: values.digestive, respiratory: values.respiratory, infectious: values.infectious, allergic: values.allergic, constantMedicines: values.constantMedicines, harmfulFactors: values.harmfulFactors, pregnancy: values.pregnancy, alcohol: values.alcohol, smoking: values.smoking, other: values.other});
     navigation.navigate({
       name: "HomeScreen",
       params: { lastUpdate: new Date() },

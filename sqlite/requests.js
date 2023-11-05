@@ -78,6 +78,54 @@ const createPatientsInfo = () => {
   });
 };
 
+const changePatientInfo = async (data) => {
+  const {
+    patientId,
+    isCardiovascularSystem,
+    isNervousSystem,
+    isEndocrineSystem,
+    isDigestive,
+    isRespiratory,
+    isInfectious,
+    isAllergic,
+    isConstantMedicines,
+    isHarmfulFactors,
+    isPregnancy,
+    isAlcohol,
+    isSmoking,
+    isOther,
+    cardiovascularSystem,
+    nervousSystem,
+    endocrineSystem,
+    digestive,
+    respiratory,
+    infectious,
+    allergic,
+    constantMedicines,
+    harmfulFactors,
+    pregnancy,
+    alcohol,
+    smoking,
+    other,
+  } = data;
+
+  db.transaction((txn) => {
+    txn.executeSql(
+      `UPDATE patientsInfo
+        SET isCardiovascularSystem = '${Number(isCardiovascularSystem)}', isNervousSystem = '${Number(isNervousSystem)}', isEndocrineSystem = '${Number(isEndocrineSystem)}', isDigestive = '${Number(isDigestive)}', isRespiratory = '${Number(isRespiratory)}', isInfectious = '${Number(isInfectious)}', isAllergic = '${Number(isAllergic)}', isConstantMedicines = '${Number(isConstantMedicines)}', isHarmfulFactors = '${Number(isHarmfulFactors)}', isPregnancy = '${Number(isPregnancy)}', isAlcohol = '${Number(isAlcohol)}', isSmoking = '${Number(isSmoking)}', isOther = '${Number(isOther)}'            
+        WHERE patientId = ${patientId}
+        `,
+      [],
+      () => {
+        console.log("info update successfully");
+      },
+      (error) => {
+        console.log("error on updating info " + error.message);
+      }
+    );
+  });
+};
+
 const createAppointments = () => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -325,13 +373,11 @@ const deleteAppointment = (appointmentId) => {
   });
 };
 
-const changePatient = (fullname, phone, id, isSmoking, isPregnancy) => {
+const changePatient = (fullname, phone, id) => {
   db.transaction((txn) => {
     txn.executeSql(
       `UPDATE patients 
-        SET fullname = '${fullname}', phone = '${phone}', isSmoking = '${Number(
-        isSmoking
-      )}',  isPregnancy = '${Number(isPregnancy)}' 
+        SET fullname = '${fullname}', phone = '${phone}' 
         WHERE id = ${id}
         `,
       [],
@@ -339,8 +385,7 @@ const changePatient = (fullname, phone, id, isSmoking, isPregnancy) => {
         console.log("info update successfully");
       },
       (error) => {
-        console.log("error on updating info " + error.message),
-          console.log(isSmoking, isPregnancy);
+        console.log("error on updating info " + error.message);
       }
     );
   });
@@ -543,4 +588,5 @@ export {
   addPatientsInfo,
   getPatientInfo,
   showPatientsInfo,
+  changePatientInfo
 };
