@@ -138,6 +138,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="cardiovascularSystem"
                 value={values.cardiovascularSystem}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Заболевания нервной системы"}
@@ -146,6 +148,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="nervousSystem"
                 value={values.nervousSystem}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Заболевания эндокринной системы"}
@@ -154,6 +158,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="endocrineSystem"
                 value={values.endocrineSystem}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Заболевания органов пищеварения"}
@@ -162,6 +168,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="digestive"
                 value={values.digestive}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Заболевания органов дыхания"}
@@ -170,6 +178,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="respiratory"
                 value={values.respiratory}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Инфекционные заболевания"}
@@ -178,6 +188,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="infectious"
                 value={values.infectious}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Аллергические реакции"}
@@ -186,6 +198,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="allergic"
                 value={values.allergic}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Постоянное применение лекарственных средств"}
@@ -194,6 +208,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="constantMedicines"
                 value={values.constantMedicines}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Вредные факторы производственной среды"}
@@ -202,6 +218,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="harmfulFactors"
                 value={values.harmfulFactors}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Беременность, послеродовый период"}
@@ -210,6 +228,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="pregnancy"
                 value={values.pregnancy}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Алкогольная зависимость"}
@@ -218,6 +238,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="alcohol"
                 value={values.alcohol}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Курение"}
@@ -226,6 +248,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="smoking"
                 value={values.smoking}
+                values={values}
+                setValues={setValues}
               />
               <CustomSwitch
                 title={"Другое"}
@@ -234,6 +258,8 @@ function AddPatientsScreen({ navigation, route }) {
                 handleChange={handleChange}
                 name="other"
                 value={values.other}
+                values={values}
+                setValues={setValues}
               />
 
               <ButtonView>

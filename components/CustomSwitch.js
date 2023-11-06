@@ -28,6 +28,7 @@ const CustomSwitch = ({
       </SwitchContainer>
       {state && isInput ? (
         <Input
+          variant = "underlined"
           multiline={true}
           placeholder="Введите дополнительную информацию"
           onChange={handleChange.bind(this, name)}
