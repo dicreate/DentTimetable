@@ -11,8 +11,21 @@ const CustomSwitch = ({
   handleChange,
   name,
   isInput = true,
-  value = {value}
+  value = {value},
+  values,
+  setValues
 }) => {
+
+  const onChangeSwitch = () => {
+    if(state) {
+      setValues({
+        ...values, 
+        [name]: ''
+      })
+    }
+    setState(!state)
+  }
+
   return (
     <Container>
       <SwitchContainer style={style}>
@@ -21,7 +34,7 @@ const CustomSwitch = ({
           trackColor={{ false: "#767577", true: "#81b0ff" }}
           thumbColor={state ? "#f5dd4b" : "#f4f3f4"}
           ios_backgroundColor="#3e3e3e"
-          onValueChange={() => setState(!state)}
+          onValueChange={() => onChangeSwitch()}
           value={state}
           style={{ left: 0 }}
         />
