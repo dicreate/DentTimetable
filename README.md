@@ -12,5 +12,7 @@ https://expo.dev/accounts/dkovchugo/projects/dentalapp/builds/dd6c5449-45ab-49dd
 postinstall command: 
 yarn patch-package --use-yarn [package_name]
 
+yarn add bcrypt --force
+
 build command: 
 eas build -p android --profile preview
