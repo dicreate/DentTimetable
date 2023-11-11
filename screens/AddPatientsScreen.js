@@ -338,8 +338,8 @@ const styles = StyleSheet.create({
 });
 
 const SwitchesContainer = styled.View`
-  margin-top: 5px;
-  gap: 5px;
+  margin-top: 15px;
+  gap: 15px;
 `
 
 const Container = styled.View`

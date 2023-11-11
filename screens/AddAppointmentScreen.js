@@ -131,7 +131,7 @@ function AddAppointmentScreen({ navigation, route }) {
         </Pressable>
 
         <CustomSwitch
-          style={{marginTop: 10}}
+          style={{marginTop: 20}}
           title={"Анестезия"}
           state={anesthetization}
           setState={setAnesthetization}

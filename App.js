@@ -9,7 +9,7 @@ import {
   PatientsScreen,
   ChangeAppointmentScreen,
   ChangePatientScreen,
-  TeethFormula,
+  FormulaScreen,
 } from "./screens";
 import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
@@ -155,7 +155,7 @@ function StackNavigator() {
       />
       <Stack.Screen
         name="Formula"
-        component={TeethFormula}
+        component={FormulaScreen}
         options={{
           title: "Формула зубов",
           headerTintColor: "#2A86FF",
