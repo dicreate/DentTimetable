@@ -5,17 +5,17 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import styled from "styled-components/native";
 import { Button } from "native-base";
 
-const Tooth = ({number}) => {
+const Tooth = ({number, setOpenTable}) => {
 
    return (
       <Container>
          <TopButton>
-            <Button>0</Button>
+            <Button onPress={() => setOpenTable(true)}>0</Button>
          </TopButton>
          <MaterialCommunityIcons style={{position: 'relative'}} name="tooth-outline" size={60} color="black" />
          <ToothNumber>{number}</ToothNumber>
          <BottomButton>
-            <Button>0</Button>
+            <Button onPress={() => setOpenTable(true)}>0</Button>
          </BottomButton>
       </Container>
    )
