@@ -126,138 +126,138 @@ function AddPatientsScreen({ navigation }) {
               inputMode={"tel"}
               placeholder="Номер телефона"
             />
-            <CustomSwitch
-              style={{ marginTop: 20 }}
-              title={"Заболевания сердечно-сосудистой системы"}
-              state={isCardiovascularSystem}
-              setState={setIsCardiovascularSystem}
-              handleChange={handleChange}
-              name="cardiovascularSystem"
-              value={values.cardiovascularSystem}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Заболевания нервной системы"}
-              state={isNervousSystem}
-              setState={setIsNervousSystem}
-              handleChange={handleChange}
-              name="nervousSystem"
-              value={values.nervousSystem}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Заболевания эндокринной системы"}
-              state={isEndocrineSystem}
-              setState={setIsEndocrineSystem}
-              handleChange={handleChange}
-              name="endocrineSystem"
-              value={values.endocrineSystem}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Заболевания органов пищеварения"}
-              state={isDigestive}
-              setState={setIsDigestive}
-              handleChange={handleChange}
-              name="digestive"
-              value={values.digestive}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Заболевания органов дыхания"}
-              state={isRespiratory}
-              setState={setIsRespiratory}
-              handleChange={handleChange}
-              name="respiratory"
-              value={values.respiratory}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Инфекционные заболевания"}
-              state={isInfectious}
-              setState={setIsInfectious}
-              handleChange={handleChange}
-              name="infectious"
-              value={values.infectious}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Аллергические реакции"}
-              state={isAllergic}
-              setState={setIsAllergic}
-              handleChange={handleChange}
-              name="allergic"
-              value={values.allergic}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Постоянное применение лекарственных средств"}
-              state={isConstantMedicines}
-              setState={setIsConstantMedicines}
-              handleChange={handleChange}
-              name="constantMedicines"
-              value={values.constantMedicines}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Вредные факторы производственной среды"}
-              state={isHarmfulFactors}
-              setState={setIsHarmfulFactors}
-              handleChange={handleChange}
-              name="harmfulFactors"
-              value={values.harmfulFactors}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Беременность, послеродовый период"}
-              state={isPregnancy}
-              setState={setIsPregnancy}
-              handleChange={handleChange}
-              name="pregnancy"
-              value={values.pregnancy}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Алкогольная зависимость"}
-              state={isAlcohol}
-              setState={setIsAlcohol}
-              handleChange={handleChange}
-              name="alcohol"
-              value={values.alcohol}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Курение"}
-              state={isSmoking}
-              setState={setIsSmoking}
-              handleChange={handleChange}
-              name="smoking"
-              value={values.smoking}
-              values={values}
-              setValues={setValues}
-            />
-            <CustomSwitch
-              title={"Другое"}
-              state={isOther}
-              setState={setIsOther}
-              handleChange={handleChange}
-              name="other"
-              value={values.other}
-              values={values}
-              setValues={setValues}
-            />
-
+            <SwitchesContainer>
+              <CustomSwitch
+                title={"Заболевания сердечно-сосудистой системы"}
+                state={isCardiovascularSystem}
+                setState={setIsCardiovascularSystem}
+                handleChange={handleChange}
+                name="cardiovascularSystem"
+                value={values.cardiovascularSystem}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Заболевания нервной системы"}
+                state={isNervousSystem}
+                setState={setIsNervousSystem}
+                handleChange={handleChange}
+                name="nervousSystem"
+                value={values.nervousSystem}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Заболевания эндокринной системы"}
+                state={isEndocrineSystem}
+                setState={setIsEndocrineSystem}
+                handleChange={handleChange}
+                name="endocrineSystem"
+                value={values.endocrineSystem}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Заболевания органов пищеварения"}
+                state={isDigestive}
+                setState={setIsDigestive}
+                handleChange={handleChange}
+                name="digestive"
+                value={values.digestive}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Заболевания органов дыхания"}
+                state={isRespiratory}
+                setState={setIsRespiratory}
+                handleChange={handleChange}
+                name="respiratory"
+                value={values.respiratory}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Инфекционные заболевания"}
+                state={isInfectious}
+                setState={setIsInfectious}
+                handleChange={handleChange}
+                name="infectious"
+                value={values.infectious}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Аллергические реакции"}
+                state={isAllergic}
+                setState={setIsAllergic}
+                handleChange={handleChange}
+                name="allergic"
+                value={values.allergic}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Постоянное применение лекарственных средств"}
+                state={isConstantMedicines}
+                setState={setIsConstantMedicines}
+                handleChange={handleChange}
+                name="constantMedicines"
+                value={values.constantMedicines}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Вредные факторы производственной среды"}
+                state={isHarmfulFactors}
+                setState={setIsHarmfulFactors}
+                handleChange={handleChange}
+                name="harmfulFactors"
+                value={values.harmfulFactors}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Беременность, послеродовый период"}
+                state={isPregnancy}
+                setState={setIsPregnancy}
+                handleChange={handleChange}
+                name="pregnancy"
+                value={values.pregnancy}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Алкогольная зависимость"}
+                state={isAlcohol}
+                setState={setIsAlcohol}
+                handleChange={handleChange}
+                name="alcohol"
+                value={values.alcohol}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Курение"}
+                state={isSmoking}
+                setState={setIsSmoking}
+                handleChange={handleChange}
+                name="smoking"
+                value={values.smoking}
+                values={values}
+                setValues={setValues}
+              />
+              <CustomSwitch
+                title={"Другое"}
+                state={isOther}
+                setState={setIsOther}
+                handleChange={handleChange}
+                name="other"
+                value={values.other}
+                values={values}
+                setValues={setValues}
+              />
+            </SwitchesContainer>
             <ButtonView>
               {/*   <Button
                   onPress={() => setOpenInfo(true)} 
@@ -336,6 +336,11 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
 });
+
+const SwitchesContainer = styled.View`
+  margin-top: 5px;
+  gap: 5px;
+`
 
 const Container = styled.View`
   flex: 1;

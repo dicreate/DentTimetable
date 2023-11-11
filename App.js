@@ -14,7 +14,7 @@ import {
 import { NativeBaseProvider } from "native-base";
 import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { TouchableOpacity } from "react-native";
+import { LogBox } from "react-native";
 import { createTables, dropTables } from "./sqlite/requests";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Feather } from "@expo/vector-icons";
@@ -192,3 +192,6 @@ export default function App() {
 const TabText = styled.Text`
   font-size: 11px;
 `;
+
+
+LogBox.ignoreLogs(['In React 18, SSRProvider is not necessary and is a noop. You can remove it from your app.']);

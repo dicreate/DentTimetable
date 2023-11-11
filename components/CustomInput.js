@@ -66,11 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const InputTitle = styled.Text`
-  margin-top: 5px;
-  color: #2a86ff;
-  font-weight: 500;
-  font-style: italic;
-`;
-
 export default CustomInput;

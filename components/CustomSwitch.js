@@ -17,7 +17,7 @@ const CustomSwitch = ({
 }) => {
 
   const onChangeSwitch = () => {
-    if(state) {
+    if(state && setValues) {
       setValues({
         ...values, 
         [name]: ''
@@ -60,10 +60,10 @@ const SwitchContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 5px;
 `;
 
-const Container = styled.View``;
+const Container = styled.View`
+`;
 
 const SwitchText = styled.Text`
   width: ${windowWidth - 160}px
