@@ -10,24 +10,46 @@ import {
   StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
+import {
+  getTeethFormula,
+  addTeethFormula
+} from "../sqlite/requests";
 
 const FormulaScreen = ({ navigation, route }) => {
   const [openTable, setOpenTable] = useState(false);
   const [openTooth, setOpenTooth] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [teeth, setTeeth] = useState();
   const leftTeethArray = [];
   const rightTeethArray = [];
   const item = route.params;
+
+  const getTeeth = async () => {
+    try {
+      setIsLoading(true);
+      const teethTable = await getTeethFormula(item.patientId);
+      teethTable.rows.length
+        ? setTeeth(teethTable.rows._array)
+        : null;
+      setIsLoading(false);
+    } catch {
+      console.log("Ошибка при обращении к базе данных. Таблицы не существует");
+    }
+  };
+
+  useEffect(() => {
+    getTeeth()
+  }, [])
 
   for (let i = 0; i < 8; i++) {
     leftTeethArray.push(
       <Tooth key={i} number={i + 1} index={i} setOpenTable={setOpenTable} setOpenTooth={setOpenTooth} />
     );
   }
-
   for (let i = 8; i < 16; i++) {
     rightTeethArray.push(<Tooth key={i} number={i - 7} index={i} setOpenTable={setOpenTable} setOpenTooth={setOpenTooth} />);
   }
-  
+
   const tableData = [
     ["Постоянные зубы", "Молочные зубы"],
     ["0", "A"],
@@ -74,7 +96,7 @@ const FormulaScreen = ({ navigation, route }) => {
                         <TouchableOpacity
                           key={`${colIndex}_${rowIndex}`}
                           style={styles.cellButton}
-                          onPress={() => {console.log(cellText)}}
+                          onPress={() => {addTeethFormula({patientId: item.patientId, toothNumber: openTooth, diagnosis: cellText})}}
                         >
                           <Text style={styles.cellText}>{cellText}</Text>
                         </TouchableOpacity>

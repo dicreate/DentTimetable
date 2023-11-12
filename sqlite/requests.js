@@ -190,6 +190,22 @@ const createTeethFormula = () => {
   });
 };
 
+const addTeethFormula = (data) => {
+  const { patientId, toothNumber, diagnosis } = data;
+  db.transaction((txn) => {
+    txn.executeSql(
+      `INSERT INTO teethFormula (patientId, toothNumber, diagnosis) VALUES (?, ?, ?)`,
+      [patientId, toothNumber, diagnosis],
+      () => {
+        console.log("teethFormula added successfully");
+      },
+      (error) => {
+        console.log("error on adding teethFormula" + error.message);
+      }
+    );
+  });
+};
+
 const getTeethFormula = async (patientId) => {
   return new Promise((res, rej) => {
     db.transaction((txn) => {
@@ -647,4 +663,6 @@ export {
   getPatientInfo,
   showPatientsInfo,
   changePatientInfo,
+  getTeethFormula,
+  addTeethFormula
 };
