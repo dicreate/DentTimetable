@@ -6,12 +6,14 @@ const createTables = () => {
   createPatients();
   createPatientsInfo();
   createAppointments();
+  createTeethFormula();
 };
 
 const dropTables = () => {
   dropPatients();
   dropAppointments();
   dropPatientsInfo();
+  dropTeethFormula();
 };
 
 const createPatients = () => {
@@ -112,7 +114,25 @@ const changePatientInfo = async (data) => {
   db.transaction((txn) => {
     txn.executeSql(
       `UPDATE patientsInfo
-        SET isCardiovascularSystem = '${Number(isCardiovascularSystem)}', isNervousSystem = '${Number(isNervousSystem)}', isEndocrineSystem = '${Number(isEndocrineSystem)}', isDigestive = '${Number(isDigestive)}', isRespiratory = '${Number(isRespiratory)}', isInfectious = '${Number(isInfectious)}', isAllergic = '${Number(isAllergic)}', isConstantMedicines = '${Number(isConstantMedicines)}', isHarmfulFactors = '${Number(isHarmfulFactors)}', isPregnancy = '${Number(isPregnancy)}', isAlcohol = '${Number(isAlcohol)}', isSmoking = '${Number(isSmoking)}', isOther = '${Number(isOther)}', cardiovascularSystem = '${cardiovascularSystem}', nervousSystem = '${nervousSystem}', endocrineSystem = '${endocrineSystem}', digestive = '${digestive}', respiratory = '${respiratory}', infectious = '${infectious}', allergic = '${allergic}', constantMedicines = '${constantMedicines}', harmfulFactors = '${harmfulFactors}', pregnancy = '${pregnancy}', alcohol = '${alcohol}', smoking = '${smoking}', other = '${other}'                       
+        SET isCardiovascularSystem = '${Number(
+          isCardiovascularSystem
+        )}', isNervousSystem = '${Number(
+        isNervousSystem
+      )}', isEndocrineSystem = '${Number(
+        isEndocrineSystem
+      )}', isDigestive = '${Number(isDigestive)}', isRespiratory = '${Number(
+        isRespiratory
+      )}', isInfectious = '${Number(isInfectious)}', isAllergic = '${Number(
+        isAllergic
+      )}', isConstantMedicines = '${Number(
+        isConstantMedicines
+      )}', isHarmfulFactors = '${Number(
+        isHarmfulFactors
+      )}', isPregnancy = '${Number(isPregnancy)}', isAlcohol = '${Number(
+        isAlcohol
+      )}', isSmoking = '${Number(isSmoking)}', isOther = '${Number(
+        isOther
+      )}', cardiovascularSystem = '${cardiovascularSystem}', nervousSystem = '${nervousSystem}', endocrineSystem = '${endocrineSystem}', digestive = '${digestive}', respiratory = '${respiratory}', infectious = '${infectious}', allergic = '${allergic}', constantMedicines = '${constantMedicines}', harmfulFactors = '${harmfulFactors}', pregnancy = '${pregnancy}', alcohol = '${alcohol}', smoking = '${smoking}', other = '${other}'                       
         WHERE patientId = ${patientId}
         `,
       [],
@@ -150,10 +170,50 @@ const createAppointments = () => {
   });
 };
 
-const dropPatientsInfo = () => {
+const createTeethFormula = () => {
   db.transaction((txn) => {
     txn.executeSql(
-      "DROP TABLE patientsInfo",
+      `CREATE TABLE IF NOT EXISTS teethFormula (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, 
+        patientId INTEGER NOT NULL, 
+        toothNumber VARCHAR(5), 
+        diagnosis VARCHAR(5), 
+        FOREIGN KEY (patientId) REFERENCES patients(id))`,
+      [],
+      () => {
+        console.log("table created successfully");
+      },
+      (error) => {
+        console.log("error on creating table" + error.message);
+      }
+    );
+  });
+};
+
+const getTeethFormula = async (patientId) => {
+  return new Promise((res, rej) => {
+    db.transaction((txn) => {
+      txn.executeSql(
+        `SELECT * FROM teethFormula
+        WHERE patientId = ${patientId}
+        `,
+        null,
+        (txnObj, result) => {
+          res(result);
+        },
+        (txnObj, error) => {
+          console.log(error);
+          rej(error);
+        }
+      );
+    });
+  });
+};
+
+const dropTeethFormula = () => {
+  db.transaction((txn) => {
+    txn.executeSql(
+      "DROP TABLE teethFormula",
       null,
       (txnObj, result) => console.log("table drop successfully"),
       (txnObj, error) => {
@@ -163,16 +223,14 @@ const dropPatientsInfo = () => {
   });
 };
 
-const createTeethHistory = () => {
+const dropPatientsInfo = () => {
   db.transaction((txn) => {
     txn.executeSql(
-      "CREATE TABLE IF NOT EXISTS teethHistory (id INTEGER PRIMARY KEY AUTOINCREMENT, patientId INTEGER NOT NULL, toothNumber INTEGER, diagnosis VARCHAR(20), price INTEGER, date VARCHAR(20) NOT NULL, time VARCHAR(20) NOT NULL, anesthetization BOOLEAN CHECK (anesthetization IN (0, 1)), FOREIGN KEY (patientId) REFERENCES patients(id))",
-      [],
-      () => {
-        console.log("table created successfully");
-      },
-      (error) => {
-        console.log("error on creating table" + error.message);
+      "DROP TABLE patientsInfo",
+      null,
+      (txnObj, result) => console.log("table drop successfully"),
+      (txnObj, error) => {
+        console.log(error);
       }
     );
   });
@@ -588,5 +646,5 @@ export {
   addPatientsInfo,
   getPatientInfo,
   showPatientsInfo,
-  changePatientInfo
+  changePatientInfo,
 };

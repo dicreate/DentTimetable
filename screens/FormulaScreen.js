@@ -10,23 +10,24 @@ import {
   StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
-import { Col } from "react-bootstrap";
 
 const FormulaScreen = ({ navigation, route }) => {
   const [openTable, setOpenTable] = useState(false);
+  const [openTooth, setOpenTooth] = useState();
   const leftTeethArray = [];
   const rightTeethArray = [];
+  const item = route.params;
 
   for (let i = 0; i < 8; i++) {
     leftTeethArray.push(
-      <Tooth key={i} number={i + 1} setOpenTable={setOpenTable} />
+      <Tooth key={i} number={i + 1} index={i} setOpenTable={setOpenTable} setOpenTooth={setOpenTooth} />
     );
   }
 
   for (let i = 8; i < 16; i++) {
-    rightTeethArray.push(<Tooth key={i} number={i - 7} setOpenTable={setOpenTable} />);
+    rightTeethArray.push(<Tooth key={i} number={i - 7} index={i} setOpenTable={setOpenTable} setOpenTooth={setOpenTooth} />);
   }
-
+  
   const tableData = [
     ["Постоянные зубы", "Молочные зубы"],
     ["0", "A"],
@@ -73,6 +74,7 @@ const FormulaScreen = ({ navigation, route }) => {
                         <TouchableOpacity
                           key={`${colIndex}_${rowIndex}`}
                           style={styles.cellButton}
+                          onPress={() => {console.log(cellText)}}
                         >
                           <Text style={styles.cellText}>{cellText}</Text>
                         </TouchableOpacity>
