@@ -10,14 +10,12 @@ import {
   StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
-import {
-  getTeethFormula,
-  addTeethFormula
-} from "../sqlite/requests";
+import { getTeethFormula, addTeethFormula } from "../sqlite/requests";
 
 const FormulaScreen = ({ navigation, route }) => {
   const [openTable, setOpenTable] = useState(false);
-  const [openTooth, setOpenTooth] = useState();
+  const [toothIndex, setToothIndex] = useState();
+  const [toothPosition, setToothPosition] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [teeth, setTeeth] = useState();
   const leftTeethArray = [];
@@ -28,26 +26,40 @@ const FormulaScreen = ({ navigation, route }) => {
     try {
       setIsLoading(true);
       const teethTable = await getTeethFormula(item.patientId);
-      teethTable.rows.length
-        ? setTeeth(teethTable.rows._array)
-        : null;
+      teethTable.rows.length ? setTeeth(teethTable.rows._array) : null;
       setIsLoading(false);
     } catch {
-      console.log("Ошибка при обращении к базе данных. Таблицы не существует");
+      console.log("Ошибка при обращении к базе данных");
     }
   };
-
+  
   useEffect(() => {
-    getTeeth()
-  }, [])
+    getTeeth();
+  }, []);
 
   for (let i = 0; i < 8; i++) {
     leftTeethArray.push(
-      <Tooth key={i} number={i + 1} index={i} setOpenTable={setOpenTable} setOpenTooth={setOpenTooth} />
+      <Tooth
+        key={i}
+        number={i + 1}
+        index={i}
+        setOpenTable={setOpenTable}
+        setToothIndex={setToothIndex}
+        setToothPosition={setToothPosition}
+      />
     );
   }
   for (let i = 8; i < 16; i++) {
-    rightTeethArray.push(<Tooth key={i} number={i - 7} index={i} setOpenTable={setOpenTable} setOpenTooth={setOpenTooth} />);
+    rightTeethArray.push(
+      <Tooth
+        key={i}
+        number={i - 7}
+        index={i}
+        setOpenTable={setOpenTable}
+        setToothIndex={setToothIndex}
+        setToothPosition={setToothPosition}
+      />
+    );
   }
 
   const tableData = [
@@ -62,7 +74,7 @@ const FormulaScreen = ({ navigation, route }) => {
     ["7", "G"],
     ["8", "-"],
     ["9", "-"],
-    ["T", "T"]
+    ["T", "T"],
   ];
 
   return (
@@ -83,20 +95,26 @@ const FormulaScreen = ({ navigation, route }) => {
                   {row.map((cellText, colIndex) => {
                     if (rowIndex === 0) {
                       return (
-                        <View key={`${row}_${rowIndex}_col_${colIndex}`} style={styles.textContainer}>
-                          <Text          
-                          style={styles.cellText}
+                        <View
+                          key={`${row}_${rowIndex}_col_${colIndex}`}
+                          style={styles.textContainer}
                         >
-                          {cellText}
-                          </Text>
-                        </View>              
+                          <Text style={styles.cellText}>{cellText}</Text>
+                        </View>
                       );
                     } else {
                       return (
                         <TouchableOpacity
                           key={`${colIndex}_${rowIndex}`}
                           style={styles.cellButton}
-                          onPress={() => {addTeethFormula({patientId: item.patientId, toothNumber: openTooth, diagnosis: cellText})}}
+                          onPress={() => {
+                            addTeethFormula({
+                              patientId: item.patientId,
+                              toothIndex,
+                              toothPosition,
+                              diagnosis: cellText,
+                            });
+                          }}
                         >
                           <Text style={styles.cellText}>{cellText}</Text>
                         </TouchableOpacity>
@@ -173,7 +191,7 @@ const styles = StyleSheet.create({
   cellText: {
     fontSize: 16,
     color: "black",
-    textAlign: "center"
+    textAlign: "center",
   },
 });
 

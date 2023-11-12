@@ -5,15 +5,17 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { Button } from "native-base";
 
-const Tooth = ({ number, setOpenTable, index, setOpenTooth }) => {
+const Tooth = ({ number, setOpenTable, index, setToothIndex, setToothPosition}) => {
   const onPressHandlerTop = () => {
     setOpenTable(true);
-    setOpenTooth("T" + index);
+    setToothIndex(index);
+    setToothPosition("T");
   };
 
   const onPressHandlerBottom = () => {
     setOpenTable(true);
-    setOpenTooth("B" + index);
+    setToothIndex(index);
+    setToothPosition("B");
   };
 
   return (
