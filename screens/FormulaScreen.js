@@ -90,7 +90,11 @@ const FormulaScreen = ({ navigation, route }) => {
                 ))}
               </LeftTeeth>
               <VerticalLine />
-              <RightTeeth>{rightTeethArray}</RightTeeth>
+              <RightTeeth>
+                {[...Array(8)].map((_, index) => (
+                  <Tooth key={index + 7} index={index + 7} teeth={teeth} />
+                ))}
+              </RightTeeth>
             </Wrapper>
           </ScrollView>
           <Modal isVisible={openTable} backdropOpacity={0.3}>
