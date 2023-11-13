@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { getTeethFormula, addTeethFormula } from "../sqlite/requests";
+import { Spinner, Heading, HStack } from "native-base";
 
 const FormulaScreen = ({ navigation, route }) => {
   const [openTable, setOpenTable] = useState(false);
@@ -32,12 +33,12 @@ const FormulaScreen = ({ navigation, route }) => {
       console.log("Ошибка при обращении к базе данных");
     }
   };
-  
+
   useEffect(() => {
     getTeeth();
   }, []);
 
-  for (let i = 0; i < 8; i++) {
+  /*   for (let i = 0; i < 8; i++) {
     leftTeethArray.push(
       <Tooth
         key={i}
@@ -61,7 +62,7 @@ const FormulaScreen = ({ navigation, route }) => {
       />
     );
   }
-
+ */
   const tableData = [
     ["Постоянные зубы", "Молочные зубы"],
     ["0", "A"],
@@ -79,61 +80,79 @@ const FormulaScreen = ({ navigation, route }) => {
 
   return (
     <Container>
-      <ScrollView horizontal={true}>
-        <Wrapper>
-          <LeftTeeth>{leftTeethArray}</LeftTeeth>
-          <VerticalLine />
-          <RightTeeth>{rightTeethArray}</RightTeeth>
-        </Wrapper>
-      </ScrollView>
-      <Modal isVisible={openTable} backdropOpacity={0.3}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={styles.tableContainer}>
-              {tableData.map((row, rowIndex) => (
-                <View key={`${row}_${rowIndex}`} style={styles.rowContainer}>
-                  {row.map((cellText, colIndex) => {
-                    if (rowIndex === 0) {
-                      return (
-                        <View
-                          key={`${row}_${rowIndex}_col_${colIndex}`}
-                          style={styles.textContainer}
-                        >
-                          <Text style={styles.cellText}>{cellText}</Text>
-                        </View>
-                      );
-                    } else {
-                      return (
-                        <TouchableOpacity
-                          key={`${colIndex}_${rowIndex}`}
-                          style={styles.cellButton}
-                          onPress={() => {
-                            addTeethFormula({
-                              patientId: item.patientId,
-                              toothIndex,
-                              toothPosition,
-                              diagnosis: cellText,
-                            });
-                          }}
-                        >
-                          <Text style={styles.cellText}>{cellText}</Text>
-                        </TouchableOpacity>
-                      );
-                    }
-                  })}
+      {teeth ? (
+        <>
+          <ScrollView horizontal={true}>
+            <Wrapper>
+              <LeftTeeth>
+                {[...Array(8)].map((_, index) => (
+                  <Tooth key={index} index={index} teeth={teeth} />
+                ))}
+              </LeftTeeth>
+              <VerticalLine />
+              <RightTeeth>{rightTeethArray}</RightTeeth>
+            </Wrapper>
+          </ScrollView>
+          <Modal isVisible={openTable} backdropOpacity={0.3}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <View style={styles.tableContainer}>
+                  {tableData.map((row, rowIndex) => (
+                    <View
+                      key={`${row}_${rowIndex}`}
+                      style={styles.rowContainer}
+                    >
+                      {row.map((cellText, colIndex) => {
+                        if (rowIndex === 0) {
+                          return (
+                            <View
+                              key={`${row}_${rowIndex}_col_${colIndex}`}
+                              style={styles.textContainer}
+                            >
+                              <Text style={styles.cellText}>{cellText}</Text>
+                            </View>
+                          );
+                        } else {
+                          return (
+                            <TouchableOpacity
+                              key={`${colIndex}_${rowIndex}`}
+                              style={styles.cellButton}
+                              onPress={() => {
+                                addTeethFormula({
+                                  patientId: item.patientId,
+                                  toothIndex,
+                                  toothPosition,
+                                  diagnosis: cellText,
+                                });
+                              }}
+                            >
+                              <Text style={styles.cellText}>{cellText}</Text>
+                            </TouchableOpacity>
+                          );
+                        }
+                      })}
+                    </View>
+                  ))}
                 </View>
-              ))}
+                <TouchableOpacity
+                  onPress={() => {
+                    setOpenTable(false);
+                  }}
+                >
+                  <Text>Закрыть</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-            <TouchableOpacity
-              onPress={() => {
-                setOpenTable(false);
-              }}
-            >
-              <Text>Закрыть</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+          </Modal>
+        </>
+      ) : (
+        <HStack space={2} justifyContent="center" marginTop={150}>
+          <Spinner accessibilityLabel="Loading posts" />
+          <Heading color="primary.500" fontSize="md">
+            Загрузка
+          </Heading>
+        </HStack>
+      )}
     </Container>
   );
 };
