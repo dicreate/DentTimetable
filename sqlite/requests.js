@@ -207,6 +207,26 @@ const addTeethFormula = (data) => {
   });
 };
 
+const changeTeethFormula = (data) => {
+  const { patientId, toothIndex, diagnosisTop, diagnosisBottom } = data;
+  db.transaction((txn) => {
+    txn.executeSql(
+      `UPDATE teethFormula 
+        SET diagnosisTop = '${diagnosisTop}', diagnosisBottom = '${diagnosisBottom}' 
+        WHERE patientId = ${patientId} AND toothIndex = ${toothIndex}
+        `,
+      [],
+      () => {
+        console.log("info update successfully");
+      },
+      (error) => {
+        console.log("error on updating info " + error.message);
+      }
+    );
+  });
+};
+
+
 const getTeethFormula = async (patientId) => {
   return new Promise((res, rej) => {
     db.transaction((txn) => {
@@ -217,6 +237,26 @@ const getTeethFormula = async (patientId) => {
         null,
         (txnObj, result) => {
           res(result);
+        },
+        (txnObj, error) => {
+          console.log(error);
+          rej(error);
+        }
+      );
+    });
+  });
+};
+
+const isPatientTooth = async (patientId, toothIndex) => {
+  return new Promise((res, rej) => {
+    db.transaction((txn) => {
+      txn.executeSql(
+        `SELECT * FROM teethFormula WHERE patientId = ${patientId} AND toothIndex = ${toothIndex}`,
+        null,
+        (txnObj, result) => {
+          const rowCount = result.rows.length;
+          const isNotEmpty = rowCount > 0;
+          res(isNotEmpty);
         },
         (txnObj, error) => {
           console.log(error);
@@ -665,5 +705,7 @@ export {
   showPatientsInfo,
   changePatientInfo,
   getTeethFormula,
-  addTeethFormula
+  addTeethFormula,
+  changeTeethFormula,
+  isPatientTooth
 };

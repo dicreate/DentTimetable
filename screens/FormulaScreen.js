@@ -10,45 +10,34 @@ import {
   StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
-import { getTeethFormula, addTeethFormula } from "../sqlite/requests";
+import {
+  getTeethFormula,
+  addTeethFormula,
+  changeTeethFormula,
+  isPatientTooth,
+} from "../sqlite/requests";
 import { Spinner, Heading, HStack } from "native-base";
 import { keyBy } from "lodash";
 
 const FormulaScreen = ({ navigation, route }) => {
+  const item = route.params;
+
   const [openTable, setOpenTable] = useState(false);
   const [toothIndex, setToothIndex] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [teeth, setTeeth] = useState();
-  const item = route.params;
   const [toothIsTop, setToothIsTop] = useState(false);
   const [toothIsBottom, setToothIsBottom] = useState(false);
-
-  const DATA = {
-    '1' : {
-      "diagnosis": "F", 
-      "id": 3, 
-      "patientId": 1, 
-      "toothIndex": 1, 
-      "toothPosition": "T"
-    },
-    '3': {
-      "diagnosis": "F", 
-      "id": 4, 
-      "patientId": 1, 
-      "toothIndex": 3, 
-      "toothPosition": "T"
-    }
-  }
-
-  // console.log(DATA['5'] ? DATA['5'] : null)
+  const [diagnosisBottom, setDiagnosisBottom] = useState('');
+  const [diagnosisTop, setDiagnosisTop] = useState('');
 
   const getTeeth = async () => {
     try {
       setIsLoading(true);
       const teethTable = await getTeethFormula(item.patientId);
-      teethTable.rows.length ? setTeeth(
-        keyBy(teethTable.rows._array, 'toothIndex')
-        ) : setTeeth('no teeth');
+      teethTable.rows.length
+        ? setTeeth(keyBy(teethTable.rows._array, "toothIndex"))
+        : setTeeth("no teeth");
       setIsLoading(false);
     } catch {
       console.log("Ошибка при обращении к базе данных");
@@ -59,7 +48,26 @@ const FormulaScreen = ({ navigation, route }) => {
     getTeeth();
   }, []);
 
-  console.log(teeth)
+  const onPressHandler = async (cellText) => {
+    const patientTooth = await isPatientTooth(item.patientId, toothIndex);
+
+    patientTooth
+      ? changeTeethFormula({
+          patientId: item.patientId,
+          toothIndex: toothIndex,
+          diagnosisTop: toothIsTop ? cellText : diagnosisTop,
+          diagnosisBottom: toothIsBottom ? cellText : diagnosisBottom,
+        })
+      : addTeethFormula({
+          patientId: item.patientId,
+          toothIndex,
+          diagnosisTop: toothIsTop ? cellText : '0',
+          diagnosisBottom: toothIsBottom ? cellText : '0',
+        });
+
+    setOpenTable(false);
+    getTeeth();
+  };
 
   const tableData = [
     ["Постоянные зубы", "Молочные зубы"],
@@ -93,7 +101,11 @@ const FormulaScreen = ({ navigation, route }) => {
                     setToothIsTop={setToothIsTop}
                     setToothIsBottom={setToothIsBottom}
                     setOpenTable={setOpenTable}
-                    data = {teeth[index] ? teeth[index] : 0}
+                    setDiagnosisBottom={setDiagnosisBottom}
+                    setDiagnosisTop={setDiagnosisTop}
+                    diagnosisTop={diagnosisTop}
+                    diagnosisBottom={diagnosisBottom}
+                    data={teeth[index] ? teeth[index] : 0}
                   />
                 ))}
               </LeftTeeth>
@@ -109,7 +121,11 @@ const FormulaScreen = ({ navigation, route }) => {
                     setOpenTable={setOpenTable}
                     setToothIsTop={setToothIsTop}
                     setToothIsBottom={setToothIsBottom}
-                    data = {teeth[index + 8] ? teeth[index + 8] : 0}
+                    setDiagnosisTop={setDiagnosisTop}
+                    setDiagnosisBottom={setDiagnosisBottom}
+                    diagnosisTop={diagnosisTop}
+                    diagnosisBottom={diagnosisBottom}
+                    data={teeth[index + 8] ? teeth[index + 8] : 0}
                   />
                 ))}
               </RightTeeth>
@@ -139,14 +155,7 @@ const FormulaScreen = ({ navigation, route }) => {
                             <TouchableOpacity
                               key={`${colIndex}_${rowIndex}`}
                               style={styles.cellButton}
-                              onPress={() => {
-                                addTeethFormula({
-                                  patientId: item.patientId,
-                                  toothIndex,
-                                  diagnosisTop:  toothIsTop ? cellText : null,
-                                  diagnosisBottom: toothIsBottom ? cellText : null
-                                });
-                              }}
+                              onPress={() => onPressHandler(cellText)}
                             >
                               <Text style={styles.cellText}>{cellText}</Text>
                             </TouchableOpacity>
