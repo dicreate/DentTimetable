@@ -177,8 +177,8 @@ const createTeethFormula = () => {
         id INTEGER PRIMARY KEY AUTOINCREMENT, 
         patientId INTEGER NOT NULL, 
         toothIndex Number,
-        toothPosition VARCHAR(2), 
-        diagnosis VARCHAR(5), 
+        diagnosisTop VARCHAR(5),
+        diagnosisBottom VARCHAR(5),  
         FOREIGN KEY (patientId) REFERENCES patients(id))`,
       [],
       () => {
@@ -192,11 +192,11 @@ const createTeethFormula = () => {
 };
 
 const addTeethFormula = (data) => {
-  const { patientId, toothIndex, toothPosition, diagnosis } = data;
+  const { patientId, toothIndex, diagnosisTop, diagnosisBottom } = data;
   db.transaction((txn) => {
     txn.executeSql(
-      `INSERT INTO teethFormula (patientId, toothIndex, toothPosition, diagnosis) VALUES (?, ?, ?, ?)`,
-      [patientId, toothIndex, toothPosition, diagnosis],
+      `INSERT INTO teethFormula (patientId, toothIndex, diagnosisTop, diagnosisBottom) VALUES (?, ?, ?, ?)`,
+      [patientId, toothIndex, diagnosisTop, diagnosisBottom],
       () => {
         console.log("teethFormula added successfully");
       },

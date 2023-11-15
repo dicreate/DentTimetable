@@ -5,23 +5,28 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { Button } from "native-base";
 
-const Tooth = ({ number, setOpenTable , setToothIndex, setToothPosition, index, data}) => {
+const Tooth = ({ number, setOpenTable , setToothIndex, index, data, setToothIsTop, setToothIsBottom}) => {
+  
   const onPressHandlerTop = () => {
     setOpenTable(true);
     setToothIndex(index);
-    setToothPosition("T");
+    setToothIsTop(true);
+    setToothIsBottom(false);
   };
 
   const onPressHandlerBottom = () => {
     setOpenTable(true);
     setToothIndex(index);
-    setToothPosition("B");
+    setToothIsBottom(true);
+    setToothIsTop(false);
   };
 
   return (
     <Container>
       <TopButton>
-        <Button onPress={() => onPressHandlerTop()}>0</Button>
+        <Button onPress={() => onPressHandlerTop()}>
+          {data ? (data.diagnosisTop ? data.diagnosisTop : '0') : '0'}
+        </Button>
       </TopButton>
       <MaterialCommunityIcons
         style={{ position: "relative" }}
@@ -31,7 +36,7 @@ const Tooth = ({ number, setOpenTable , setToothIndex, setToothPosition, index, 
       />
       <ToothNumber>{number}</ToothNumber>
       <BottomButton>
-        <Button onPress={() => onPressHandlerBottom()}>0</Button>
+        <Button onPress={() => onPressHandlerBottom()}>{data ? (data.diagnosisBottom ? data.diagnosisBottom : '0') : '0'}</Button>
       </BottomButton>
     </Container>
   );

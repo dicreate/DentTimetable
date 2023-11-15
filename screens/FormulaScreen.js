@@ -17,7 +17,6 @@ import { keyBy } from "lodash";
 const FormulaScreen = ({ navigation, route }) => {
   const [openTable, setOpenTable] = useState(false);
   const [toothIndex, setToothIndex] = useState();
-  const [toothPosition, setToothPosition] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [teeth, setTeeth] = useState();
   const item = route.params;
@@ -49,7 +48,7 @@ const FormulaScreen = ({ navigation, route }) => {
       const teethTable = await getTeethFormula(item.patientId);
       teethTable.rows.length ? setTeeth(
         keyBy(teethTable.rows._array, 'toothIndex')
-        ) : null;
+        ) : setTeeth('no teeth');
       setIsLoading(false);
     } catch {
       console.log("Ошибка при обращении к базе данных");
@@ -59,6 +58,8 @@ const FormulaScreen = ({ navigation, route }) => {
   useEffect(() => {
     getTeeth();
   }, []);
+
+  console.log(teeth)
 
   const tableData = [
     ["Постоянные зубы", "Молочные зубы"],
@@ -89,7 +90,6 @@ const FormulaScreen = ({ navigation, route }) => {
                     number={index + 1}
                     teeth={teeth}
                     setToothIndex={setToothIndex}
-                    setToothPosition={setToothPosition}
                     setToothIsTop={setToothIsTop}
                     setToothIsBottom={setToothIsBottom}
                     setOpenTable={setOpenTable}
@@ -106,7 +106,6 @@ const FormulaScreen = ({ navigation, route }) => {
                     number={index + 1}
                     teeth={teeth}
                     setToothIndex={setToothIndex}
-                    setToothPosition={setToothPosition}
                     setOpenTable={setOpenTable}
                     setToothIsTop={setToothIsTop}
                     setToothIsBottom={setToothIsBottom}
@@ -144,8 +143,8 @@ const FormulaScreen = ({ navigation, route }) => {
                                 addTeethFormula({
                                   patientId: item.patientId,
                                   toothIndex,
-                                  toothPosition,
-                                  diagnosis: cellText,
+                                  diagnosisTop:  toothIsTop ? cellText : null,
+                                  diagnosisBottom: toothIsBottom ? cellText : null
                                 });
                               }}
                             >
