@@ -5,19 +5,19 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 import { Button } from "native-base";
 
-const Tooth = ({ /* number, */ setOpenTable/* , index, setToothIndex, setToothPosition */, index, teeth}) => {
+const Tooth = ({ number, setOpenTable , setToothIndex, setToothPosition, index, data}) => {
   const onPressHandlerTop = () => {
     setOpenTable(true);
-/*     setToothIndex(index);
-    setToothPosition("T"); */
+    setToothIndex(index);
+    setToothPosition("T");
   };
 
   const onPressHandlerBottom = () => {
     setOpenTable(true);
-/*     setToothIndex(index);
-    setToothPosition("B"); */
+    setToothIndex(index);
+    setToothPosition("B");
   };
-  
+
   return (
     <Container>
       <TopButton>
@@ -29,7 +29,7 @@ const Tooth = ({ /* number, */ setOpenTable/* , index, setToothIndex, setToothPo
         size={60}
         color="black"
       />
-      <ToothNumber>{/* {number} */}0</ToothNumber>
+      <ToothNumber>{number}</ToothNumber>
       <BottomButton>
         <Button onPress={() => onPressHandlerBottom()}>0</Button>
       </BottomButton>

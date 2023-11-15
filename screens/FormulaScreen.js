@@ -12,6 +12,7 @@ import {
 import Modal from "react-native-modal";
 import { getTeethFormula, addTeethFormula } from "../sqlite/requests";
 import { Spinner, Heading, HStack } from "native-base";
+import { keyBy } from "lodash";
 
 const FormulaScreen = ({ navigation, route }) => {
   const [openTable, setOpenTable] = useState(false);
@@ -19,15 +20,36 @@ const FormulaScreen = ({ navigation, route }) => {
   const [toothPosition, setToothPosition] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [teeth, setTeeth] = useState();
-  const leftTeethArray = [];
-  const rightTeethArray = [];
   const item = route.params;
+  const [toothIsTop, setToothIsTop] = useState(false);
+  const [toothIsBottom, setToothIsBottom] = useState(false);
+
+  const DATA = {
+    '1' : {
+      "diagnosis": "F", 
+      "id": 3, 
+      "patientId": 1, 
+      "toothIndex": 1, 
+      "toothPosition": "T"
+    },
+    '3': {
+      "diagnosis": "F", 
+      "id": 4, 
+      "patientId": 1, 
+      "toothIndex": 3, 
+      "toothPosition": "T"
+    }
+  }
+
+  // console.log(DATA['5'] ? DATA['5'] : null)
 
   const getTeeth = async () => {
     try {
       setIsLoading(true);
       const teethTable = await getTeethFormula(item.patientId);
-      teethTable.rows.length ? setTeeth(teethTable.rows._array) : null;
+      teethTable.rows.length ? setTeeth(
+        keyBy(teethTable.rows._array, 'toothIndex')
+        ) : null;
       setIsLoading(false);
     } catch {
       console.log("Ошибка при обращении к базе данных");
@@ -38,31 +60,6 @@ const FormulaScreen = ({ navigation, route }) => {
     getTeeth();
   }, []);
 
-  /*   for (let i = 0; i < 8; i++) {
-    leftTeethArray.push(
-      <Tooth
-        key={i}
-        number={i + 1}
-        index={i}
-        setOpenTable={setOpenTable}
-        setToothIndex={setToothIndex}
-        setToothPosition={setToothPosition}
-      />
-    );
-  }
-  for (let i = 8; i < 16; i++) {
-    rightTeethArray.push(
-      <Tooth
-        key={i}
-        number={i - 7}
-        index={i}
-        setOpenTable={setOpenTable}
-        setToothIndex={setToothIndex}
-        setToothPosition={setToothPosition}
-      />
-    );
-  }
- */
   const tableData = [
     ["Постоянные зубы", "Молочные зубы"],
     ["0", "A"],
@@ -86,13 +83,35 @@ const FormulaScreen = ({ navigation, route }) => {
             <Wrapper>
               <LeftTeeth>
                 {[...Array(8)].map((_, index) => (
-                  <Tooth key={index} index={index} teeth={teeth} />
+                  <Tooth
+                    key={index}
+                    index={index}
+                    number={index + 1}
+                    teeth={teeth}
+                    setToothIndex={setToothIndex}
+                    setToothPosition={setToothPosition}
+                    setToothIsTop={setToothIsTop}
+                    setToothIsBottom={setToothIsBottom}
+                    setOpenTable={setOpenTable}
+                    data = {teeth[index] ? teeth[index] : 0}
+                  />
                 ))}
               </LeftTeeth>
               <VerticalLine />
               <RightTeeth>
                 {[...Array(8)].map((_, index) => (
-                  <Tooth key={index + 7} index={index + 7} teeth={teeth} />
+                  <Tooth
+                    key={index}
+                    index={index + 8}
+                    number={index + 1}
+                    teeth={teeth}
+                    setToothIndex={setToothIndex}
+                    setToothPosition={setToothPosition}
+                    setOpenTable={setOpenTable}
+                    setToothIsTop={setToothIsTop}
+                    setToothIsBottom={setToothIsBottom}
+                    data = {teeth[index + 8] ? teeth[index + 8] : 0}
+                  />
                 ))}
               </RightTeeth>
             </Wrapper>
