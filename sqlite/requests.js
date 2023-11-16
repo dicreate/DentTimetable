@@ -170,6 +170,8 @@ const createAppointments = () => {
   });
 };
 
+// Формула зубов
+
 const createTeethFormula = () => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -244,6 +246,35 @@ const getTeethFormula = async (patientId) => {
         }
       );
     });
+  });
+};
+
+ 
+const deleteFromTeethFormula =(patientId) => {
+  db.transaction((txn) => {
+    txn.executeSql(
+      `SELECT * FROM teethFormula WHERE patientId=${patientId};`,
+      null,
+      (txnObj, result) => {
+        result.rows.length
+          ? db.transaction((txn) => {
+              txn.executeSql(
+                `DELETE FROM teethFormula WHERE patientId=${patientId};`,
+                [],
+                () => {
+                  console.log("teethFormula deleted successfully");
+                },
+                (error) => {
+                  console.log("error on deleting teethFormula" + error.message);
+                }
+              );
+            })
+          : null;
+      },
+      (txnObj, error) => {
+        console.log(error);
+      }
+    );
   });
 };
 
@@ -707,5 +738,6 @@ export {
   getTeethFormula,
   addTeethFormula,
   changeTeethFormula,
-  isPatientTooth
+  isPatientTooth,
+  deleteFromTeethFormula
 };

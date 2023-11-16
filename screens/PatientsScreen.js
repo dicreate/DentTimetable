@@ -12,6 +12,7 @@ import {
   isPatientAppointments,
   deletePatient,
   getPatients,
+  deleteFromTeethFormula
 } from "../sqlite/requests";
 
 const PatientsScreen = ({ navigation }) => {
@@ -107,6 +108,7 @@ const PatientsScreen = ({ navigation }) => {
               deletePatientAppointments(patientId);
               navigation.navigate("HomeScreen", { lastUpdate: new Date() });
             }
+            deleteFromTeethFormula(patientId);
             getPatientsHandler();
             setIsLoading(false);
           },
