@@ -21,7 +21,7 @@ import { keyBy } from "lodash";
 
 const FormulaScreen = ({ navigation, route }) => {
   const item = route.params;
-
+  const topMargin = Math.round(Dimensions.get("window").height * 0.35);
   const [openTable, setOpenTable] = useState(false);
   const [toothIndex, setToothIndex] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +30,7 @@ const FormulaScreen = ({ navigation, route }) => {
   const [toothIsBottom, setToothIsBottom] = useState(false);
   const [diagnosisBottom, setDiagnosisBottom] = useState('');
   const [diagnosisTop, setDiagnosisTop] = useState('');
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const getTeeth = async () => {
     try {
@@ -49,6 +50,9 @@ const FormulaScreen = ({ navigation, route }) => {
   }, []);
 
   const onPressHandler = async (cellText) => {
+    setIsUpdate(true);
+    setOpenTable(false);
+    
     const patientTooth = await isPatientTooth(item.patientId, toothIndex);
 
     patientTooth
@@ -64,9 +68,8 @@ const FormulaScreen = ({ navigation, route }) => {
           diagnosisTop: toothIsTop ? cellText : '0',
           diagnosisBottom: toothIsBottom ? cellText : '0',
         });
-
-    setOpenTable(false);
-    getTeeth();
+    await getTeeth();
+    setIsUpdate(false);
   };
 
   const tableData = [
@@ -86,7 +89,7 @@ const FormulaScreen = ({ navigation, route }) => {
 
   return (
     <Container>
-      {teeth ? (
+      {teeth && !isUpdate ? (
         <>
           <ScrollView horizontal={true}>
             <Wrapper>
@@ -177,10 +180,10 @@ const FormulaScreen = ({ navigation, route }) => {
           </Modal>
         </>
       ) : (
-        <HStack space={2} justifyContent="center" marginTop={150}>
+        <HStack space={2} justifyContent="center" marginTop={topMargin}>
           <Spinner accessibilityLabel="Loading posts" />
           <Heading color="primary.500" fontSize="md">
-            Загрузка
+            {isUpdate ? 'Обновление' : 'Загрузка'}
           </Heading>
         </HStack>
       )}
