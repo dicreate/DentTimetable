@@ -69,7 +69,7 @@ function AddAppointmentScreen({ navigation, route }) {
         values.time,
         anesthetization
       );
-      navigation.navigate("HomeScreen", { lastUpdate: new Date() });
+      navigation.navigate("HomeActive", { lastUpdate: new Date() });
     } else alert("Время и дата не должны быть пустыми ");
   };
 

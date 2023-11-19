@@ -16,6 +16,7 @@ const dropTables = () => {
   dropAppointments();
   dropPatientsInfo();
   dropTeethFormula();
+  dropInactiveAppointments();
 };
 
 
@@ -591,6 +592,34 @@ const changeAppointment = (id, date, diagnosis, price, time, toothNumber) => {
   });
 };
 
+// Завершить приём
+const endAppointment = (appointmentId) => {
+  db.transaction((txn) => {
+    txn.executeSql(
+      `SELECT * FROM appointments WHERE id=${appointmentId};`,
+      null,
+      (txnObj, result) => {
+        console.log(result.rows._array[0])
+        /*   ? db.transaction((txn) => {
+              txn.executeSql(
+                `DELETE FROM appointments WHERE patientId=${patientId};`,
+                [],
+                () => {
+                  console.log("appointments deleted successfully");
+                },
+                (error) => {
+                  console.log("error on deleting patient" + error.message);
+                }
+              );
+            })
+          : null; */
+      },
+      (txnObj, error) => {
+        console.log(error);
+      }
+    );
+  });
+};
 
 /* ------------------------------------  Завершённые приёмы --------------------------------------------------------------- */
 
@@ -614,6 +643,90 @@ const createInactiveAppointments = () => {
       },
       (error) => {
         console.log("error on creating table" + error.message);
+      }
+    );
+  });
+};
+
+// Удаление таблицы завершённых приёмов
+const dropInactiveAppointments = () => {
+  db.transaction((txn) => {
+    txn.executeSql(
+      "DROP TABLE inactiveAppointments",
+      null,
+      (txnObj, result) => console.log("table drop successfully"),
+      (txnObj, error) => {
+        console.log(error);
+      }
+    );
+  });
+};
+
+// Получение приёмов с учётом пациентов
+const getInactiveAppointmentsWithPatients = () => {
+  return new Promise((res, rej) => {
+    db.transaction((txn) => {
+      txn.executeSql(
+        `
+        SELECT * FROM patients 
+        JOIN inactiveAppointments
+        WHERE inactiveAppointments.patientId = patients.id`,
+        null,
+        (txnObj, result) => {
+          res(result);
+        },
+        (txnObj, error) => {
+          console.log(error);
+          rej(error);
+        }
+      );
+    });
+  });
+};
+
+// Добавление завершённого приёма
+const addInactiveAppointments = (
+  patient,
+  toothNumber,
+  diagnosis,
+  price,
+  date,
+  time,
+  anesthetization
+) => {
+  db.transaction((txn) => {
+    txn.executeSql(
+      `INSERT INTO inactiveAppointments (patientId, toothNumber, diagnosis, price, date, time, anesthetization) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [
+        patient,
+        Number(toothNumber),
+        diagnosis,
+        Number(price),
+        date,
+        time,
+        anesthetization,
+      ],
+      () => {
+        console.log("appointment added successfully");
+      },
+      (error) => {
+        console.log("error on adding appointment " + error.message);
+      }
+    );
+  });
+};
+
+// Удаление завершённого приёма 
+const deleteInactiveAppointment = (appointmentId) => {
+  db.transaction((txn) => {
+    txn.executeSql(
+      `DELETE FROM inactiveAppointments WHERE id = ${appointmentId};`,
+      [],
+      () => {
+        console.log("appointment deleted successfully");
+      },
+      (error) => {
+        console.log("error on deleting appointment" + error.message);
       }
     );
   });
@@ -791,5 +904,9 @@ export {
   addTeethFormula,
   changeTeethFormula,
   isPatientTooth,
-  deleteFromTeethFormula
+  deleteFromTeethFormula, 
+  addInactiveAppointments,
+  getInactiveAppointmentsWithPatients,
+  deleteInactiveAppointment,
+  endAppointment
 };

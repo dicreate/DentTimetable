@@ -12,6 +12,10 @@ import { reduce, groupBy } from "lodash";
 import {
   getAppointmentsWithPatients,
   deleteAppointment,
+  addInactiveAppointments,
+  getInactiveAppointmentsWithPatients,
+  deleteInactiveAppointment,
+  endAppointment
 } from "../sqlite/requests";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useRoute } from '@react-navigation/native';
@@ -20,9 +24,12 @@ const Tab = createMaterialTopTabNavigator();
 
 function HomeScreen() {
   return (
-    <Tab.Navigator   screenOptions={{
+    <Tab.Navigator
+    initialRouteName="HomeActive"   
+    screenOptions={{
       tabBarLabelStyle: { fontSize: 12 }
-    }}>
+    }}
+    style={{marginTop: 100}}>
       <Tab.Screen
         name="HomeActive"
         component={HomeContent}
@@ -50,7 +57,7 @@ const HomeContent = ({ navigation }) => {
   const getAppointments = async () => {
     try {
       setIsLoading(true);
-      const appointmentsTable = await getAppointmentsWithPatients();
+      let appointmentsTable = route.name == "HomeActive" ? await getAppointmentsWithPatients() : await getInactiveAppointmentsWithPatients();
       appointmentsTable.rows.length
         ? setAppointments(
             reduce(
@@ -71,19 +78,29 @@ const HomeContent = ({ navigation }) => {
 
   useEffect(() => {
     getAppointments();
+  /*   addInactiveAppointments(
+      3,
+      5,
+      "Завершённый приём",
+      1000,
+      "2024-11-15",
+      "11:00",
+      true
+    ); */
   }, [navigation.getState().routes[0].params]);
 
   const { showActionSheetWithOptions } = useActionSheet();
 
   const openSheet = (item) => {
-    const options = ["Изменить", "Удалить", "Отмена"];
-    const destructiveButtonIndex = 1; //the first element in 'options' will denote the Delete option
-    const cancelButtonIndex = 2; //Element number 2 in the array will be the 'Cancel' button
+    const options = ["Отмена", "Изменить", "Удалить"];
+    route.name == "HomeActive" ? options.push('Завершить') : null
+    const destructiveButtonIndex = 2; //the first element in 'options' will denote the Delete option
+    const cancelButtonIndex = 0; //Element number 2 in the array will be the 'Cancel' button
     const title = item.fullname + " - " + item.time;
     const icons = [
+      <Icon name="remove" size={20} />,
       <Icon name="exchange" size={20} />,
       <Icon name="trash" size={20} />,
-      <Icon name="remove" size={20} />,
     ];
 
     showActionSheetWithOptions(
@@ -97,18 +114,23 @@ const HomeContent = ({ navigation }) => {
       (buttonIndex) => {
         switch (buttonIndex) {
           case 0:
+            return;
+
+          case 1:
             navigation.navigate("ChangeAppointment", {
               item,
             });
             return;
 
-          case 1:
-            deleteAppointment(item.id);
+          case 2:
+            route.name == "HomeActive" ? deleteAppointment(item.id) : deleteInactiveAppointment(item.id);
             getAppointments();
             return;
 
-          case 2:
+          case 3:
+            endAppointment(item.id); 
             return;
+    
 
           default:
             console.log("Обработчик не добавлен");
@@ -120,7 +142,7 @@ const HomeContent = ({ navigation }) => {
   return (
     <Container>
       <Wrapper>
-        {appointments &&
+        {appointments && /* console.log(appointments[0].data) && */
         appointments !== "no appointments" &&
         appointments !== undefined ? (
           <SectionList
