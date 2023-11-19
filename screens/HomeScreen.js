@@ -13,8 +13,37 @@ import {
   getAppointmentsWithPatients,
   deleteAppointment,
 } from "../sqlite/requests";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useRoute } from '@react-navigation/native';
 
-const HomeScreen = ({ navigation }) => {
+const Tab = createMaterialTopTabNavigator();
+
+function HomeScreen() {
+  return (
+    <Tab.Navigator   screenOptions={{
+      tabBarLabelStyle: { fontSize: 12 }
+    }}>
+      <Tab.Screen
+        name="HomeActive"
+        component={HomeContent}
+        options={{
+          tabBarLabel: 'Активные'
+        }}
+      />
+      <Tab.Screen 
+        name="HomeInactive" 
+        component={HomeContent} 
+        options={{
+          tabBarLabel: 'Завершённые'
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+const HomeContent = ({ navigation }) => {
+
+  const route = useRoute();
   const [appointments, setAppointments] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -108,8 +137,7 @@ const HomeScreen = ({ navigation }) => {
             )}
             renderSectionHeader={({ section: { title } }) => (
               <SectionTitle>
-                {" "}
-                {moment(title).locale("ru").format("DD.MM.YY, dd")}{" "}
+                {moment(title).locale("ru").format("DD.MM.YY, dd")}
               </SectionTitle>
             )}
           />
