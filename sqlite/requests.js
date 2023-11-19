@@ -19,7 +19,6 @@ const dropTables = () => {
   dropInactiveAppointments();
 };
 
-
 /* ------------------------------------  Пациенты ----------------------------------------------------- */
 
 // Создание таблицы пациентов
@@ -130,7 +129,7 @@ const isPatientAppointments = async (patientId) => {
   });
 };
 
-// Изменение пациента 
+// Изменение пациента
 const changePatient = (fullname, phone, id) => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -197,7 +196,7 @@ const deletePatientAppointments = (patientId) => {
   });
 };
 
-// Удаление пациента 
+// Удаление пациента
 const deletePatient = (patientId) => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -215,7 +214,7 @@ const deletePatient = (patientId) => {
 
 /* ------------------------------------  Информация о пациенте ----------------------------------------------------- */
 
-// Создание таблцы информации о пациенте 
+// Создание таблцы информации о пациенте
 const createPatientsInfo = () => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -261,7 +260,7 @@ const createPatientsInfo = () => {
   });
 };
 
-// измненение таблицы информации о пациенте 
+// измненение таблицы информации о пациенте
 const changePatientInfo = async (data) => {
   const {
     patientId,
@@ -328,7 +327,7 @@ const changePatientInfo = async (data) => {
   });
 };
 
-// удаление таблицы инфомации о пациенте 
+// удаление таблицы инфомации о пациенте
 const dropPatientsInfo = () => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -428,7 +427,7 @@ const addPatientsInfo = async (
   });
 };
 
-// Получение информации пациента 
+// Получение информации пациента
 const getPatientInfo = async (patientId) => {
   return new Promise((res, rej) => {
     db.transaction((txn) => {
@@ -446,7 +445,6 @@ const getPatientInfo = async (patientId) => {
     });
   });
 };
-
 
 /* ------------------------------------  Активные приёмы ----------------------------------------------------------------- */
 
@@ -541,7 +539,7 @@ const deleteAppointment = (appointmentId) => {
   });
 };
 
-// Добавление приёма 
+// Добавление приёма
 const addAppointments = (
   patient,
   toothNumber,
@@ -573,7 +571,7 @@ const addAppointments = (
   });
 };
 
-// Изменение приёма 
+// Изменение приёма
 const changeAppointment = (id, date, diagnosis, price, time, toothNumber) => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -593,32 +591,44 @@ const changeAppointment = (id, date, diagnosis, price, time, toothNumber) => {
 };
 
 // Завершить приём
-const endAppointment = (appointmentId) => {
+const endAppointment = async (appointmentId) => {
   db.transaction((txn) => {
     txn.executeSql(
       `SELECT * FROM appointments WHERE id=${appointmentId};`,
       null,
       (txnObj, result) => {
-        console.log(result.rows._array[0])
-        /*   ? db.transaction((txn) => {
-              txn.executeSql(
-                `DELETE FROM appointments WHERE patientId=${patientId};`,
-                [],
-                () => {
-                  console.log("appointments deleted successfully");
-                },
-                (error) => {
-                  console.log("error on deleting patient" + error.message);
-                }
-              );
-            })
-          : null; */
+        const appointment = result.rows._array[0];
+        
+        addInactiveAppointments(
+          appointment.patientId,
+          appointment.toothNumber,
+          appointment.diagnosis,
+          appointment.price,
+          appointment.date,
+          appointment.time,
+          appointment.anesthetization
+        );
       },
       (txnObj, error) => {
         console.log(error);
       }
     );
-  });
+  },
+  );
+
+  db.transaction((txn) => {
+    txn.executeSql(
+      `DELETE FROM appointments WHERE id=${appointmentId};`,
+      [],
+      () => {
+        console.log("appointments deleted successfully");
+      },
+      (error) => {
+        console.log("error on deleting appointment" + error.message);
+      }
+    );
+  })
+
 };
 
 /* ------------------------------------  Завершённые приёмы --------------------------------------------------------------- */
@@ -716,7 +726,7 @@ const addInactiveAppointments = (
   });
 };
 
-// Удаление завершённого приёма 
+// Удаление завершённого приёма
 const deleteInactiveAppointment = (appointmentId) => {
   db.transaction((txn) => {
     txn.executeSql(
@@ -756,7 +766,7 @@ const createTeethFormula = () => {
   });
 };
 
-// добавление информации в таблицу формулы зубов 
+// добавление информации в таблицу формулы зубов
 const addTeethFormula = (data) => {
   const { patientId, toothIndex, diagnosisTop, diagnosisBottom } = data;
   db.transaction((txn) => {
@@ -793,7 +803,7 @@ const changeTeethFormula = (data) => {
   });
 };
 
-// Получение таблицы информации конкретного пациента 
+// Получение таблицы информации конкретного пациента
 const getTeethFormula = async (patientId) => {
   return new Promise((res, rej) => {
     db.transaction((txn) => {
@@ -814,8 +824,8 @@ const getTeethFormula = async (patientId) => {
   });
 };
 
- // удаление информации формулы зубов о конкретном пациенте
-const deleteFromTeethFormula =(patientId) => {
+// удаление информации формулы зубов о конкретном пациенте
+const deleteFromTeethFormula = (patientId) => {
   db.transaction((txn) => {
     txn.executeSql(
       `SELECT * FROM teethFormula WHERE patientId=${patientId};`,
@@ -904,9 +914,9 @@ export {
   addTeethFormula,
   changeTeethFormula,
   isPatientTooth,
-  deleteFromTeethFormula, 
+  deleteFromTeethFormula,
   addInactiveAppointments,
   getInactiveAppointmentsWithPatients,
   deleteInactiveAppointment,
-  endAppointment
+  endAppointment,
 };

@@ -87,9 +87,16 @@ const HomeContent = ({ navigation }) => {
       "11:00",
       true
     ); */
-  }, [navigation.getState().routes[0].params]);
+  }, [navigation.getState().routes[0].params], [navigation.getState().routes[1].params]);
+
+  console.log(navigation.getState().routes[0].params, navigation.getState().routes[1].params)
 
   const { showActionSheetWithOptions } = useActionSheet();
+
+  const endAppointmentHanlder = async(appointmentId) => {
+    await endAppointment(appointmentId)
+    /* await navigation.navigate("HomeInactive", { lastUpdate: new Date() }); */
+  }
 
   const openSheet = (item) => {
     const options = ["Отмена", "Изменить", "Удалить"];
@@ -128,10 +135,9 @@ const HomeContent = ({ navigation }) => {
             return;
 
           case 3:
-            endAppointment(item.id); 
+            endAppointmentHanlder(item.id);
             return;
     
-
           default:
             console.log("Обработчик не добавлен");
         }
