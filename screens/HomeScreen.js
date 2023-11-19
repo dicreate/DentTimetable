@@ -12,7 +12,6 @@ import { reduce, groupBy } from "lodash";
 import {
   getAppointmentsWithPatients,
   deleteAppointment,
-  addInactiveAppointments,
   getInactiveAppointmentsWithPatients,
   deleteInactiveAppointment,
   endAppointment
@@ -29,17 +28,27 @@ function HomeScreen() {
     screenOptions={{
       tabBarLabelStyle: { fontSize: 12 }
     }}
-    style={{marginTop: 100}}>
+    >
       <Tab.Screen
         name="HomeActive"
         component={HomeContent}
         options={{
           tabBarLabel: 'Активные'
         }}
+        listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            navigation.navigate('HomeActive', { lastActiveUpdate: new Date() });
+          },
+        })}
       />
       <Tab.Screen 
         name="HomeInactive" 
         component={HomeContent} 
+        listeners={({ navigation, route }) => ({
+          tabPress: e => {
+            navigation.navigate('HomeInactive', { lastInactiveUpdate: new Date() });
+          },
+        })}
         options={{
           tabBarLabel: 'Завершённые'
         }}
@@ -78,24 +87,13 @@ const HomeContent = ({ navigation }) => {
 
   useEffect(() => {
     getAppointments();
-  /*   addInactiveAppointments(
-      3,
-      5,
-      "Завершённый приём",
-      1000,
-      "2024-11-15",
-      "11:00",
-      true
-    ); */
   }, [navigation.getState().routes[0].params], [navigation.getState().routes[1].params]);
-
-  console.log(navigation.getState().routes[0].params, navigation.getState().routes[1].params)
 
   const { showActionSheetWithOptions } = useActionSheet();
 
   const endAppointmentHanlder = async(appointmentId) => {
     await endAppointment(appointmentId)
-    /* await navigation.navigate("HomeInactive", { lastUpdate: new Date() }); */
+    await navigation.navigate("HomeActive", { lastUpdate: new Date() });
   }
 
   const openSheet = (item) => {
@@ -148,14 +146,12 @@ const HomeContent = ({ navigation }) => {
   return (
     <Container>
       <Wrapper>
-        {appointments && /* console.log(appointments[0].data) && */
+        {appointments &&
         appointments !== "no appointments" &&
-        appointments !== undefined ? (
+        appointments !== undefined && !isLoading ? (
           <SectionList
             sections={appointments}
             keyExtractor={(item, index) => index}
-            onRefresh={getAppointments}
-            refreshing={isLoading}
             renderItem={({ item }) => (
               <Appoitment
                 onLongPress={(itemInfo) => openSheet(itemInfo)}
