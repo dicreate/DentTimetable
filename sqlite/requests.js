@@ -742,6 +742,25 @@ const deleteInactiveAppointment = (appointmentId) => {
   });
 };
 
+// Изменение приёма
+const changeInactiveAppointment = (id, date, diagnosis, price, time, toothNumber) => {
+  db.transaction((txn) => {
+    txn.executeSql(
+      `UPDATE inactiveAppointments 
+        SET date = '${date}', diagnosis = '${diagnosis}', price = '${price}', time = '${time}', toothNumber = '${toothNumber}'
+        WHERE id = ${id}
+        `,
+      [],
+      () => {
+        console.log("info updated successfully");
+      },
+      (error) => {
+        console.log("error on updating info " + error.message);
+      }
+    );
+  });
+};
+
 /* ------------------------------------  Формула зубов --------------------------------------------------------------- */
 
 // создание таблицы формулы зубов
@@ -919,4 +938,5 @@ export {
   getInactiveAppointmentsWithPatients,
   deleteInactiveAppointment,
   endAppointment,
+  changeInactiveAppointment
 };

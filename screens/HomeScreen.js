@@ -1,5 +1,5 @@
 import React from "react";
-import { SectionList, Alert, LogBox, ActivityIndicator } from "react-native";
+import { SectionList, Alert, LogBox, ActivityIndicator, Text } from "react-native";
 import styled from "styled-components/native";
 import { Appoitment, SectionTitle } from "../components";
 import { useEffect, useState } from "react";
@@ -106,6 +106,7 @@ const HomeContent = ({ navigation }) => {
       <Icon name="remove" size={20} />,
       <Icon name="exchange" size={20} />,
       <Icon name="trash" size={20} />,
+      <Icon name="check" size={20} />,
     ];
 
     showActionSheetWithOptions(
