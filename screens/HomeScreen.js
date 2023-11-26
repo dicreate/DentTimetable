@@ -37,7 +37,7 @@ function HomeScreen() {
         }}
         listeners={({ navigation, route }) => ({
           tabPress: e => {
-            navigation.navigate('HomeActive', { lastActiveUpdate: new Date() });
+            navigation.navigate('HomeActive', { lastUpdate: new Date() });
           },
         })}
       />
@@ -46,7 +46,7 @@ function HomeScreen() {
         component={HomeContent} 
         listeners={({ navigation, route }) => ({
           tabPress: e => {
-            navigation.navigate('HomeInactive', { lastInactiveUpdate: new Date() });
+            navigation.navigate('HomeInactive', { lastUpdate: new Date() });
           },
         })}
         options={{
@@ -87,7 +87,7 @@ const HomeContent = ({ navigation }) => {
 
   useEffect(() => {
     getAppointments();
-  }, [navigation.getState().routes[0].params], [navigation.getState().routes[1].params]);
+  }, [route.params.lastUpdate]);
 
   const { showActionSheetWithOptions } = useActionSheet();
 
