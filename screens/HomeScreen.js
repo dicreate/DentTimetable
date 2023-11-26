@@ -87,7 +87,7 @@ const HomeContent = ({ navigation }) => {
 
   useEffect(() => {
     getAppointments();
-  }, [route.params.lastUpdate]);
+  }, [navigation.getState().routes[0].params, navigation.getState().routes[1].params]);
 
   const { showActionSheetWithOptions } = useActionSheet();
 
