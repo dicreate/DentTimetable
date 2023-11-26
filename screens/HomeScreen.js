@@ -14,7 +14,7 @@ import {
   deleteAppointment,
   getInactiveAppointmentsWithPatients,
   deleteInactiveAppointment,
-  endAppointment
+  endAppointment,
 } from "../sqlite/requests";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useRoute } from '@react-navigation/native';
@@ -22,6 +22,8 @@ import { useRoute } from '@react-navigation/native';
 const Tab = createMaterialTopTabNavigator();
 
 function HomeScreen() {
+  const route = useRoute()
+
   return (
     <Tab.Navigator
     initialRouteName="HomeActive"   
@@ -52,6 +54,7 @@ function HomeScreen() {
         options={{
           tabBarLabel: 'Завершённые'
         }}
+        initialParams={{ lastUpdate: route.params ? route.params.lastUpdate : null}}
       />
     </Tab.Navigator>
   );
@@ -93,6 +96,7 @@ const HomeContent = ({ navigation }) => {
 
   const endAppointmentHanlder = async(appointmentId) => {
     await endAppointment(appointmentId)
+    await navigation.navigate("HomeScreen", { lastUpdate: new Date() });
     await navigation.navigate("HomeActive", { lastUpdate: new Date() });
   }
 
